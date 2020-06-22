@@ -27,6 +27,7 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
     # Creates a figure
     plt.figure(num = primaryName, figsize = figsize)
     
+    # List of plots that go on a second window
     secondaryPlot = [
         'Volume'
         ]
@@ -44,13 +45,9 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
 
         # Prepares primaryName plot
         ax1 = plt.subplot2grid((7,1), (0,0), rowspan = 5, colspan = 1)
+        ax1.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
 
-        # Plot primaryName with the mode
-        if primaryMode == 'std':
-            ax1.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
-        elif primaryMode == 'bar':
-            ax1.bar(dataFrame.index, dataFrame[primaryName], label = primaryName)
-
+        # Prepares other plot
         for plotName in subplot:
             # If the secondary plot needs a second window, creates a second window +
             # plots the graphic. Can only have one more window; greedy algorithm (for now).
@@ -66,22 +63,13 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
 
     # If more windows are not needed but there are secondary plots:
     elif len(subplot) > 0 and not secPlot_key:
-        
-        if primaryMode == 'std':
-            plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
-        elif primaryMode == 'bar':
-            plt.bar(dataFrame.index, dataFrame[primaryName], label = primaryName)
-
+        plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
         for plotName in subplot:
             plt.plot(dataFrame.index, dataFrame[plotName], label = plotName)
         plt.legend()
     # Else, plots primaryName only, even if it is in secondaryPlot
     else:
-        
-        if primaryMode == 'std':
-            plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
-        elif primaryMode == 'bar':
-            plt.bar(dataFrame.index, dataFrame[primaryName], label = primaryName)
+        plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
         plt.legend()
 
     plt.show()
@@ -110,7 +98,7 @@ def main():
     df = movingAverage(df, 'Adj Close', days)
     
     # Plots graphic
-    plotGraphics(df, 'Adj Close', ['Moving Average Adj Close', 'High'])
+    plotGraphics(df, 'Adj Close', ['Moving Average Adj Close', 'High', 'Volume'])
 
 
 main()
