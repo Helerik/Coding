@@ -11,6 +11,7 @@ In this repository you will find:
  - Finally, there is a directory ('Cursos') containing code I wrote for tutorials, courses or books I read or am still reading.
  
 (*) Some directories included in 'Faculdade' store not only code, but sometimes .pdf reports, which might explain 
-    the mathematical theory behind the implemented algorithm aswell as results for the assignment.
+    the mathematical theory behind the implemented algorithm aswell as results for the assignment (do have in mind that these
+    reports are written in portuguese. Many comments and function names in the scripts are also written in portuguese).
  
 
