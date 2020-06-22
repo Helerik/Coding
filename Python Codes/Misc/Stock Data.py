@@ -16,15 +16,12 @@ import pandas_datareader.data as web
 # Creates moving average of primaryName, if it isn't in secondaryPlot
 def movingAverage(dataFrame, primaryName, timePeriod = 15):
 
-    # Separate primaryName from primaryMode
-    primaryName = primaryName.split(', ', 1)[0]
-
     # Create new data frame with new column
     newFrame = dataFrame.copy(deep = True)
     newFrame['Moving Average ' + primaryName] = newFrame[primaryName].rolling(window = timePeriod, min_periods = 0).mean()
-    
     return newFrame
 
+<<<<<<< HEAD
 def candleStick(dataFrame, primaryName):
     
     candleFrame = dataFrame[primaryName].resample('1D').ohlc()
@@ -35,16 +32,11 @@ def candleStick(dataFrame, primaryName):
 
 # Plot "back-end"
 def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1.5)):
+=======
+def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1.5)):
+>>>>>>> parent of 7baa6db... plotGraphics now accepts different plot styles
     # Creates a figure
     plt.figure(num = primaryName, figsize = figsize)
-
-    # Separate primaryName from primaryMode
-    try:
-        NameMode = primaryName.split(', ', 1)
-        primaryName = NameMode[0]
-        primaryMode = NameMode[1].lower()
-    except:
-        primaryMode = 'std'
     
     secondaryPlot = [
         'Volume'
@@ -52,14 +44,10 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
 
     # Finds if a second plot window will be needed
     secPlot_key = 0
-    for i in range(len(subplot)):
-        subplot[i] = subplot[i].split(', ', 1)
-        if len(subplot[i]) == 1:
-            subplot[i] = [subplot[i][0], 'std']
-        plotName = subplot[i][0]
-            
+    for plotName in subplot:
         if plotName in secondaryPlot:
-            secPlot_key = 1 
+            secPlot_key = 1
+            break
 
     # If there is any subplot and one more window will be needed:
     if len(subplot) > 0 and secPlot_key:
@@ -67,6 +55,7 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
 
         # Prepares primaryName plot
         ax1 = plt.subplot2grid((7,1), (0,0), rowspan = 5, colspan = 1)
+<<<<<<< HEAD
 
         # Plot primaryName with the mode
         if primaryMode == 'std':
@@ -78,31 +67,25 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
             ax1.xaxis_date()
             candlestick_ohlc(ax1, CS.values, width = 2, colorup = 'g')
             
+=======
+        ax1.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
+>>>>>>> parent of 7baa6db... plotGraphics now accepts different plot styles
         for plotName in subplot:
             # If the secondary plot needs a second window, creates a second window +
             # plots the graphic. Can only have one more window; greedy algorithm (for now).
-            if plotName[0] in secondaryPlot and not secPlot_key:
+            if plotName in secondaryPlot and not secPlot_key:
                 ax2 = plt.subplot2grid((6,1), (5,0), rowspan = 2, colspan = 1)
-
-                if plotName[1].lower() == 'std':
-                    ax2.plot(dataFrame.index, dataFrame[plotName[0]], label = plotName[0])
-                elif plotName[1].lower() == 'bar':
-                    ax2.bar(dataFrame.index, dataFrame[plotName[0]], label = plotName[0])
-                
+                ax2.plot(dataFrame.index, dataFrame[plotName], label = plotName)
                 ax2.legend()
                 secPlot_key = 1
             # Plots all secondary plots that don't need a second window on main window.
-            elif not plotName[0] in secondaryPlot:
-                
-                if plotName[1].lower() == 'std':
-                    ax1.plot(dataFrame.index, dataFrame[plotName[0]], label = plotName[0])
-                if plotName[1].lower() == 'bar':
-                    ax1.bar(dataFrame.index, dataFrame[plotName[0]], label = plotName[0])
-                    
+            elif not plotName in secondaryPlot:
+                ax1.plot(dataFrame.index, dataFrame[plotName], label = plotName)
         ax1.legend()
 
     # If more windows are not needed but there are secondary plots:
     elif len(subplot) > 0 and not secPlot_key:
+<<<<<<< HEAD
         
         if primaryMode == 'std':
             plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
@@ -113,16 +96,15 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
             plt.xaxis_date()
             candlestick_ohlc(plt, CS.values, width = 2, colorup = 'g')
             
+=======
+        plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
+>>>>>>> parent of 7baa6db... plotGraphics now accepts different plot styles
         for plotName in subplot:
-            
-            if plotName[1].lower() == 'std':
-                ax1.plot(dataFrame.index, dataFrame[plotName[0]], label = plotName[0])
-            if plotName[1].lower() == 'bar':
-                ax1.bar(dataFrame.index, dataFrame[plotName[0]], label = plotName[0])
-                
+            plt.plot(dataFrame.index, dataFrame[plotName], label = plotName)
         plt.legend()
     # Else, plots primaryName only, even if it is in secondaryPlot
     else:
+<<<<<<< HEAD
         
         if primaryMode == 'std':
             plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
@@ -133,6 +115,9 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
             plt.xaxis_date()
             candlestick_ohlc(plt, CS.values, width = 2, colorup = 'g')
             
+=======
+        plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
+>>>>>>> parent of 7baa6db... plotGraphics now accepts different plot styles
         plt.legend()
 
     plt.show()
@@ -161,12 +146,10 @@ def main():
     df = movingAverage(df, 'Adj Close', days)
     
     # Plots graphic
+<<<<<<< HEAD
     plotGeneral(df, 'Adj Close, candlestick', [])
+=======
+    plotGraphics(df, 'Adj Close', ['Moving Average Adj Close', 'High'])
+>>>>>>> parent of 7baa6db... plotGraphics now accepts different plot styles
 
 main()
-
-
-
-
-
-
