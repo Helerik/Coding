@@ -1,0 +1,57 @@
+
+# Ignored directories and files #
+
+Project Euler
+Faculdade/3o Semestre/ALGELIN/EP_1_Finalizado/Relatorio_Arquivo_LATEX
+Faculdade/3o Semestre/ALGELIN/EP_1_Finalizado
+Faculdade/3o Semestre/ALGELIN/EP_2_Finalizado/LATEX
+Faculdade/3o Semestre/ANAL DE DADOS
+Faculdade/3o Semestre/STERN/EP_1 - Agulha de Buffon finalizado
+Faculdade/4o Semestre/MAP2220/Tarefa 1_finalizada/Relatorio
+Faculdade/4o Semestre/MAP2220/Tarefa 2_finalizada/Relatorio_LATEX
+Faculdade/4o Semestre/MAP2220/Tarefa 3_finalizada/Relatorio_LATEX
+Faculdade/4o Semestre/MAP2220/Tarefa 4_finalizada/Apresentacao BEAMER
+Faculdade/5o Semestre/EDOs
+Faculdade/5o Semestre/PMR
+Faculdade/5o Semestre/PNL/Prova
+Faculdade/5o Semestre/PNL/EP/LaTeX
+Faculdade/5o Semestre/PNL/EP/Exercícios - Elizabeth Karas.pdf
+Faculdade/5o Semestre/PNL/EP/Numerical Optimization by Jorge Nocedal, Stephen Wright (z-lib.org).pdf
+Faculdade/5o Semestre/PNL/EP/toyprob.c
+Faculdade/5o Semestre/PNL/EP/Exercícios - Elizabeth Karas.pdf
+Driven Data Competitions/Earthquake Prediction/back
+Driven Data Competitions/Earthquake Prediction/LaTeX
+Driven Data Competitions/Earthquake Prediction/*.csv
+Driven Data Competitions/Earthquake Prediction/*.txt
+Driven Data Competitions/Millenium Development Goals/Back
+Driven Data Competitions/Millenium Development Goals/*.csv
+Cursos/Google Foundations of Programming - Incomplete
+Cursos/Google Machine Learning Crash Course - Ongoing
+Cursos/Pandas Tutorial  - Complete
+
+# Ignore zip types #
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Ignore video files #
+
+*.mkv
+*.mp4
+*.wmv
+
+# Ignore .svg files
+
+*.svg
+
+
+
+
+
+
