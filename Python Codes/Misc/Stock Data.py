@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
+# Author: Erik Davino Vincent
 
 import warnings
 
@@ -24,6 +25,15 @@ def movingAverage(dataFrame, primaryName, timePeriod = 15):
     
     return newFrame
 
+def candleStick(dataFrame, primaryName):
+    
+    candleFrame = dataFrame[primaryName].resample('1D').ohlc()
+    candleFrame.reset_index(inplace = True)
+    candleFrame['Date'] = candleFrame['Date'].map(mdates.date2num)
+
+    return candleFrame
+
+# Plot "back-end"
 def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1.5)):
     # Creates a figure
     plt.figure(num = primaryName, figsize = figsize)
@@ -63,6 +73,10 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
             ax1.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
         elif primaryMode == 'bar':
             ax1.bar(dataFrame.index, dataFrame[primaryName], label = primaryName)
+        elif primaryMode == 'candlestick':
+            CS = candleStick(dataFrame, primaryName)
+            ax1.xaxis_date()
+            candlestick_ohlc(ax1, CS.values, width = 2, colorup = 'g')
             
         for plotName in subplot:
             # If the secondary plot needs a second window, creates a second window +
@@ -94,6 +108,10 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
             plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
         elif primaryMode == 'bar':
             plt.bar(dataFrame.index, dataFrame[primaryName], label = primaryName)
+        elif primaryMode == 'candlestick':
+            CS = candleStick(dataFrame, primaryName)
+            plt.xaxis_date()
+            candlestick_ohlc(plt, CS.values, width = 2, colorup = 'g')
             
         for plotName in subplot:
             
@@ -110,6 +128,10 @@ def plotGeneral(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1
             plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
         elif primaryMode == 'bar':
             plt.bar(dataFrame.index, dataFrame[primaryName], label = primaryName)
+        elif primaryMode == 'candlestick':
+            CS = candleStick(dataFrame, primaryName)
+            plt.xaxis_date()
+            candlestick_ohlc(plt, CS.values, width = 2, colorup = 'g')
             
         plt.legend()
 
@@ -139,7 +161,7 @@ def main():
     df = movingAverage(df, 'Adj Close', days)
     
     # Plots graphic
-    plotGeneral(df, 'Adj Close, Std', ['Moving Average Adj Close', 'High', 'Volume, Bar'])
+    plotGeneral(df, 'Adj Close, candlestick', [])
 
 main()
 
