@@ -1,0 +1,89 @@
+Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 22:20:52) [MSC v.1916 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+>>> 
+=================================== RESTART: C:\Users\Cliente\Desktop\Coding\EP\TERCEIRO SEMESTRE\STERN\EP_4 STERN\EP_4.py ===================================
+Primeiro passo - definicao da Variancia do kernel Q:
+
+     Metodo 1 - Avaliar a autocorrelacao:
+
+          O 'S ideal' medio encontrado, para 50 S's encontrados = 0.5692000000000005
+
+     Metodo 2 - Avaliar a taxa de aceitacao:
+
+          O S encontrado baseado na taxa de aceitacao foi = 2.3
+
+     Metodo 3 - Avaliacao da media dos metodos anteriores:
+
+          O S encontrado baseado na media dos metodos anteriores foi = 1.4346
+
+================================================================================================
+
+Segundo passo - calculo da integral Z com erro de no maximo 1%:
+
+** Alpha de Metropolis-Hastings **
+
+     Metodo 1:
+
+          Z = 0.13100625 para n = 16000
+          Erro estimado = 0.0018605982539002131
+          Erro = 0.009039666440759767
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+     Metodo 2:
+
+          Z = 0.1324857142857143 para n = 7000
+          Erro estimado = 0.009273237006685232
+          Erro = 0.002151329577067055
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+     Metodo 3:
+
+          Z = 0.13355454545454545 para n = 22000
+          Erro estimado = 0.000952964399972762
+          Erro = 0.01023620561606094
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+================================================================================================
+
+** Alpha de Barker **
+
+     Metodo 1:
+
+          Z = 0.1320923076923077 para n = 13000
+          Erro estimado = 0.006289308176100534
+          Erro = 0.0008244851571658197
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+     Metodo 2:
+
+          Z = 0.1309625 para n = 16000
+          Erro estimado = 0.00696764340937278
+          Erro = 0.009370601144968141
+
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+     Metodo 3:
+
+          Z = 0.13346923076923076 para n = 13000
+          Erro estimado = 0.00628205867096997
+          Erro = 0.009590866412649243
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+================================================================================================
+
+Plot comparativo entre os alphas para o metodo 1, n = [1:2000] (sem burn-in): 
+
+Plot comparativo entre os alphas para o metodo 1, n = [1:10000] (sem burn-in): 
+
+Z para uma amostra de tamanho 100000, alfa de Metropolis-Hastings, S = 0.5: 0.13525
+Erro estimado = 0.020600664050709403
+Erro = 0.023060999867466323
+
+Quer recalcular? [s/n] :n
+---------- ** Programa encerrado ** ----------
+>>> 

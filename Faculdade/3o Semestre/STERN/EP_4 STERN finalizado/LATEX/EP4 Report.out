@@ -1,0 +1,17 @@
+\BOOKMARK [1][-]{section.1}{Introdu\347\343o}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Implementa\347\343o do Markov-Chain}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Burn-In}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{A Integral z}{}% 4
+\BOOKMARK [1][-]{section.3}{Calibrando o = S}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Gr\341ficos das autocorrela\347\365es}{section.3}% 6
+\BOOKMARK [1][-]{section.4}{Resultados obtidos}{}% 7
+\BOOKMARK [2][-]{subsection.4.1}{Escolha do n}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.2}{O \040de Metropolis-Hastings}{section.4}% 9
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Discuss\343o e an\341lise dos resultados}{subsection.4.2}% 10
+\BOOKMARK [2][-]{subsection.4.3}{O \040de Barker}{section.4}% 11
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Discuss\343o e an\341lise dos resultados}{subsection.4.3}% 12
+\BOOKMARK [2][-]{subsection.4.4}{Extras}{section.4}% 13
+\BOOKMARK [3][-]{subsubsection.4.4.1}{Barker vs. Metropolis-Hastings}{subsection.4.4}% 14
+\BOOKMARK [3][-]{subsubsection.4.4.2}{Resultado para n grande}{subsection.4.4}% 15
+\BOOKMARK [3][-]{subsubsection.4.4.3}{Outra forma de escolher o n}{subsection.4.4}% 16
+\BOOKMARK [1][-]{section.5}{Considera\347\365es finais}{}% 17

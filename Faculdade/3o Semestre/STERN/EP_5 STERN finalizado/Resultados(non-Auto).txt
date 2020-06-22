@@ -1,0 +1,943 @@
+Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 22:20:52) [MSC v.1916 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+>>> 
+=================================== RESTART: C:\Users\Cliente\Desktop\Coding\EP\TERCEIRO SEMESTRE\STERN\EP_5 STERN\EP 5.py ===================================
+
+Deseja fazer o calculo no modo automatico? [σs = 0.1, iteraceoes = 10000]: n
+
+Resultados para x1 = 1, x2 = 17, x3 = 2: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.003434000000000048
+Tempo de computacao: 20.874176502227783
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 16, x3 = 3: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.01277600000000001
+Tempo de computacao: 21.560616970062256
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 15, x3 = 4: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.03873199999999999
+Tempo de computacao: 21.69312071800232
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 14, x3 = 5: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.090364
+Tempo de computacao: 21.78879427909851
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 13, x3 = 6: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.18104600000000004
+Tempo de computacao: 21.978201150894165
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 12, x3 = 7: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.31108199999999997
+Tempo de computacao: 21.612587690353394
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 11, x3 = 8: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.48246
+Tempo de computacao: 21.737128496170044
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 10, x3 = 9: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.662928
+Tempo de computacao: 21.722872734069824
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 9, x3 = 10: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.8311999999999999
+Tempo de computacao: 21.634021759033203
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 8, x3 = 11: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.9531000000000001
+Tempo de computacao: 21.614036083221436
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 7, x3 = 12: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.999858
+Tempo de computacao: 21.60076403617859
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 6, x3 = 13: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.960514
+Tempo de computacao: 21.621934175491333
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 5, x3 = 14: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.844712
+Tempo de computacao: 22.125537157058716
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 4, x3 = 15: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.663276
+Tempo de computacao: 21.531505346298218
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 3, x3 = 16: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.46902999999999995
+Tempo de computacao: 21.459185361862183
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 2, x3 = 17: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.27991200000000005
+Tempo de computacao: 21.5097713470459
+
+====================================================================================================
+
+Resultados para x1 = 1, x2 = 1, x3 = 18: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 1000000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: n
+Digite o numero de iteracoes: 50000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: n
+O resultado esta aceitavel? [s/n]: n
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.12885199999999997
+Tempo de computacao: 22.272411346435547
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 15, x3 = 0: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 1000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: n
+O resultado esta aceitavel? [s/n]: n
+Digite o numero de iteracoes: 10000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: n
+O resultado esta aceitavel? [s/n]: n
+Digite o numero de iteracoes: 10000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.5
+Digite o σ2: 0.5
+
+Deseja pular a autocorrelacao? [s/n]: n
+O resultado esta aceitavel? [s/n]: n
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.01500199999999996
+Tempo de computacao: 21.107065439224243
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 14, x3 = 1: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.08955599999999997
+Tempo de computacao: 21.750713109970093
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 13, x3 = 2: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.293126
+Tempo de computacao: 21.762409210205078
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 12, x3 = 3: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.60753
+Tempo de computacao: 21.91550374031067
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 11, x3 = 4: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.889372
+Tempo de computacao: 21.843441486358643
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 10, x3 = 5: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 1.0
+Tempo de computacao: 22.602359771728516
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 9, x3 = 6: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.89918
+Tempo de computacao: 21.916723012924194
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 8, x3 = 7: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.661686
+Tempo de computacao: 21.96199369430542
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 7, x3 = 8: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.40471999999999997
+Tempo de computacao: 22.374122142791748
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 6, x3 = 9: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.208604
+Tempo de computacao: 22.344633102416992
+
+====================================================================================================
+
+Resultados para x1 = 5, x2 = 5, x3 = 10: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 50000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: n
+O resultado esta aceitavel? [s/n]: n
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.0857
+Tempo de computacao: 22.093899965286255
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 11, x3 = 0: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 50000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: n
+O resultado esta aceitavel? [s/n]: n
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.19882999999999995
+Tempo de computacao: 21.286877155303955
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 10, x3 = 1: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.665922
+Tempo de computacao: 21.78345537185669
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 9, x3 = 2: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.99294
+Tempo de computacao: 21.80844521522522
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 8, x3 = 3: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.853154
+Tempo de computacao: 22.917120456695557
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 7, x3 = 4: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.491912
+Tempo de computacao: 22.375253438949585
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 6, x3 = 5: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.20374800000000004
+Tempo de computacao: 22.087458610534668
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 5, x3 = 6: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.06361399999999995
+Tempo de computacao: 21.976442337036133
+
+====================================================================================================
+
+Resultados para x1 = 9, x2 = 4, x3 = 7: 
+
+Deseja pular esses xizes? [s/n]: n
+
+Digite o numero de iteracoes: 50000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: n
+O resultado esta aceitavel? [s/n]: n
+Digite o numero de iteracoes: 500000
+
+Fase de definicao de σs:
+
+Digite o σ1: 0.1
+Digite o σ2: 0.1
+
+Deseja pular a autocorrelacao? [s/n]: s
+Continuar? [s/n]: s
+
+Fase de calculo do e-valor:
+
+----------------------------------------------------------------------------------------------------
+████████████████████████████████████████████████████████████████████████████████████████████████████
+
+e-valor = 0.014485999999999999
+Tempo de computacao: 23.4830265045166
+
+====================================================================================================
+>>> 

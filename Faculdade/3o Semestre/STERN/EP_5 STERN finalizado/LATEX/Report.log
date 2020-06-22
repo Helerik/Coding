@@ -1,0 +1,1345 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.3.13)  11 JUN 2019 19:24
+entering extended mode
+**./Report.tex
+(Report.tex
+LaTeX2e <2018-12-01>
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\article.cls
+"
+Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size10.clo"
+File: size10.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometr
+y.sty"
+Package: geometry 2018/04/16 v5.8 Page Geometry
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval.
+sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifpdf
+.sty"
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\ifvte
+x.sty"
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/generic/ifxetex\ifxete
+x.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count88
+\Gm@cntv=\count89
+\c@Gm@tempcnt=\count90
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@layoutwidth=\dimen107
+\Gm@layoutheight=\dimen108
+\Gm@layouthoffset=\dimen109
+\Gm@layoutvoffset=\dimen110
+\Gm@dimlist=\toks15
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometr
+y.cfg"))
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amsfont
+s.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks16
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmath.
+sty"
+Package: amsmath 2018/12/01 v2.17b AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstext.
+sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen.s
+ty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks17
+\ex@=\dimen111
+))
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy.s
+ty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen112
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn.s
+ty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count91
+LaTeX Info: Redefining \frac on input line 223.
+\uproot@=\count92
+\leftroot@=\count93
+LaTeX Info: Redefining \overline on input line 385.
+\classnum@=\count94
+\DOTSCASE@=\count95
+LaTeX Info: Redefining \ldots on input line 482.
+LaTeX Info: Redefining \dots on input line 485.
+LaTeX Info: Redefining \cdots on input line 606.
+\Mathstrutbox@=\box27
+\strutbox@=\box28
+\big@size=\dimen113
+LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
+\macc@depth=\count96
+\c@MaxMatrixCols=\count97
+\dotsspace@=\muskip10
+\c@parentequation=\count98
+\dspbrk@lvl=\count99
+\tag@help=\toks18
+\row@=\count100
+\column@=\count101
+\maxfields@=\count102
+\andhelp@=\toks19
+\eqnshift@=\dimen114
+\alignsep@=\dimen115
+\tagshift@=\dimen116
+\tagwidth@=\dimen117
+\totwidth@=\dimen118
+\lineht@=\dimen119
+\@envbody=\toks20
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2844.
+LaTeX Info: Redefining \] on input line 2845.
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amssymb
+.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyphenat\hyphena
+t.sty"
+Package: hyphenat 2009/09/02 v2.3c hyphenation utilities
+\langwohyphens=\language76
+LaTeX Info: Redefining \_ on input line 43.
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fancyhdr\fancyhd
+r.sty"
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip46
+\f@nch@O@elh=\skip47
+\f@nch@O@erh=\skip48
+\f@nch@O@olh=\skip49
+\f@nch@O@orh=\skip50
+\f@nch@O@elf=\skip51
+\f@nch@O@erf=\skip52
+\f@nch@O@olf=\skip53
+\f@nch@O@orf=\skip54
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphic
+x.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphic
+s.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.st
+y"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\gra
+phics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\pdf
+tex.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen120
+\Gin@req@width=\dimen121
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count103
+\float@exts=\toks22
+\float@box=\box29
+\@float@everytoks=\toks23
+\@floatcapt=\box30
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcolor\xcolor.st
+y"
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\col
+or.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tocbibind\tocbib
+ind.sty"
+Package: tocbibind 2010/10/13 v1.5k extra ToC listings
+Package tocbibind Info: The document has section divisions on input line 50.
+
+
+Package tocbibind Note: Using section or other style headings.
+
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hyperre
+f.sty"
+Package: hyperref 2018/11/30 v6.88e Hypertext links for LaTeX
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\hobsu
+b-hyperref.sty"
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\hobsu
+b-generic.sty"
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\auxhook
+.sty"
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\kvoptio
+ns.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+)
+\@linkdim=\dimen122
+\Hy@linkcounter=\count104
+\Hy@pagecounter=\count105
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\pd1enc.
+def"
+File: pd1enc.def 2018/11/30 v6.88e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+\Hy@SavedSpaceFactor=\count106
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/00miktex\hyperre
+f.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4519.
+Package hyperref Info: Link nesting OFF on input line 4524.
+Package hyperref Info: Hyper index ON on input line 4527.
+Package hyperref Info: Plain pages OFF on input line 4534.
+Package hyperref Info: Backreferencing OFF on input line 4539.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4772.
+\c@Hy@tempcnt=\count107
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5125.
+\XeTeXLinkMargin=\dimen123
+\Fld@menulength=\count108
+\Field@Width=\dimen124
+\Fld@charsize=\dimen125
+Package hyperref Info: Hyper figures OFF on input line 6380.
+Package hyperref Info: Link nesting OFF on input line 6385.
+Package hyperref Info: Hyper index ON on input line 6388.
+Package hyperref Info: backreferencing OFF on input line 6395.
+Package hyperref Info: Link coloring OFF on input line 6400.
+Package hyperref Info: Link coloring with OCG OFF on input line 6405.
+Package hyperref Info: PDF/A mode OFF on input line 6410.
+LaTeX Info: Redefining \ref on input line 6450.
+LaTeX Info: Redefining \pageref on input line 6454.
+\Hy@abspage=\count109
+\c@Item=\count110
+\c@Hfootnote=\count111
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hpdftex
+.def"
+File: hpdftex.def 2018/11/30 v6.88e Hyperref driver for pdfTeX
+\Fld@listcount=\count112
+\c@bookmark@seq@number=\count113
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\rerunfi
+lecheck.sty"
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip55
+)
+
+LaTeX Warning: Unused global option(s):
+    [pt12].
+
+(Report.aux)
+\openout1 = `Report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: custom
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp
+-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count114
+\scratchdimen=\dimen126
+\scratchbox=\box31
+\nofMPsegments=\count115
+\nofMParguments=\count116
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count117
+\MPscratchDim=\dimen127
+\MPnumerator=\count118
+\makeMPintoPDFobject=\count119
+\everyMPtoPDFconversion=\toks25
+)
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopd
+f-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\grfext.
+sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+\AtBeginShipoutBox=\box32
+Package hyperref Info: Link coloring OFF on input line 29.
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\nameref
+.sty"
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/generic/oberdiek\getti
+tlestring.sty"
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count120
+)
+LaTeX Info: Redefining \ref on input line 29.
+LaTeX Info: Redefining \pageref on input line 29.
+LaTeX Info: Redefining \nameref on input line 29.
+ (Report.out) (Report.out)
+\@outlinefile=\write3
+\openout3 = `Report.out'.
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 37.
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd
+"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 37.
+
+("C:\Users\Cliente\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd
+"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--46
+
+ []
+
+<ime.png, id=59, 2007.5pt x 2357.80875pt>
+File: ime.png Graphic file (type png)
+<use ime.png>
+Package pdftex.def Info: ime.png  used on input line 48.
+(pdftex.def)             Requested size: 200.76175pt x 235.79468pt.
+[1
+
+{C:/Users/Cliente/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./ime.png
+>] (Report.toc)
+\tf@toc=\write4
+\openout4 = `Report.toc'.
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+Make it at least 13.07225pt.
+We now make it that large for the rest of the document.
+This may cause the page layout to be inconsistent, however.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.60 \newpage
+              [1]
+Underfull \hbox (badness 10000) in paragraph at lines 65--67
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--70
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--74
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 75--77
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 98--100
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 104--106
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--118
+
+ []
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 129--131
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--146
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--157
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--171
+
+ []
+
+[3]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 173.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\alpha' on input line 173.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 173.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--178
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 182--184
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 185--187
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 188.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\Sigma' on input line 188.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 188.
+
+
+Overfull \hbox (1.90323pt too wide) in paragraph at lines 191--195
+\OT1/cmr/m/n/10 Por outro lado, temos o caso do passo pe-queno de-mais. Se o pa
+sso for pe-queno de-mais, o es-forco com-puta-cional
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--195
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 196--198
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 199--201
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 203--206
+
+ []
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 210--211
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 258--260
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 261--263
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--269
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 270--272
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 277--281
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--284
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--290
+
+ []
+
+[6]
+<hip1.png, id=135, 462.528pt x 346.896pt>
+File: hip1.png Graphic file (type png)
+<use hip1.png>
+Package pdftex.def Info: hip1.png  used on input line 298.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc1.png, id=136, 462.528pt x 346.896pt>
+File: sc1.png Graphic file (type png)
+<use sc1.png>
+Package pdftex.def Info: sc1.png  used on input line 299.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den1.png, id=137, 462.528pt x 346.896pt>
+File: den1.png Graphic file (type png)
+<use den1.png>
+Package pdftex.def Info: den1.png  used on input line 300.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [7 <./hip1.png> <./sc1.png> <./den1.png>]
+<hip2.png, id=145, 462.528pt x 346.896pt>
+File: hip2.png Graphic file (type png)
+<use hip2.png>
+Package pdftex.def Info: hip2.png  used on input line 306.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc2.png, id=146, 462.528pt x 346.896pt>
+File: sc2.png Graphic file (type png)
+<use sc2.png>
+Package pdftex.def Info: sc2.png  used on input line 307.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den2.png, id=147, 462.528pt x 346.896pt>
+File: den2.png Graphic file (type png)
+<use den2.png>
+Package pdftex.def Info: den2.png  used on input line 308.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [8 <./hip2.png> <./sc2.png> <./den2.png>]
+<hip3.png, id=155, 462.528pt x 346.896pt>
+File: hip3.png Graphic file (type png)
+<use hip3.png>
+Package pdftex.def Info: hip3.png  used on input line 314.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc3.png, id=156, 462.528pt x 346.896pt>
+File: sc3.png Graphic file (type png)
+<use sc3.png>
+Package pdftex.def Info: sc3.png  used on input line 315.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den3.png, id=157, 462.528pt x 346.896pt>
+File: den3.png Graphic file (type png)
+<use den3.png>
+Package pdftex.def Info: den3.png  used on input line 316.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [9 <./hip3.png> <./sc3.png> <./den3.png>]
+<hip4.png, id=165, 462.528pt x 346.896pt>
+File: hip4.png Graphic file (type png)
+<use hip4.png>
+Package pdftex.def Info: hip4.png  used on input line 322.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc4.png, id=166, 462.528pt x 346.896pt>
+File: sc4.png Graphic file (type png)
+<use sc4.png>
+Package pdftex.def Info: sc4.png  used on input line 323.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den4.png, id=167, 462.528pt x 346.896pt>
+File: den4.png Graphic file (type png)
+<use den4.png>
+Package pdftex.def Info: den4.png  used on input line 324.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [10 <./hip4.png> <./sc4.png> <./den4.png>]
+<hip5.png, id=175, 462.528pt x 346.896pt>
+File: hip5.png Graphic file (type png)
+<use hip5.png>
+Package pdftex.def Info: hip5.png  used on input line 330.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc5.png, id=176, 462.528pt x 346.896pt>
+File: sc5.png Graphic file (type png)
+<use sc5.png>
+Package pdftex.def Info: sc5.png  used on input line 331.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den5.png, id=177, 462.528pt x 346.896pt>
+File: den5.png Graphic file (type png)
+<use den5.png>
+Package pdftex.def Info: den5.png  used on input line 332.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [11 <./hip5.png> <./sc5.png> <./den5.png>]
+<hip6.png, id=185, 462.528pt x 346.896pt>
+File: hip6.png Graphic file (type png)
+<use hip6.png>
+Package pdftex.def Info: hip6.png  used on input line 338.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc6.png, id=186, 462.528pt x 346.896pt>
+File: sc6.png Graphic file (type png)
+<use sc6.png>
+Package pdftex.def Info: sc6.png  used on input line 339.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den6.png, id=187, 462.528pt x 346.896pt>
+File: den6.png Graphic file (type png)
+<use den6.png>
+Package pdftex.def Info: den6.png  used on input line 340.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [12 <./hip6.png> <./sc6.png> <./den6.png>]
+<hip7.png, id=196, 462.528pt x 346.896pt>
+File: hip7.png Graphic file (type png)
+<use hip7.png>
+Package pdftex.def Info: hip7.png  used on input line 346.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc7.png, id=197, 462.528pt x 346.896pt>
+File: sc7.png Graphic file (type png)
+<use sc7.png>
+Package pdftex.def Info: sc7.png  used on input line 347.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den7.png, id=198, 462.528pt x 346.896pt>
+File: den7.png Graphic file (type png)
+<use den7.png>
+Package pdftex.def Info: den7.png  used on input line 348.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [13 <./hip7.png> <./sc7.png> <./den7.png>]
+<hip8.png, id=206, 462.528pt x 346.896pt>
+File: hip8.png Graphic file (type png)
+<use hip8.png>
+Package pdftex.def Info: hip8.png  used on input line 354.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc8.png, id=207, 462.528pt x 346.896pt>
+File: sc8.png Graphic file (type png)
+<use sc8.png>
+Package pdftex.def Info: sc8.png  used on input line 355.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den8.png, id=208, 462.528pt x 346.896pt>
+File: den8.png Graphic file (type png)
+<use den8.png>
+Package pdftex.def Info: den8.png  used on input line 356.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [14 <./hip8.png> <./sc8.png> <./den8.png>]
+<hip9.png, id=216, 462.528pt x 346.896pt>
+File: hip9.png Graphic file (type png)
+<use hip9.png>
+Package pdftex.def Info: hip9.png  used on input line 362.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc9.png, id=217, 462.528pt x 346.896pt>
+File: sc9.png Graphic file (type png)
+<use sc9.png>
+Package pdftex.def Info: sc9.png  used on input line 363.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den9.png, id=218, 462.528pt x 346.896pt>
+File: den9.png Graphic file (type png)
+<use den9.png>
+Package pdftex.def Info: den9.png  used on input line 364.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [15 <./hip9.png> <./sc9.png> <./den9.png>]
+<hip10.png, id=226, 462.528pt x 346.896pt>
+File: hip10.png Graphic file (type png)
+<use hip10.png>
+Package pdftex.def Info: hip10.png  used on input line 370.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc10.png, id=227, 462.528pt x 346.896pt>
+File: sc10.png Graphic file (type png)
+<use sc10.png>
+Package pdftex.def Info: sc10.png  used on input line 371.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den10.png, id=228, 462.528pt x 346.896pt>
+File: den10.png Graphic file (type png)
+<use den10.png>
+Package pdftex.def Info: den10.png  used on input line 372.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+[16 <./hip10.png> <./sc10.png> <./den10.png>]
+<hip11.png, id=236, 462.528pt x 346.896pt>
+File: hip11.png Graphic file (type png)
+<use hip11.png>
+Package pdftex.def Info: hip11.png  used on input line 378.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc11.png, id=237, 462.528pt x 346.896pt>
+File: sc11.png Graphic file (type png)
+<use sc11.png>
+Package pdftex.def Info: sc11.png  used on input line 379.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den11.png, id=238, 462.528pt x 346.896pt>
+File: den11.png Graphic file (type png)
+<use den11.png>
+Package pdftex.def Info: den11.png  used on input line 380.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [17 <./hip11.png> <./sc11.png> <./den11.png>]
+<hip12.png, id=246, 462.528pt x 346.896pt>
+File: hip12.png Graphic file (type png)
+<use hip12.png>
+Package pdftex.def Info: hip12.png  used on input line 386.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc12.png, id=247, 462.528pt x 346.896pt>
+File: sc12.png Graphic file (type png)
+<use sc12.png>
+Package pdftex.def Info: sc12.png  used on input line 387.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den12.png, id=248, 462.528pt x 346.896pt>
+File: den12.png Graphic file (type png)
+<use den12.png>
+Package pdftex.def Info: den12.png  used on input line 388.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [18 <./hip12.png> <./sc12.png> <./den12.png>]
+<hip13.png, id=257, 462.528pt x 346.896pt>
+File: hip13.png Graphic file (type png)
+<use hip13.png>
+Package pdftex.def Info: hip13.png  used on input line 394.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc13.png, id=258, 462.528pt x 346.896pt>
+File: sc13.png Graphic file (type png)
+<use sc13.png>
+Package pdftex.def Info: sc13.png  used on input line 395.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den13.png, id=259, 462.528pt x 346.896pt>
+File: den13.png Graphic file (type png)
+<use den13.png>
+Package pdftex.def Info: den13.png  used on input line 396.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [19 <./hip13.png> <./sc13.png> <./den13.png>]
+<hip14.png, id=267, 462.528pt x 346.896pt>
+File: hip14.png Graphic file (type png)
+<use hip14.png>
+Package pdftex.def Info: hip14.png  used on input line 402.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc14.png, id=268, 462.528pt x 346.896pt>
+File: sc14.png Graphic file (type png)
+<use sc14.png>
+Package pdftex.def Info: sc14.png  used on input line 403.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den14.png, id=269, 462.528pt x 346.896pt>
+File: den14.png Graphic file (type png)
+<use den14.png>
+Package pdftex.def Info: den14.png  used on input line 404.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [20 <./hip14.png> <./sc14.png> <./den14.png>]
+<hip15.png, id=277, 462.528pt x 346.896pt>
+File: hip15.png Graphic file (type png)
+<use hip15.png>
+Package pdftex.def Info: hip15.png  used on input line 410.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc15.png, id=278, 462.528pt x 346.896pt>
+File: sc15.png Graphic file (type png)
+<use sc15.png>
+Package pdftex.def Info: sc15.png  used on input line 411.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den15.png, id=279, 462.528pt x 346.896pt>
+File: den15.png Graphic file (type png)
+<use den15.png>
+Package pdftex.def Info: den15.png  used on input line 412.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+[21 <./hip15.png> <./sc15.png> <./den15.png>]
+<hip16.png, id=287, 462.528pt x 346.896pt>
+File: hip16.png Graphic file (type png)
+<use hip16.png>
+Package pdftex.def Info: hip16.png  used on input line 418.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc16.png, id=288, 462.528pt x 346.896pt>
+File: sc16.png Graphic file (type png)
+<use sc16.png>
+Package pdftex.def Info: sc16.png  used on input line 419.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den16.png, id=289, 462.528pt x 346.896pt>
+File: den16.png Graphic file (type png)
+<use den16.png>
+Package pdftex.def Info: den16.png  used on input line 420.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [22 <./hip16.png> <./sc16.png> <./den16.png>]
+<hip17.png, id=297, 462.528pt x 346.896pt>
+File: hip17.png Graphic file (type png)
+<use hip17.png>
+Package pdftex.def Info: hip17.png  used on input line 426.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc17.png, id=298, 462.528pt x 346.896pt>
+File: sc17.png Graphic file (type png)
+<use sc17.png>
+Package pdftex.def Info: sc17.png  used on input line 427.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den17.png, id=299, 462.528pt x 346.896pt>
+File: den17.png Graphic file (type png)
+<use den17.png>
+Package pdftex.def Info: den17.png  used on input line 428.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [23 <./hip17.png> <./sc17.png> <./den17.png>]
+<hip18.png, id=307, 462.528pt x 346.896pt>
+File: hip18.png Graphic file (type png)
+<use hip18.png>
+Package pdftex.def Info: hip18.png  used on input line 434.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc18.png, id=308, 462.528pt x 346.896pt>
+File: sc18.png Graphic file (type png)
+<use sc18.png>
+Package pdftex.def Info: sc18.png  used on input line 435.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den18.png, id=309, 462.528pt x 346.896pt>
+File: den18.png Graphic file (type png)
+<use den18.png>
+Package pdftex.def Info: den18.png  used on input line 436.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [24 <./hip18.png> <./sc18.png> <./den18.png>]
+<hip19.png, id=318, 462.528pt x 346.896pt>
+File: hip19.png Graphic file (type png)
+<use hip19.png>
+Package pdftex.def Info: hip19.png  used on input line 442.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc19.png, id=319, 462.528pt x 346.896pt>
+File: sc19.png Graphic file (type png)
+<use sc19.png>
+Package pdftex.def Info: sc19.png  used on input line 443.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den19.png, id=320, 462.528pt x 346.896pt>
+File: den19.png Graphic file (type png)
+<use den19.png>
+Package pdftex.def Info: den19.png  used on input line 444.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [25 <./hip19.png> <./sc19.png> <./den19.png>]
+<hip20.png, id=328, 462.528pt x 346.896pt>
+File: hip20.png Graphic file (type png)
+<use hip20.png>
+Package pdftex.def Info: hip20.png  used on input line 450.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc20.png, id=329, 462.528pt x 346.896pt>
+File: sc20.png Graphic file (type png)
+<use sc20.png>
+Package pdftex.def Info: sc20.png  used on input line 451.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den20.png, id=330, 462.528pt x 346.896pt>
+File: den20.png Graphic file (type png)
+<use den20.png>
+Package pdftex.def Info: den20.png  used on input line 452.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+[26 <./hip20.png> <./sc20.png> <./den20.png>]
+<hip21.png, id=338, 462.528pt x 346.896pt>
+File: hip21.png Graphic file (type png)
+<use hip21.png>
+Package pdftex.def Info: hip21.png  used on input line 458.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc21.png, id=339, 462.528pt x 346.896pt>
+File: sc21.png Graphic file (type png)
+<use sc21.png>
+Package pdftex.def Info: sc21.png  used on input line 459.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den21.png, id=340, 462.528pt x 346.896pt>
+File: den21.png Graphic file (type png)
+<use den21.png>
+Package pdftex.def Info: den21.png  used on input line 460.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [27 <./hip21.png> <./sc21.png> <./den21.png>]
+<hip22.png, id=348, 462.528pt x 346.896pt>
+File: hip22.png Graphic file (type png)
+<use hip22.png>
+Package pdftex.def Info: hip22.png  used on input line 466.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc22.png, id=349, 462.528pt x 346.896pt>
+File: sc22.png Graphic file (type png)
+<use sc22.png>
+Package pdftex.def Info: sc22.png  used on input line 467.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den22.png, id=350, 462.528pt x 346.896pt>
+File: den22.png Graphic file (type png)
+<use den22.png>
+Package pdftex.def Info: den22.png  used on input line 468.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [28 <./hip22.png> <./sc22.png> <./den22.png>]
+<hip23.png, id=358, 462.528pt x 346.896pt>
+File: hip23.png Graphic file (type png)
+<use hip23.png>
+Package pdftex.def Info: hip23.png  used on input line 474.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc23.png, id=359, 462.528pt x 346.896pt>
+File: sc23.png Graphic file (type png)
+<use sc23.png>
+Package pdftex.def Info: sc23.png  used on input line 475.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den23.png, id=360, 462.528pt x 346.896pt>
+File: den23.png Graphic file (type png)
+<use den23.png>
+Package pdftex.def Info: den23.png  used on input line 476.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [29 <./hip23.png> <./sc23.png> <./den23.png>]
+<hip24.png, id=368, 462.528pt x 346.896pt>
+File: hip24.png Graphic file (type png)
+<use hip24.png>
+Package pdftex.def Info: hip24.png  used on input line 482.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc24.png, id=369, 462.528pt x 346.896pt>
+File: sc24.png Graphic file (type png)
+<use sc24.png>
+Package pdftex.def Info: sc24.png  used on input line 483.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den24.png, id=370, 462.528pt x 346.896pt>
+File: den24.png Graphic file (type png)
+<use den24.png>
+Package pdftex.def Info: den24.png  used on input line 484.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [30 <./hip24.png> <./sc24.png> <./den24.png>]
+<hip25.png, id=379, 462.528pt x 346.896pt>
+File: hip25.png Graphic file (type png)
+<use hip25.png>
+Package pdftex.def Info: hip25.png  used on input line 490.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc25.png, id=380, 462.528pt x 346.896pt>
+File: sc25.png Graphic file (type png)
+<use sc25.png>
+Package pdftex.def Info: sc25.png  used on input line 491.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den25.png, id=381, 462.528pt x 346.896pt>
+File: den25.png Graphic file (type png)
+<use den25.png>
+Package pdftex.def Info: den25.png  used on input line 492.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+[31 <./hip25.png> <./sc25.png> <./den25.png>]
+<hip26.png, id=389, 462.528pt x 346.896pt>
+File: hip26.png Graphic file (type png)
+<use hip26.png>
+Package pdftex.def Info: hip26.png  used on input line 498.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc26.png, id=390, 462.528pt x 346.896pt>
+File: sc26.png Graphic file (type png)
+<use sc26.png>
+Package pdftex.def Info: sc26.png  used on input line 499.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den26.png, id=391, 462.528pt x 346.896pt>
+File: den26.png Graphic file (type png)
+<use den26.png>
+Package pdftex.def Info: den26.png  used on input line 500.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [32 <./hip26.png> <./sc26.png> <./den26.png>]
+<hip27.png, id=399, 462.528pt x 346.896pt>
+File: hip27.png Graphic file (type png)
+<use hip27.png>
+Package pdftex.def Info: hip27.png  used on input line 506.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc27.png, id=400, 462.528pt x 346.896pt>
+File: sc27.png Graphic file (type png)
+<use sc27.png>
+Package pdftex.def Info: sc27.png  used on input line 507.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den27.png, id=401, 462.528pt x 346.896pt>
+File: den27.png Graphic file (type png)
+<use den27.png>
+Package pdftex.def Info: den27.png  used on input line 508.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [33 <./hip27.png> <./sc27.png> <./den27.png>]
+<hip28.png, id=409, 462.528pt x 346.896pt>
+File: hip28.png Graphic file (type png)
+<use hip28.png>
+Package pdftex.def Info: hip28.png  used on input line 514.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc28.png, id=410, 462.528pt x 346.896pt>
+File: sc28.png Graphic file (type png)
+<use sc28.png>
+Package pdftex.def Info: sc28.png  used on input line 515.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den28.png, id=411, 462.528pt x 346.896pt>
+File: den28.png Graphic file (type png)
+<use den28.png>
+Package pdftex.def Info: den28.png  used on input line 516.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [34 <./hip28.png> <./sc28.png> <./den28.png>]
+<hip29.png, id=419, 462.528pt x 346.896pt>
+File: hip29.png Graphic file (type png)
+<use hip29.png>
+Package pdftex.def Info: hip29.png  used on input line 522.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc29.png, id=420, 462.528pt x 346.896pt>
+File: sc29.png Graphic file (type png)
+<use sc29.png>
+Package pdftex.def Info: sc29.png  used on input line 523.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den29.png, id=421, 462.528pt x 346.896pt>
+File: den29.png Graphic file (type png)
+<use den29.png>
+Package pdftex.def Info: den29.png  used on input line 524.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [35 <./hip29.png> <./sc29.png> <./den29.png>]
+<hip30.png, id=429, 462.528pt x 346.896pt>
+File: hip30.png Graphic file (type png)
+<use hip30.png>
+Package pdftex.def Info: hip30.png  used on input line 529.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc30.png, id=430, 462.528pt x 346.896pt>
+File: sc30.png Graphic file (type png)
+<use sc30.png>
+Package pdftex.def Info: sc30.png  used on input line 530.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den30.png, id=431, 462.528pt x 346.896pt>
+File: den30.png Graphic file (type png)
+<use den30.png>
+Package pdftex.def Info: den30.png  used on input line 531.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+[36 <./hip30.png> <./sc30.png> <./den30.png>]
+<hip31.png, id=440, 462.528pt x 346.896pt>
+File: hip31.png Graphic file (type png)
+<use hip31.png>
+Package pdftex.def Info: hip31.png  used on input line 537.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc31.png, id=441, 462.528pt x 346.896pt>
+File: sc31.png Graphic file (type png)
+<use sc31.png>
+Package pdftex.def Info: sc31.png  used on input line 538.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den31.png, id=442, 462.528pt x 346.896pt>
+File: den31.png Graphic file (type png)
+<use den31.png>
+Package pdftex.def Info: den31.png  used on input line 539.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [37 <./hip31.png> <./sc31.png> <./den31.png>]
+<hip32.png, id=450, 462.528pt x 346.896pt>
+File: hip32.png Graphic file (type png)
+<use hip32.png>
+Package pdftex.def Info: hip32.png  used on input line 545.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc32.png, id=451, 462.528pt x 346.896pt>
+File: sc32.png Graphic file (type png)
+<use sc32.png>
+Package pdftex.def Info: sc32.png  used on input line 546.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den32.png, id=452, 462.528pt x 346.896pt>
+File: den32.png Graphic file (type png)
+<use den32.png>
+Package pdftex.def Info: den32.png  used on input line 547.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [38 <./hip32.png> <./sc32.png> <./den32.png>]
+<hip33.png, id=460, 462.528pt x 346.896pt>
+File: hip33.png Graphic file (type png)
+<use hip33.png>
+Package pdftex.def Info: hip33.png  used on input line 553.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc33.png, id=461, 462.528pt x 346.896pt>
+File: sc33.png Graphic file (type png)
+<use sc33.png>
+Package pdftex.def Info: sc33.png  used on input line 554.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den33.png, id=462, 462.528pt x 346.896pt>
+File: den33.png Graphic file (type png)
+<use den33.png>
+Package pdftex.def Info: den33.png  used on input line 555.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [39 <./hip33.png> <./sc33.png> <./den33.png>]
+<hip34.png, id=470, 462.528pt x 346.896pt>
+File: hip34.png Graphic file (type png)
+<use hip34.png>
+Package pdftex.def Info: hip34.png  used on input line 561.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc34.png, id=471, 462.528pt x 346.896pt>
+File: sc34.png Graphic file (type png)
+<use sc34.png>
+Package pdftex.def Info: sc34.png  used on input line 562.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den34.png, id=472, 462.528pt x 346.896pt>
+File: den34.png Graphic file (type png)
+<use den34.png>
+Package pdftex.def Info: den34.png  used on input line 563.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [40 <./hip34.png> <./sc34.png> <./den34.png>]
+<hip35.png, id=480, 462.528pt x 346.896pt>
+File: hip35.png Graphic file (type png)
+<use hip35.png>
+Package pdftex.def Info: hip35.png  used on input line 569.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc35.png, id=481, 462.528pt x 346.896pt>
+File: sc35.png Graphic file (type png)
+<use sc35.png>
+Package pdftex.def Info: sc35.png  used on input line 570.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den35.png, id=482, 462.528pt x 346.896pt>
+File: den35.png Graphic file (type png)
+<use den35.png>
+Package pdftex.def Info: den35.png  used on input line 571.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+[41 <./hip35.png> <./sc35.png> <./den35.png>]
+<hip36.png, id=490, 462.528pt x 346.896pt>
+File: hip36.png Graphic file (type png)
+<use hip36.png>
+Package pdftex.def Info: hip36.png  used on input line 577.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<sc36.png, id=491, 462.528pt x 346.896pt>
+File: sc36.png Graphic file (type png)
+<use sc36.png>
+Package pdftex.def Info: sc36.png  used on input line 578.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<den36.png, id=492, 462.528pt x 346.896pt>
+File: den36.png Graphic file (type png)
+<use den36.png>
+Package pdftex.def Info: den36.png  used on input line 579.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+Overfull \hbox (1.77356pt too wide) in paragraph at lines 585--586
+[]\OT1/cmr/m/n/10 Em seguida al-guns graficos de au-to-cor-relac~ao que ev-i-
+den-ciam o que foi men-cionado so-bre suas pro-priedades
+ []
+
+[42 <./hip36.png> <./sc36.png> <./den36.png>]
+<Autocorr1000hip18.png, id=501, 462.528pt x 346.896pt>
+File: Autocorr1000hip18.png Graphic file (type png)
+<use Autocorr1000hip18.png>
+Package pdftex.def Info: Autocorr1000hip18.png  used on input line 590.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<Autocorr10000hip18.png, id=502, 462.528pt x 346.896pt>
+File: Autocorr10000hip18.png Graphic file (type png)
+<use Autocorr10000hip18.png>
+Package pdftex.def Info: Autocorr10000hip18.png  used on input line 592.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<Autocorr10000hip18(0,5).png, id=503, 462.528pt x 346.896pt>
+File: Autocorr10000hip18(0,5).png Graphic file (type png)
+<use Autocorr10000hip18(0,5).png>
+Package pdftex.def Info: Autocorr10000hip18(0,5).png  used on input line 594.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [43 <./Autocorr1000hip18.png> <./Autocorr10000hip18.png> <./Autocorr10000hip18
+(0,5).png>]
+<Autocorr100000hip1.png, id=511, 462.528pt x 346.896pt>
+File: Autocorr100000hip1.png Graphic file (type png)
+<use Autocorr100000hip1.png>
+Package pdftex.def Info: Autocorr100000hip1.png  used on input line 600.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<Autocorr50000hip36.png, id=512, 462.528pt x 346.896pt>
+File: Autocorr50000hip36.png Graphic file (type png)
+<use Autocorr50000hip36.png>
+Package pdftex.def Info: Autocorr50000hip36.png  used on input line 602.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 613.
+ [44 <./Autocorr100000hip1.png> <./Autocorr50000hip36.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 613.
+ (Report.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 613.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 613.
+Package rerunfilecheck Info: File `Report.out' has not changed.
+(rerunfilecheck)             Checksum: A445B9E2746E67DC10CE896AA1240502;1001.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 613.
+ ) 
+Here is how much of TeX's memory you used:
+ 7750 strings out of 492946
+ 110636 string characters out of 3125378
+ 215073 words of memory out of 3000000
+ 11370 multiletter control sequences out of 15000+200000
+ 13877 words of font info for 54 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 28i,13n,43p,728b,370s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Cliente/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb><C:/Users/Cliente/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Cliente/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Cliente/AppData/Local/
+Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Cliente
+/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:
+/Users/Cliente/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmr10.pfb><C:/Users/Cliente/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr12.pfb><C:/Users/Cliente/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/Cliente/AppData/Local/Programs/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Cliente/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Clien
+te/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pfb>
+<C:/Users/Cliente/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb><C:/Users/Cliente/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmsy6.pfb><C:/Users/Cliente/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Cliente/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on Report.pdf (45 pages, 3362676 bytes).
+PDF statistics:
+ 587 PDF objects out of 1000 (max. 8388607)
+ 74 named destinations out of 1000 (max. 500000)
+ 683 words of extra memory for PDF output out of 10000 (max. 10000000)
+

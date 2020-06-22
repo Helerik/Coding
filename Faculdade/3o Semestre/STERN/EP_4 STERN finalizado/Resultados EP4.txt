@@ -1,0 +1,82 @@
+Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 22:20:52) [MSC v.1916 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+>>> 
+=================================== RESTART: C:\Users\Cliente\Desktop\Coding\EP\TERCEIRO SEMESTRE\STERN\EP_4 STERN\EP_4.py ===================================
+Primeiro passo - definicao da Variancia do kernel Q:
+
+     Metodo 1 - Avaliar a autocorrelacao:
+
+          O 'S ideal' medio encontrado, para 50 S's encontrados = 0.5280000000000002
+
+     Metodo 2 - Avaliar a taxa de aceitacao:
+
+          O S encontrado baseado na taxa de aceitacao foi = 2.3
+
+     Metodo 3 - Avaliacao da media dos metodos anteriores:
+
+          O S encontrado baseado na media dos metodos anteriores foi = 1.4140000000000001
+
+================================================================================================
+
+Segundo passo - calculo da integral Z com erro de no maximo 1%:
+
+** Alpha de Metropolis-Hastings **
+
+     Metodo 1:
+
+          Z = 0.13625 para n = 7000
+          Erro estimado = 0.0002621231979029564
+          Erro = 0.030625221677946672
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+     Metodo 2:
+
+          Z = 0.12509090909090909 para n = 10000
+          Erro estimado = 0.0064680232558140885
+          Erro = 0.0537846171617318
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+     Metodo 3:
+
+          Z = 0.129 para n = 3000
+          Erro estimado = 0.007751937984496131
+          Erro = 0.024215386448035857
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+================================================================================================
+
+** Alpha de Barker **
+
+     Metodo 1:
+
+          Z = 0.13153846153846155 para n = 12000
+          Erro estimado = 0.002192982456140385
+          Erro = 0.005013900313739554
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+     Metodo 2:
+
+          Z = 0.12811111111111112 para n = 17000
+          Erro estimado = 0.001326462935564663
+          Erro = 0.030939139168462786
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+     Metodo 3:
+
+
+          Z = 0.1311875 para n = 15000
+          Erro estimado = 0.007527393997141513
+          Erro = 0.007668651237610041
+
+Plot de convergencia de Z, com n = [1:2000] (sem burn-in):
+
+Plot comparativo entre os alphas para o metodo 1: 
+
+Quer recalcular? [s/n] :n
+---------- ** Programa encerrado ** ----------
+>>> 
