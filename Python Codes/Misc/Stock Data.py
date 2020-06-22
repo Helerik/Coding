@@ -26,16 +26,18 @@ def main():
     print(df.head())
     print()
 
-    days = 100
+    days = 10
 
     movingAverage(df, days)
 
     ax1 = plt.subplot2grid((6,1), (0,0), rowspan = 5, colspan = 1)
     ax2 = plt.subplot2grid((6,1), (5,0), rowspan = 1, colspan = 1)
 
-    ax1.plot(df.index, df['Adj Close'])
-    ax1.plot(df.index, df['Moving Average'])
-    ax2.bar(df.index, df['Volume'])
+    ax1.plot(df.index, df['Adj Close'], label = "Adj Close")
+    ax1.plot(df.index, df['Moving Average'], label = "Moving average for " + str(days) + " days")
+    ax1.legend()
+    ax2.bar(df.index, df['Volume'], label = "Volume")
+    ax2.legend()
     plt.show()
 
 main()
