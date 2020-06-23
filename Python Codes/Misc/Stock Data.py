@@ -18,15 +18,24 @@ def movingAverage(dataFrame, primaryName, timePeriod = 15):
 
     # Create new data frame with new column
     newFrame = dataFrame.copy(deep = True)
-    newFrame['Moving Average ' + primaryName] = newFrame[primaryName].rolling(window = timePeriod, min_periods = 0).mean()
+    newFrame['Moving Average ' + primaryName + ' ' + str(timePeriod)] = newFrame[primaryName].rolling(
+        window = timePeriod,min_periods = 0
+        ).mean()
     return newFrame
 
 # Plot one name from the dataframe
 def plotTheName(dataFrame, theName, thePlot = None, theMode = 'Std'):
-    if theMode == 'Std':
-        return thePlot.plot(dataFrame.index, dataFrame[theName], label = theName)
+
+    if theName == 'Candle' or theName == 'cStick':
+        ohlc = dataFrame[['Open', 'High', 'Low', 'Close']].copy()
+        ohlc.reset_index(inplace = True)
+        ohlc['Date'] = mdates.date2num(ohlc['Date'].values)
+        thePlot.xaxis_date()
+        candlestick_ohlc(thePlot, ohlc.values, width = 0.9, colorup='#77d879', colordown='#db3f3f') 
+    elif theMode == 'Std':
+        thePlot.plot(dataFrame.index, dataFrame[theName], label = theName)
     elif theMode == 'Bar':
-        return thePlot.bar(dataFrame.index, dataFrame[theName], label = theName)
+        thePlot.bar(dataFrame.index, dataFrame[theName], label = theName)
 
 # Plot "back-end"
 def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1.5)):
@@ -73,8 +82,15 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
         else:
             plotTheName(dataFrame, plotName[0], ax1, plotName[1])
             ax1.legend()
-    ax1.legend()
 
+    if primaryName == 'Candle' or primaryName == 'cStick':
+        pass
+    else:
+        ax1.legend()
+
+    ax1.set_title(primaryName)
+    ax2.set_xlabel('date')
+    
     plt.show()
     return True
 
@@ -97,11 +113,11 @@ def main():
     input('>>')
 
     # Creates moving average
-    days = 15
+    days = 3
     df = movingAverage(df, 'Adj Close', days)
     
     # Plots graphic
-    plotGraphics(df, 'Adj Close', ['Volume, Bar', 'High'])
+    plotGraphics(df, 'Candle', ['Volume, Bar', 'Moving Average Adj Close 3'])
 
 
 main()
