@@ -68,11 +68,14 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
 
     # Creates a figure and axis
     if secPlot_key:
-        fig, (ax1, ax2) = plt.subplots(2, 1, constrained_layout=True, sharex = True, figsize = (7.5, 5),
+        fig, (ax1, ax2) = plt.subplots(2, 1, sharex = True, figsize = (7.5, 5),
                                        gridspec_kw={'height_ratios': [3, 1]})
     else:
-        fig, ax1 = plt.subplots(1, 1, constrained_layout=True, sharex = True, figsize = (7.5, 5))
+        fig, ax1 = plt.subplots(1, 1, sharex = True, figsize = (7.5, 5))
 
+    # Formats date for better vizualization
+    fig.autofmt_xdate()
+    
     # Window will not be resizable
     manager = plt.get_current_fig_manager()
     manager.window.resizable(False, False)
@@ -93,7 +96,6 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
         ax1.legend()
 
     ax1.set_title(primaryName)
-    ax2.set_xlabel('date')
     
     plt.show()
     return True
