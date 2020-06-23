@@ -13,7 +13,7 @@ import pandas as pd
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import pandas_datareader.data as web
 
-# Creates moving average of primaryName, if it isn't in secondaryPlot
+# Creates moving average of primaryName
 def movingAverage(dataFrame, primaryName, timePeriod = 15):
 
     # Create new data frame with new column
