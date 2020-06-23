@@ -96,8 +96,8 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
         ax1.legend()
 
     ax1.set_title(primaryName)
-    
-    plt.show()
+
+    plt.show(block = False)
     return True
 
 def main():
@@ -109,21 +109,26 @@ def main():
     start = dt.datetime(2020,1,1)
     end = dt.date.today()
 
-    # Stock data
-    df = web.DataReader('^BVSP', 'yahoo', start, end)
-
-    # Header
-    print("Today:", end)
-    print(df.head())
-    print()
-    input('>>')
-
     # Creates moving average
-    days = 3
-    df = movingAverage(df, 'Adj Close', days)
-    
-    # Plots graphic
-    plotGraphics(df, 'Candle', ['Volume, Bar', 'Moving Average Adj Close 3'])
+##    days = 3
+##    df = movingAverage(df, 'Adj Close', days)
 
+    while True:
+
+        # Choose a symbol to visualize
+        
+        symb = input("Choose a symbol to plot: ")
+        plt.close()
+        print()
+
+        # Import symbol data
+        df = web.DataReader(symb, 'yahoo', start, end)
+
+        # Plot symbol data
+        plotGraphics(df, 'Candle')
 
 main()
+
+
+
+
