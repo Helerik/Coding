@@ -73,6 +73,10 @@ def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/
     else:
         fig, ax1 = plt.subplots(1, 1, constrained_layout=True, sharex = True, figsize = (7.5, 5))
 
+    # Window will not be resizable
+    manager = plt.get_current_fig_manager()
+    manager.window.resizable(False, False)
+
     # Plot graphics
     plotTheName(dataFrame, primaryName, ax1, primaryMode)
     for plotName in subplot:
