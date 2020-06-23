@@ -21,56 +21,59 @@ def movingAverage(dataFrame, primaryName, timePeriod = 15):
     newFrame['Moving Average ' + primaryName] = newFrame[primaryName].rolling(window = timePeriod, min_periods = 0).mean()
     return newFrame
 
+# Plot one name from the dataframe
+def plotTheName(dataFrame, theName, thePlot = None, theMode = 'Std'):
+    if theMode == 'Std':
+        return thePlot.plot(dataFrame.index, dataFrame[theName], label = theName)
+    elif theMode == 'Bar':
+        return thePlot.bar(dataFrame.index, dataFrame[theName], label = theName)
+
 # Plot "back-end"
 def plotGraphics(dataFrame, primaryName, subplot = [], figsize = (14.4/1.5, 9.6/1.5)):
 
-    # Creates a figure
-    plt.figure(num = primaryName, figsize = figsize)
-    
     # List of plots that go on a second window
     secondaryPlot = [
         'Volume'
         ]
 
-    # Finds if a second plot window will be needed
-    secPlot_key = 0
-    for plotName in subplot:
-        if plotName in secondaryPlot:
-            secPlot_key = 1
-            break
-
-    # If there is any subplot and one more window will be needed:
-    if len(subplot) > 0 and secPlot_key:
-        secPlot_key = 0
-
-        # Prepares primaryName plot
-        ax1 = plt.subplot2grid((7,1), (0,0), rowspan = 5, colspan = 1)
-        ax1.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
-
-        # Prepares other plot
-        for plotName in subplot:
-            # If the secondary plot needs a second window, creates a second window +
-            # plots the graphic. Can only have one more window; greedy algorithm (for now).
-            if plotName in secondaryPlot and not secPlot_key:
-                ax2 = plt.subplot2grid((6,1), (5,0), rowspan = 2, colspan = 1)
-                ax2.plot(dataFrame.index, dataFrame[plotName], label = plotName)
-                ax2.legend()
-                secPlot_key = 1
-            # Plots all secondary plots that don't need a second window on main window.
-            elif not plotName in secondaryPlot:
-                ax1.plot(dataFrame.index, dataFrame[plotName], label = plotName)
-        ax1.legend()
-
-    # If more windows are not needed but there are secondary plots:
-    elif len(subplot) > 0 and not secPlot_key:
-        plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
-        for plotName in subplot:
-            plt.plot(dataFrame.index, dataFrame[plotName], label = plotName)
-        plt.legend()
-    # Else, plots primaryName only, even if it is in secondaryPlot
+    # Divides primaryName and primaryMode
+    primLis = primaryName.split(', ', 1)
+    primaryName = primLis[0]
+    if len(primLis) > 1:
+        primaryMode = primLis[1]
     else:
-        plt.plot(dataFrame.index, dataFrame[primaryName], label = primaryName)
-        plt.legend()
+        primaryMode = 'Std'
+    
+    # Finds if a second plot window will be needed and divides name and mode
+    secPlot_key = 0
+    for i in range(len(subplot)):
+        plotName = subplot[i]
+        nameLis = plotName.split(', ', 1)
+        if len(nameLis) > 1:
+            plotName = nameLis
+        else:
+            plotName = [nameLis[0], 'Std']
+        if plotName[0] in secondaryPlot:
+            secPlot_key = 1
+        subplot[i] = plotName
+
+    # Creates a figure and axis
+    if secPlot_key:
+        fig, (ax1, ax2) = plt.subplots(2, 1, constrained_layout=True, sharex = True, figsize = (7.5, 5),
+                                       gridspec_kw={'height_ratios': [3, 1]})
+    else:
+        fig, ax1 = plt.subplots(1, 1, constrained_layout=True, sharex = True, figsize = (7.5, 5))
+
+    # Plot graphics
+    plotTheName(dataFrame, primaryName, ax1, primaryMode)
+    for plotName in subplot:
+        if plotName[0] in secondaryPlot:
+            plotTheName(dataFrame, plotName[0], ax2, plotName[1])
+            ax2.legend()
+        else:
+            plotTheName(dataFrame, plotName[0], ax1, plotName[1])
+            ax1.legend()
+    ax1.legend()
 
     plt.show()
     return True
@@ -98,7 +101,7 @@ def main():
     df = movingAverage(df, 'Adj Close', days)
     
     # Plots graphic
-    plotGraphics(df, 'Adj Close', ['Moving Average Adj Close', 'High', 'Volume'])
+    plotGraphics(df, 'Adj Close', ['Volume, Bar', 'High'])
 
 
 main()
