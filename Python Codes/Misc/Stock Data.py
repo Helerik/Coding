@@ -113,19 +113,27 @@ def main():
 ##    days = 3
 ##    df = movingAverage(df, 'Adj Close', days)
 
-    while True:
-
+    toPlotList = []
+    while True: 
         # Choose a symbol to visualize
-        
         symb = input("Choose a symbol to plot: ")
-        plt.close()
-        print()
-
-        # Import symbol data
         df = web.DataReader(symb, 'yahoo', start, end)
+        print()
+        choice = input("Add more information [y/n]: ").lower()
+        print()
+        if choice == 'y' or choice == "yes":
+            while True:
+                secSymb = input("Plot secondary data: ")
+                print()
+                if secSymb == '':
+                    break
+                if not secSymb in toPlotList:
+                    toPlotList.append(secSymb)
+        plt.close()
 
         # Plot symbol data
-        plotGraphics(df, 'Candle')
+        plotGraphics(df, 'Candle', toPlotList)
+        toPlotList = []
 
 main()
 
