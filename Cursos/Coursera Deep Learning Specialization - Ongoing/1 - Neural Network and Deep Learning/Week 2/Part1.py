@@ -12,5 +12,15 @@ def lossFunc(y, y_t):
     return -(y*np.log(y_t) + (1-y)*np.log(1-y_t))
 
 def costFunc(w, b):
-    for i in range(len())
+    retSum = 0
+    for i in range(m):
+        retSum += lossFunc(y[i], y_t[i])
+    retSum /= m
+    return retSum
+
+def gradientDescent(w, b, alpha):
+
+    w = w - alpha*dw
+    b = b - alpha*db
+    
     
