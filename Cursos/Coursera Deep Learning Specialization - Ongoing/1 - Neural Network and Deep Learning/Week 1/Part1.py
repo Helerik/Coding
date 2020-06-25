@@ -2,19 +2,15 @@
 
 import numpy as np
 
-class LogisticLearner():
+def sigmoid(t):
+    return 1/(1+np.exp(-t))
 
-    # Constructor
-    def __init__(self, trainX, trainY):
-        self.trainX = trainX
-        self.trainY = trainY
+def logisticRegression(x, w, b):
+    return sigmoid(np.dot(w.T, x) + b)
 
-    def sigmoid(t):
-        return 1/(1+np.exp(-t))
+def lossFunc(y, y_t):
+    return -(y*np.log(y_t) + (1-y)*np.log(1-y_t))
 
-    def logisticRegression(x, w, b):
-        return sigmoid(np.dot(w.T, x) + b)
-
-    def lossFunc(y, y_t):
-        return -(y*np.log(y_t) + (1-y)*log(1-y_t))
+def costFunc(w, b):
+    for i in range(len())
     
