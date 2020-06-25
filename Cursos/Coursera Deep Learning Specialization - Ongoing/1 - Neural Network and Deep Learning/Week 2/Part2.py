@@ -59,6 +59,11 @@ class LogisticRegressor():
 
         self.isTrained = 1
 
+    def predict(self, x):
+        if not self.isTrained:
+            raise Exception("The regressor was not trained")
+        return np.dot(self.w.T, x) + self.b
+
 def example():
     
     X = np.array([
@@ -70,10 +75,8 @@ def example():
 
     LR = LogisticRegressor(X, y)
 
-    LR.gradientDescent(0.01, 1000)
-    print(LR.isTrained)
-
-
+    LR.gradientDescent(0.01, 10000)
+    print(LR.predict(np.array([780, 4, 3])))
 
 example()
 
