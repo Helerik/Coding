@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 
 # Vectorized implementation of logistic regression
+import sys
 
 import numpy as np
 
+# Sigmoid activation function
 def sigmoid(t):
     return 1/(1+np.exp(-t))
 
+# Loss function for  logistic regression
 def lossFunc(y, y_pred):
     return -(y*np.log(y_pred) + (1-y)*np.log(1-y_pred))
 
+# Gradient descent for logistic regression
 def gradientDescent(trainX, trainY, w, b, alpha, iters):
     
     m = len(trainX)
     if m != len(trainY):
         return False
-
     n = len(w)
 
     X = np.copy(trainX)
