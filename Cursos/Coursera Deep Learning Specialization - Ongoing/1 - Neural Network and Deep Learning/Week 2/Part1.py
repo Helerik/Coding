@@ -19,12 +19,11 @@ def gradientDescent(trainX, trainY, w, b, alpha, iters):
     X = np.copy(trainX)
     y = np.copy(trainY)
 
-    for it in range(iters):
+    dw = [0 for _ in range(n)]
+    db = 0
+    costFunc = 0
     
-        dw = [0 for _ in range(n)]
-        db = 0
-        costFunc = 0
-        
+    for it in range(iters):
         for i in range(m):
             
             z = np.dot(w.T, X[i]) + b
@@ -44,6 +43,8 @@ def gradientDescent(trainX, trainY, w, b, alpha, iters):
         for i in range(n):
             dw[i] /= m
             w[i] -= alpha*dw
+
+    return [w, b]
 
     
         
