@@ -4,65 +4,51 @@
 
 import numpy as np
 
-class LogisticRegressor():
-    def __init__(self, trainX, trainY):
+def model(trainX, trainY, alpha, max_iter):
 
-        # Training data
-        self.X = trainX
-        self.y = trainY
+    # Training data size
+    n, m = trainX.shape
+    if m != trainY.shape[1]:
+        raise ValueError("Invalid vector sizes for trainX and trainY -> trainX size = " + str(self.m) + " while trainY size = " + str(len(trainY)))
 
-        # Training data size
-        self.n, self.m = trainX.shape
-        if self.m != len(trainY):
-            raise ValueError("Invalid vector sizes for trainX and trainY -> trainX size = " + str(self.m) + " while trainY size = " + str(len(trainY)))
+    # Parameter vector
+    w = np.zeros((n, 1))
+    b = 0
 
-        # Parameter vector
-        self.w = np.random.uniform(-1,1,self.n)
-        self.b = 0
+    return gradientDescent(trainX, trainY, w, b, alpha, max_iter)
 
-        self.isTrained = 0
+# Sigmoid activation function
+def sigmoid(t):
+    return 1/(1+np.exp(-t))
 
-    # Sigmoid activation function
-    def sigmoid(self, t):
-        return 1/(1+np.exp(-t))
+# Gradient descent for logistic regression
+def gradientDescent(X, y, w, b, alpha, max_iter):
 
-    # Loss function for  logistic regression
-    def lossFunc(self, y, y_pred):
-        return -(y*np.log(y_pred) + (1-y)*np.log(1-y_pred))
+    m = X.shape[1]
+    for _ in range(max_iter):
 
-    # Gradient descent for logistic regression
-    def gradientDescent(self, alpha, max_iter):
+        y_pred = sigmoid(np.dot(w.T, X) + b)
+        costFunc = np.sum(-(y*np.log(y_pred) + (1-y)*np.log(1-y_pred)))/m
 
-        X = self.X
-        y = self.y
-        w = self.w
-        b = self.b
-        m = self.m
-        
-        for _ in range(max_iter):
+        dz = y_pred - y
+        dw = np.dot(X, dz.T)/m
+        db = np.sum(dz)/m
+
+        w = w - alpha*dw
+        b = b - alpha*db
+
+    return [w, b]
+
+# Predicts if X vector is 1 or 0
+def predict(X, w, b):
+    
+    S = sigmoid(np.dot(w.T, X) + b)
+    prediction = np.zeros((1, X.shape[1]))
+    for i in range(S.shape[1]):
+        if S[0,i] > 0.5:
+            prediction[0, i] = 1
             
-            Z = np.dot(w.T, X) + b
-            y_pred = self.sigmoid(Z)
-            costFunc = np.sum(self.lossFunc(self.y, y_pred))/m
-
-            dz = y_pred - self.y
-            dw = np.dot(self.X, dz.T)/m
-            db = np.sum(dz)/m
-
-            w -= alpha*dw
-            b -= alpha*db
-
-        self.X = X
-        self.y = y
-        self.w = w
-        self.b = b
-
-        self.isTrained = 1
-
-    def predict(self, x):
-        if not self.isTrained:
-            raise Exception("The regressor was not trained")
-        return np.dot(self.w.T, x) + self.b
+    return prediction
 
 def example():
     
@@ -71,12 +57,26 @@ def example():
         [4,3.9,3.3,3.7,3.9,3.7,2.3,3.3,3.3,1.7,2.7,3.7,3.7,3.3,3.3,3,2.7,3.7,2.7,2.3,3.3,2,2.3,2.7,3,3.3,3.7,2.3,3.7,3.3,3,2.7,4,3.3,3.3,2.3,2.7,3.3,1.7,3.7],
         [3,4,3,5,4,6,1,4,5,1,3,5,6,4,3,1,4,6,2,3,2,1,4,1,2,6,4,2,6,5,1,2,4,6,5,1,2,1,4,5],
         ])
-    y = np.array([1,1,0,1,0,1,0,1,1,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,1,1,1,0,0,0,0,1])
+    X[0] = X[0]/100
+    y = np.array([[1,1,0,1,0,1,0,1,1,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,1,1,1,0,0,0,0,1]])
 
-    LR = LogisticRegressor(X, y)
+    w, b = model(X, y, 0.1, 100000)
 
-    LR.gradientDescent(0.01, 10000)
-    print(LR.predict(np.array([780, 4, 3])))
+    pred = predict(X, w, b)
+
+    percnt = 0
+    for i in range(pred.shape[1]):
+        if pred[0,i] == y[0,i]:
+            percnt += 1
+    percnt /= pred.shape[1]
+
+    print(percnt)
+    print(pred.astype(int))
+    print(y)
+
+    
+
+    
 
 example()
 
