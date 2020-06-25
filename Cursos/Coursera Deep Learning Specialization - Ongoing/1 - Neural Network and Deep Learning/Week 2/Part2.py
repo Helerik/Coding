@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 # Vectorized implementation of logistic regression
-import sys
 
 import numpy as np
 
@@ -18,7 +17,7 @@ def gradientDescent(trainX, trainY, w, b, alpha, iters):
     
     m = len(trainX)
     if m != len(trainY):
-        return False
+        raise ValueError("Invalid vector sizes for trainX and trainY -> trainX size = " + m + " while trainY size = " + len(y))
     n = len(w)
 
     X = np.copy(trainX)
