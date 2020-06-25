@@ -28,13 +28,13 @@ def gradientDescent(trainX, trainY, w, b, alpha, iters):
     for it in range(iters):
         for i in range(m):
             
-            z = np.dot(w.T, X[i]) + b
+            Z = np.dot(w.T, X) + b
             y_pred = sigmoid(z)
             costFunc += lossFunc(y[i], y_pred)
 
-            dz = y_pred - y[i]
+            dz = y_pred - y
             db += dz
-            dw += X[i][j] * dz
+            dw += X[i] * dz
 
         costFunc /= m
         
