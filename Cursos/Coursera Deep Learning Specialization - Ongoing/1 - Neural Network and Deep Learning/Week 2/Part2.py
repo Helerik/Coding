@@ -40,9 +40,7 @@ def gradientDescent(trainX, trainY, w, b, alpha, iters):
         
         db /= m
         b -= alpha*db
-        
-        for i in range(n):
-            dw[i] /= m
-            w[i] -= alpha*dw
+        dw /= m
+        w -= alpha*dw
 
     return [w, b]
