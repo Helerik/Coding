@@ -24,7 +24,6 @@ class LogisticRegressor():
 
     # Sigmoid activation function
     def sigmoid(self, t):
-        warnings.filterwarnings("")
         return 1/(1+np.exp(-t))
 
     # Loss function for  logistic regression
