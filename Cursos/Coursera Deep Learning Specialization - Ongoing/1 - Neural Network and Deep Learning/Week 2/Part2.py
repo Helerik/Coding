@@ -4,36 +4,41 @@
 
 import numpy as np
 
-# Sigmoid activation function
-def sigmoid(t):
-    return 1/(1+np.exp(-t))
+class LogisticRegressor():
 
-# Loss function for  logistic regression
-def lossFunc(y, y_pred):
-    return -(y*np.log(y_pred) + (1-y)*np.log(1-y_pred))
+    def __init__(self, trainX, trainY):
+        self.X = trainX
+        self.y = trainY
+        self.m, self.n = trainX.shape
+        if self.m != len(trainY):
+            raise ValueError("Invalid vector sizes for trainX and trainY -> trainX size = " + self.m + " while trainY size = " + len(trainY))
+        self.w = np.random.uniform(-1,1,n)
+        self.b = 0
 
-# Gradient descent for logistic regression
-def gradientDescent(trainX, trainY, w, b, alpha, iters):
-    
-    m = len(trainX)
-    if m != len(trainY):
-        raise ValueError("Invalid vector sizes for trainX and trainY -> trainX size = " + m + " while trainY size = " + len(y))
-    n = len(w)
+    # Sigmoid activation function
+    def sigmoid(t):
+        return 1/(1+np.exp(-t))
 
-    X = np.copy(trainX)
-    y = np.copy(trainY)
-    
-    for it in range(iters):
+    # Loss function for  logistic regression
+    def lossFunc(y, y_pred):
+        return -(y*np.log(y_pred) + (1-y)*np.log(1-y_pred))
+
+    # Gradient descent for logistic regression
+    def gradientDescent(self, b, alpha, max_iter):
         
-        Z = np.dot(w.T, X) + b
-        y_pred = sigmoid(z)
-        costFunc = np.sum(lossFunc(y, y_pred))/m
+        for _ in range(max_iter):
+            
+            Z = np.dot(self.w.T, self.X) + b
+            y_pred = sigmoid(Z)
+            costFunc = np.sum(lossFunc(self.y, y_pred))/self.m
 
-        dz = y_pred - y
-        dw = np.dot(X, dz.T)/m
-        db = np.sum(dz)/m
+            dz = y_pred - self.y
+            dw = np.dot(self.X, dz.T)/self.m
+            db = np.sum(dz)/self.m
 
-        w -= alpha*dw
-        b -= alpha*db
+            self.w -= alpha*dw
+            b -= alpha*db
 
-    return [w, b]
+        self.b = b
+
+        return [w, b]
