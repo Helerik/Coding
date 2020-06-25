@@ -5,22 +5,55 @@ import numpy as np
 def sigmoid(t):
     return 1/(1+np.exp(-t))
 
-def logisticRegression(x, w, b):
-    return sigmoid(np.dot(w.T, x) + b)
+def lossFunc(y, y_pred):
+    return -(y*np.log(y_pred) + (1-y)*np.log(1-y_pred))
 
-def lossFunc(y, y_t):
-    return -(y*np.log(y_t) + (1-y)*np.log(1-y_t))
+def gradientDescent(trainX, trainY, w, b, alpha, iters):
+    
+    m = len(trainX)
+    if m != len(trainY):
+        return False
 
-def costFunc(w, b):
-    retSum = 0
-    for i in range(m):
-        retSum += lossFunc(y[i], y_t[i])
-    retSum /= m
-    return retSum
+    n = len(w)
 
-def gradientDescent(w, b, alpha):
+    X = np.copy(trainX)
+    y = np.copy(trainY)
 
-    w = w - alpha*dw
-    b = b - alpha*db
+    for it in range(iters):
+    
+        dw = [0 for _ in range(n)]
+        db = 0
+        costFunc = 0
+        
+        for i in range(m):
+            
+            z = np.dot(w.T, X[i]) + b
+            y_pred = sigmoid(z)
+            costFunc += lossFunc(y[i], y_pred)
+
+            dz = y_pred - y[i]
+            db += dz
+            for j in range(n):
+                dw[j] += X[i][j] * dz
+
+        costFunc /= m
+        
+        db /= m
+        b -= alpha*db
+        
+        for i in range(n):
+            dw[i] /= m
+            w[i] -= alpha*dw
+
+    
+        
+        
     
     
+
+
+
+
+
+
+
