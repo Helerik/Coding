@@ -3,14 +3,14 @@ import numpy as np
 
 class Expression_Parser():
 
-    def _is_number(self, string):
+    def __is_number(self, string):
         try:
             string = float(string)
             return True
         except:
             return False
 
-    def _prepare(self, string):
+    def __prepare(self, string):
         string_tmp = ''
         for i in range(len(string)):
             if string[i] in "0123456789.":
@@ -37,7 +37,7 @@ class Expression_Parser():
         return string_tmp
 
     def postfix_from(self, infix):
-        infix = self._prepare(infix)
+        infix = self.__prepare(infix)
         prec = {}
         prec["^"] = 4
         prec["*"] = 3
@@ -50,7 +50,7 @@ class Expression_Parser():
         tokenList = infix.split()
 
         for token in tokenList:
-            if self._is_number(token) or token == "pi" or token == "e":
+            if self.__is_number(token) or token == "pi" or token == "e":
                 postfixList.append(token)
             elif token == '(':
                 opStack.push(token)
@@ -74,7 +74,7 @@ class Expression_Parser():
         tokenList = postfix.split()
 
         for token in tokenList:
-            if self._is_number(token) or token == "pi" or token == "e":
+            if self.__is_number(token) or token == "pi" or token == "e":
                 if token == "pi":
                     token = np.pi
                 elif token == "e":
@@ -83,11 +83,11 @@ class Expression_Parser():
             else:
                 op2 = opStack.pop()
                 op1 = opStack.pop()
-                result = self._doMath(token,op1,op2)
+                result = self.__doMath(token,op1,op2)
                 opStack.push(result)
         return opStack.pop()
 
-    def _doMath(self, op, op1, op2):
+    def __doMath(self, op, op1, op2):
         if op == "^":
             return op1 ** op2
         elif op == "*":
@@ -100,13 +100,13 @@ class Expression_Parser():
             return op1 - op2
 
 
-
 par = Expression_Parser()
 
-string = par.postfix_from("1+3/4")
+string = par.postfix_from("2 + 3/4 + e^2")
 print(string)
 
 print(par.Evaluate(string))
+
 
 
 
