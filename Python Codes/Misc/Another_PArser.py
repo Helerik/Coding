@@ -11,6 +11,7 @@ class Expression_Parser():
             return False
 
     def __prepare(self, string):
+        string = string.replace(' ', '')
         string_tmp = ''
         for i in range(len(string)):
             if string[i] in "0123456789.":
@@ -99,13 +100,6 @@ class Expression_Parser():
         elif op == "-":
             return op1 - op2
 
-
-par = Expression_Parser()
-
-string = par.postfix_from("2 + 3/4 + e^2")
-print(string)
-
-print(par.Evaluate(string))
 
 
 
