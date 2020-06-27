@@ -26,6 +26,13 @@ def initializeWeights(n_x, n_h, n_y, seed = None):
     np.random.seed(None)
     return weights
 
+def activationGrad(A, activationFunction):
+
+    if activationFunction == "tanh":
+        return (1 - np.power(A, 2))
+    elif activationFunction == "sigmoid":
+        return A * (1 - A)
+
 def gradientDescent_NN(X, Y, weights, alpha, max_iter, activationFunction = "tanh"):
 
     if activationFunction == "tanh":
@@ -57,7 +64,7 @@ def gradientDescent_NN(X, Y, weights, alpha, max_iter, activationFunction = "tan
         dZ2 = A2 - Y
         dW2 = np.dot(dZ2, A1.T)/m
         db2 = np.sum(dZ2, axis = 1, keepdims = 1)/m
-        dZ1 = np.dot(W2.T, dZ2) * (1 - np.power(A1, 2))
+        dZ1 = np.dot(W2.T, dZ2) * activationGrad(A1, activationFunction)
         dW1 = np.dot(dZ1, X.T)/m
         db1 = np.sum(dZ1, axis = 1, keepdims = 1)/m
 
