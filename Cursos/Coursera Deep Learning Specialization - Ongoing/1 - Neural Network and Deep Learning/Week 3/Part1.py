@@ -11,9 +11,9 @@ def tanhyp(z):
 def initializeWeights(n_x, n_h, n_y, seed = None):
     np.random.seed(seed)
     
-    W1 = np.random.random((n_h, n_x))
+    W1 = np.random.random((n_h, n_x))/10
     b1 = np.zeros((n_h,1))
-    W2 = np.random.random((n_y, n_h))
+    W2 = np.random.random((n_y, n_h))/10
     b2 = np.zeros((n_y,1))
 
     weights = {
@@ -121,7 +121,7 @@ def example():
     y = np.array([[1,1,0,1,0,1,0,1,1,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,1,1,1,0,0,0,0,1]])
     X[0] = X[0]/100
 
-    weights = model(X, y, 10, 0.05, 1000)
+    weights = model(X, y, 10, 0.5, 1000)
 
     pred = predict(weights, X)
 
