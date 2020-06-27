@@ -1,0 +1,4 @@
+- Implement full neural network
+- Try to implement newton method in the neural network
+
+Priority: finish course.
