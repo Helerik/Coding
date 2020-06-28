@@ -64,6 +64,7 @@ def gradientDescent_NN(X, Y, weights, alpha, max_iter, activationFunction = "tan
         dZ2 = A2 - Y
         dW2 = np.dot(dZ2, A1.T)/m
         db2 = np.sum(dZ2, axis = 1, keepdims = 1)/m
+        
         dZ1 = np.dot(W2.T, dZ2) * activationGrad(A1, activationFunction)
         dW1 = np.dot(dZ1, X.T)/m
         db1 = np.sum(dZ1, axis = 1, keepdims = 1)/m
@@ -72,11 +73,6 @@ def gradientDescent_NN(X, Y, weights, alpha, max_iter, activationFunction = "tan
         b1 = b1 - alpha*db1
         W2 = W2 - alpha*dW2
         b2 = b2 - alpha*db2
-
-        plt.clf()
-        plt.plot(cost, color = 'b')
-        plt.title("Cost function")
-        plt.pause(0.01)
     
     weights = {
     "W1": W1,
@@ -84,6 +80,10 @@ def gradientDescent_NN(X, Y, weights, alpha, max_iter, activationFunction = "tan
     "W2": W2,
     "b2": b2
     }
+
+    plt.plot(cost, color = 'b')
+    plt.title("Cost function")
+    plt.show(block = 0)
 
     return weights
 
@@ -128,7 +128,7 @@ def example():
     y = np.array([[1,1,0,1,0,1,0,1,1,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,1,1,1,0,0,0,0,1]])
     X[0] = X[0]/100
 
-    weights = model(X, y, 10, 0.5, 1000)
+    weights = model(X, y, 10, 0.075, 4000)
 
     pred = predict(weights, X)
 
