@@ -34,17 +34,19 @@ def aprox_pos_def(A):
     
     return B
 
-# Gradient descent for logistic regression
+# Newton method for logistic regression
 def newtonMethod(X, y, w, b, alpha, max_iter):
 
     cost = []
     m = X.shape[1]
     for _ in range(max_iter):
 
+        # Forward
         y_pred = sigmoid(np.dot(w.T, X) + b)
         costFunc = np.sum(-(y*np.log(y_pred) + (1-y)*np.log(1-y_pred)))/m
         cost.append(costFunc)
 
+        # "Backward"
         dz = y_pred - y
         gradVect = np.dot(X, dz.T)/m
         db = np.sum(dz)/m
