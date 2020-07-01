@@ -129,6 +129,9 @@ def mixedMethod(X, Y, weights, alpha, max_iter, tol):
         dW1 = delta1[:,:-1]
         db1 = np.array([delta1[:,-1]]).T
 
+        print(dW2)
+        print(dW1)
+
         # Tol check
         if np.max(np.linalg.norm(dW1, axis = 1, keepdims = 1)) < tol \
         or np.max(np.linalg.norm(db1, axis = 1, keepdims = 1)) < tol \
@@ -221,7 +224,7 @@ def example():
     y = np.array([[1,1,0,1,0,1,0,1,1,0,0,1,1,0,1,0,0,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,1,1,1,0,0,0,0,1]])
     X[0] = X[0]/100
 
-    weights = model(X, y, 10, 0.005, 10000, tol = 1e-10)
+    weights = model(X, y, 20, 0.0001, 10000, tol = 1e-20)
 
     pred = predict(weights, X)
 
