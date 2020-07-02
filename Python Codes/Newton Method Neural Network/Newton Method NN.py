@@ -238,7 +238,7 @@ def example():
             percnt += 1
     percnt /= pred.shape[1]
     print()
-    print("Accuracy of", percnt*100 , "% on training set")
+    print(f"Accuracy of {percnt:.2%} on training set")
 
     pred = predict(weights, X_test, len(layers))
     percnt = 0
@@ -247,7 +247,7 @@ def example():
             percnt += 1
     percnt /= pred.shape[1]
     print()
-    print("Accuracy of", percnt*100 , "% on test set")
+    print(f"Accuracy of {percnt:.2%} on test set")
     
 example()
 
