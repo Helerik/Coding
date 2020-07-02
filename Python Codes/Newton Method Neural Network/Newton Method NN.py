@@ -121,7 +121,7 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
 
             # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * (Ai*(1-Ai))
             if i == num_layers+1:
-                dZi = Ai - Y  # /(Ai * (1 - Ai)) ???
+                dZi = Ai - Y
             else:
                 dZi = np.dot(Wnxt.T, dZnxt) * Ai * (1 - Ai)
 
