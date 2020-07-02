@@ -81,7 +81,7 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
 
     # Cache for minimum cost and best weights
     best_weights = weights.copy()
-    minCost = np.inf
+    min_cost = np.inf
 
     # Init break_code = 0
     break_code = 0
@@ -96,9 +96,9 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
         cost_func = np.mean(loss_func)
 
         # Updates best weights
-        if cost_func < minCost:
+        if cost_func < min_cost:
             best_weights = weights.copy()
-            minCost = cost_func
+            min_cost = cost_func
             
         # Caches cost function every plot_N iterations
         if it%plot_N == 0:
