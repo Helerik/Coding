@@ -7,37 +7,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Fits for X and Y
-def model(X, Y, layerSizes, learningRate, max_iter = 100, plotN = 100):
+def model(X, Y, layer_sizes, learning_rate, max_iter = 100, plot_N = 100):
 
-    n_x, m = X.shape
-    n_y = Y.shape[0]
-    if m != Y.shape[1]:
-        raise ValueError("Invalid vector sizes for X and Y -> X size = " + str(X.shape) + " while Y size = " + str(Y.shape) + ".")
+    n_x, m_x = X.shape
+    n_y, m_y = Y.shape
+    if m_x != m_y:
+        raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
 
-    weights = initializeWeights(n_x, n_y, layerSizes)
-    numLayers = len(layerSizes)
+    weights = initialize_weights(n_x, n_y, layer_sizes)
+    num_layers = len(layer_sizes)
 
-    return newtonMethod(X, Y, weights, learningRate, numLayers, max_iter, plotN)
+    return newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
 
 # Sigmoid activation function
 def sigmoid(t):
     return 1/(1+np.exp(-t))
 
 # Initializes weights for each layer
-def initializeWeights(n_x, n_y, layerSizes, scaler = 0.1, seed = None):
+def initialize_weights(n_x, n_y, layer_sizes, scaler = 0.1, seed = None):
     
     np.random.seed(seed)
     
     weights = {}
-    n_hPrev = n_x
-    for i in range(len(layerSizes)):
-        n_h = layerSizes[i]
-        weights['W'+str(i+1)] = np.random.randn(n_h, n_hPrev)*scaler
+    n_h_prev = n_x
+    for i in range(len(layer_sizes)):
+        n_h = layer_sizes[i]
+        weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*scaler
         weights['b'+str(i+1)] = np.zeros((n_h,1))
-        n_hPrev = n_h
+        n_h_prev = n_h
     
-    weights['W'+str(len(layerSizes)+1)] = np.random.random((n_y, n_hPrev))*scaler
-    weights['b'+str(len(layerSizes)+1)] = np.zeros((n_y,1))
+    weights['W'+str(len(layer_sizes)+1)] = np.random.random((n_y, n_h_prev))*scaler
+    weights['b'+str(len(layer_sizes)+1)] = np.zeros((n_y,1))
 
     np.random.seed(None)
     
@@ -53,34 +53,34 @@ def aprox_pos_def(A):
     return B
 
 # Performs foward propagation
-def forwardPropagation(weights, X, numLayers):
+def forward_propagation(weights, X, num_layers):
 
     # Cache for A
-    Avals = {}
-    AiPrev = np.copy(X)
-    for i in range(numLayers+1):
+    A_vals = {}
+    Ai_prev = np.copy(X)
+    for i in range(num_layers+1):
         
         Wi = weights['W'+str(i+1)]
         bi = weights['b'+str(i+1)]
         
-        Zi = np.dot(Wi, AiPrev) + bi
+        Zi = np.dot(Wi, Ai_prev) + bi
         Ai = sigmoid(Zi)
 
-        Avals['A'+str(i+1)] = Ai
-        AiPrev = np.copy(Ai)
+        A_vals['A'+str(i+1)] = Ai
+        Ai_prev = np.copy(Ai)
 
-    return Avals
+    return A_vals
     
 
 # Newton method for training a neural network
-def newtonMethod(X, Y, weights, learningRate, numLayers, max_iter, plotN):
+def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
     
     # Cache for ploting cost
     cost = []
     iteration = []
 
     # Cache for minimum cost and best weights
-    bestWeights = weights.copy()
+    best_weights = weights.copy()
     minCost = np.inf
 
     # Init break_code = 0
@@ -88,67 +88,67 @@ def newtonMethod(X, Y, weights, learningRate, numLayers, max_iter, plotN):
     for it in range(max_iter):
 
         # Forward propagation
-        Avals = forwardPropagation(weights, X, numLayers)
+        A_vals = forward_propagation(weights, X, num_layers)
 
         # Evaluates cost fucntion
-        AL = np.copy(Avals['A'+str(numLayers+1)])
-        lossFunc = -(Y*np.log(AL) + (1-Y)*np.log(1-AL))
-        costFunc = np.mean(lossFunc)
+        AL = np.copy(A_vals['A'+str(num_layers+1)])
+        loss_func = -(Y*np.log(AL) + (1-Y)*np.log(1-AL))
+        cost_func = np.mean(loss_func)
 
         # Updates best weights
-        if costFunc < minCost:
-            bestWeights = weights.copy()
-            minCost = costFunc
+        if cost_func < minCost:
+            best_weights = weights.copy()
+            minCost = cost_func
             
-        # Caches cost function every plotN iterations
-        if it%plotN == 0:
-            cost.append(costFunc)
+        # Caches cost function every plot_N iterations
+        if it%plot_N == 0:
+            cost.append(cost_func)
             iteration.append(it)
 
         # "Backward" propagation (Newton-Raphson's Method) loop
-        for i in range(numLayers+1, 0, -1):
+        for i in range(num_layers+1, 0, -1):
 
             # Gets current layer weights
             Wi = np.copy(weights['W'+str(i)])
             bi = np.copy(weights['b'+str(i)])
-            Ai = np.copy(Avals['A'+str(i)])
+            Ai = np.copy(A_vals['A'+str(i)])
 
-            # If on the first layer, APrev = X; else APrev = Ai-1
+            # If on the first layer, A_prev = X; else A_prev = Ai-1
             if i == 1:
-                APrev = np.copy(X)
+                A_prev = np.copy(X)
             else:
-                APrev = np.copy(Avals['A'+str(i-1)])
+                A_prev = np.copy(A_vals['A'+str(i-1)])
 
             # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * (Ai*(1-Ai))
-            if i == numLayers+1:
+            if i == num_layers+1:
                 dZi = (Ai - Y)  # /(Ai * (1 - Ai)) ???
             else:
                 dZi = np.dot(Wnxt.T, dZnxt) * Ai * (1 - Ai)
 
-            # Calculates gradient vector (actually a matrix) of i-th layer
-            m = APrev.shape[1]
-            gradVecti = np.dot(APrev, dZi.T)/m
-            gradbi = np.sum(dZi, axis = 1, keepdims = 1)/m
-            gradVecti = np.append(gradVecti, gradbi.T, axis = 0)
+            # Calculates grad_ient vector (actually a matrix) of i-th layer
+            m = A_prev.shape[1]
+            grad_vecti = np.dot(A_prev, dZi.T)/m
+            grad_bi = np.sum(dZi, axis = 1, keepdims = 1)/m
+            grad_vecti = np.append(grad_vecti, grad_bi.T, axis = 0)
 
             # Performs newton method on each node of i-th layer
             try:
                 for j in range(len(Ai)):
                     
-                    # Creates hessian matrix for node j in layer i
-                    hessMatxi = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T) * np.dot(APrev, APrev.T)/m
-                    hessbipar = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T) * np.dot(APrev, np.ones((APrev.shape[1],1)))/m
-                    hessbi = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T)/m
-                    hessMatxi = np.concatenate((hessMatxi, hessbipar), axis = 1)
-                    hessbipar = np.concatenate((hessbipar, hessbi), axis = 0)
-                    hessMatxi = np.concatenate((hessMatxi, hessbipar.T), axis = 0)
-                    hessMatxi = aprox_pos_def(hessMatxi)
+                    # Creates hess_ian matrix for node j in layer i
+                    hess_Matxi = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T) * np.dot(A_prev, A_prev.T)/m
+                    hess_bipar = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T) * np.dot(A_prev, np.ones((A_prev.shape[1],1)))/m
+                    hess_bi = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T)/m
+                    hess_Matxi = np.concatenate((hess_Matxi, hess_bipar), axis = 1)
+                    hess_bipar = np.concatenate((hess_bipar, hess_bi), axis = 0)
+                    hess_Matxi = np.concatenate((hess_Matxi, hess_bipar.T), axis = 0)
+                    hess_Matxi = aprox_pos_def(hess_Matxi)
 
                     # Creates descent direction for layer i
                     if j == 0:
-                        deltai = np.linalg.solve(hessMatxi, np.array([gradVecti[:,j]]).T).T
+                        deltai = np.linalg.solve(hess_Matxi, np.array([grad_vecti[:,j]]).T).T
                     else:
-                        deltai = np.append(deltai, np.linalg.solve(hessMatxi, np.array([gradVecti[:,j]]).T).T, axis = 0)
+                        deltai = np.append(deltai, np.linalg.solve(hess_Matxi, np.array([grad_vecti[:,j]]).T).T, axis = 0)
             except:
                 print("Singular matrix found when calculating descent direction; terminating computation.")
                 break_code = 1
@@ -163,13 +163,13 @@ def newtonMethod(X, Y, weights, learningRate, numLayers, max_iter, plotN):
             Wnxt = np.copy(Wi)     
 
             # Updates weights and biases
-            Wi = Wi - learningRate*dWi
-            bi = bi - learningRate*dbi
+            Wi = Wi - learning_rate*dWi
+            bi = bi - learning_rate*dbi
             weights['W'+str(i)] = Wi
             weights['b'+str(i)] = bi
 
-        # Plot cost every plotN iterations
-        if it % plotN == 0:
+        # Plot cost every plot_N iterations
+        if it % plot_N == 0:
             plt.clf()
             plt.plot(iteration, cost, color = 'b')
             plt.xlabel("Iteration")
@@ -181,10 +181,10 @@ def newtonMethod(X, Y, weights, learningRate, numLayers, max_iter, plotN):
 
         # Early breaking condition met
         if break_code:
-            AL = Avals['A'+str(numLayers+1)]
-            lossFunc = -(Y*np.log(AL) + (1-Y)*np.log(1-AL))
-            costFunc = np.mean(lossFunc)
-            cost.append(costFunc)
+            AL = A_vals['A'+str(num_layers+1)]
+            loss_func = -(Y*np.log(AL) + (1-Y)*np.log(1-AL))
+            cost_func = np.mean(loss_func)
+            cost.append(cost_func)
             iteration.append(it)
             break
 
@@ -196,13 +196,13 @@ def newtonMethod(X, Y, weights, learningRate, numLayers, max_iter, plotN):
     plt.title("Newton-Raphson Descent for Cost Function")
     plt.show(block = 0)
 
-    return bestWeights
+    return best_weights
 
 # Predicts if X vector tag is 1 or 0
-def predict(weights, X, numLayers):
+def predict(weights, X, num_layers):
 
-    A = forwardPropagation(weights, X, numLayers)
-    A = A['A'+str(numLayers+1)]
+    A = forward_propagation(weights, X, num_layers)
+    A = A['A'+str(num_layers+1)]
 
     return (A > 0.5)
 
@@ -229,7 +229,7 @@ def example():
     y_test = np.array([y_test])
 
     layers = [5, 5, 5]
-    weights = model(X_train, y_train, layers, 0.1, max_iter = 500, plotN = 10)
+    weights = model(X_train, y_train, layers, 0.1, max_iter = 500, plot_N = 10)
     
     pred = predict(weights, X_train, len(layers))
     percnt = 0
