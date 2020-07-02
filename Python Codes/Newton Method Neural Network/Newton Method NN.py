@@ -121,7 +121,7 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
 
             # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * (Ai*(1-Ai))
             if i == num_layers+1:
-                dZi = (Ai - Y)  # /(Ai * (1 - Ai)) ???
+                dZi = Ai - Y  # /(Ai * (1 - Ai)) ???
             else:
                 dZi = np.dot(Wnxt.T, dZnxt) * Ai * (1 - Ai)
 
@@ -149,7 +149,7 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
                         deltai = np.linalg.solve(hess_Matxi, np.array([grad_vecti[:,j]]).T).T
                     else:
                         deltai = np.append(deltai, np.linalg.solve(hess_Matxi, np.array([grad_vecti[:,j]]).T).T, axis = 0)
-            except:
+            except Exception:
                 print("Singular matrix found when calculating descent direction; terminating computation.")
                 break_code = 1
                 break
@@ -158,13 +158,13 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
             dWi = deltai[:,:-1]
             dbi = np.array([deltai[:,-1]]).T
 
-            # Cache dZi, Wi, bi
+            # Cache dZi, Wi
             dZnxt = np.copy(dZi)
             Wnxt = np.copy(Wi)     
 
             # Updates weights and biases
-            Wi = Wi - learning_rate*dWi
-            bi = bi - learning_rate*dbi
+            Wi -= learning_rate*dWi
+            bi -= learning_rate*dbi
             weights['W'+str(i)] = Wi
             weights['b'+str(i)] = bi
 
@@ -204,7 +204,7 @@ def predict(weights, X, num_layers):
     A = forward_propagation(weights, X, num_layers)
     A = A['A'+str(num_layers+1)]
 
-    return (A > 0.5)
+    return A > 0.5
 
 def example():
 
