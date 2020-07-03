@@ -163,8 +163,8 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
             Wnxt = np.copy(Wi)     
 
             # Updates weights and biases
-            Wi -= learning_rate*dWi
-            bi -= learning_rate*dbi
+            Wi = Wi - learning_rate*dWi
+            bi = bi - learning_rate*dbi
             weights['W'+str(i)] = Wi
             weights['b'+str(i)] = bi
 
@@ -221,7 +221,7 @@ def example():
     X = scaler.transform(X)
     y = data[1]
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
     
     X_train = X_train.T
     X_test = X_test.T
@@ -229,6 +229,7 @@ def example():
     y_test = np.array([y_test])
 
     layers = [5, 5, 5]
+    layers = [10, 10, 10]
     weights = model(X_train, y_train, layers, 0.1, max_iter = 500, plot_N = 10)
     
     pred = predict(weights, X_train, len(layers))
