@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Fits for X and Y
-def model(X, Y, layer_sizes, learning_rate, L2, max_iter = 100, plot_N = 100):
+def model(X, Y, layer_sizes, learning_rate, L2 = 0, max_iter = 100, plot_N = 100):
 
     n_x, m_x = X.shape
     n_y, m_y = Y.shape
