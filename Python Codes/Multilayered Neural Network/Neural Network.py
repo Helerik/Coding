@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Fits for X and Y
-def model(X, Y, layer_sizes, learning_rate, max_iter = 100, plot_N = 100):
+def model(X, Y, layer_sizes, learning_rate, L2 = 0, max_iter = 100, plot_N = 100):
 
     n_x, m_x = X.shape
     n_y, m_y = Y.shape
@@ -15,7 +15,7 @@ def model(X, Y, layer_sizes, learning_rate, max_iter = 100, plot_N = 100):
     weights = initialize_weights(n_x, n_y, layer_sizes)
     num_layers = len(layer_sizes)
 
-    return gradient_descent(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
+    return gradient_descent(X, Y, weights, learning_rate, L2, num_layers, max_iter, plot_N)
 
 # Sigmoid activation function
 def sigmoid(t):
@@ -62,7 +62,10 @@ def forward_propagation(weights, X, num_layers):
     
 
 # Newton method for training a neural network
-def gradient_descent(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
+def gradient_descent(X, Y, weights, learning_rate, L2, num_layers, max_iter, plot_N):
+
+    # Initialize constant m
+    m = X.shape[1]
     
     # Cache for ploting cost
     cost = []
@@ -84,6 +87,14 @@ def gradient_descent(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
         loss_func = -(Y*np.log(AL) + (1-Y)*np.log(1-AL))
         cost_func = np.mean(loss_func)
 
+        # Evaluates regularization
+        if L2 > 0:
+            L2_reg = 0
+            for i in range(1, num_layers+1):
+                L2_reg += np.sum(np.square(weights['W'+str(i)]))
+            L2_reg *= L2/(2*m)
+            cost_func += L2_reg
+        
         # Updates best weights
         if cost_func < min_cost:
             best_weights = weights.copy()
@@ -114,8 +125,7 @@ def gradient_descent(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
                 dZi = np.dot(Wnxt.T, dZnxt) * Ai * (1 - Ai)
 
             # Calculates dWi and dbi
-            m = A_prev.shape[1]
-            dWi = np.dot(A_prev, dZi.T)/m
+            dWi = np.dot(A_prev, dZi.T)/m + (L2/m)*Wi.T
             dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
 
             # Cache dZi, Wi
@@ -189,7 +199,7 @@ def example():
     y_test = np.array([y_test])
 
     layers = [10,10]
-    weights = model(X_train, y_train, layers, 0.1, max_iter = 500, plot_N = 10)
+    weights = model(X_train, y_train, layers, 0.1, L2 = 0, max_iter = 500, plot_N = 10)
     
     pred = predict(weights, X_train, len(layers))
     percnt = 0
