@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # Author: Erik Davino Vincent
 
-# Almost pure Newton-Raphson method implementation for a neural network
-
 import numpy as np
 import matplotlib.pyplot as plt
 
