@@ -228,7 +228,6 @@ def example():
     y_train = np.array([y_train])
     y_test = np.array([y_test])
 
-    layers = [5, 5, 5]
     layers = [10, 10, 10]
     weights = model(X_train, y_train, layers, 0.1, max_iter = 500, plot_N = 10)
     
