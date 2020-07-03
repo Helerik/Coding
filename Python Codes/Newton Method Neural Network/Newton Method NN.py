@@ -24,7 +24,7 @@ def sigmoid(t):
     return 1/(1+np.exp(-t))
 
 # Initializes weights for each layer
-def initialize_weights(n_x, n_y, layer_sizes, scaler = 0.1, seed = None):
+def initialize_weights(n_x, n_y, layer_sizes, seed = None):
     
     np.random.seed(seed)
     
@@ -32,11 +32,11 @@ def initialize_weights(n_x, n_y, layer_sizes, scaler = 0.1, seed = None):
     n_h_prev = n_x
     for i in range(len(layer_sizes)):
         n_h = layer_sizes[i]
-        weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*scaler
+        weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(1/n_h_prev)
         weights['b'+str(i+1)] = np.zeros((n_h,1))
         n_h_prev = n_h
     
-    weights['W'+str(len(layer_sizes)+1)] = np.random.random((n_y, n_h_prev))*scaler
+    weights['W'+str(len(layer_sizes)+1)] = np.random.random((n_y, n_h_prev))*np.sqrt(1/n_h_prev)
     weights['b'+str(len(layer_sizes)+1)] = np.zeros((n_y,1))
 
     np.random.seed(None)
@@ -230,6 +230,8 @@ def example():
 
     layers = [10, 10, 10]
     weights = model(X_train, y_train, layers, 0.1, max_iter = 500, plot_N = 10)
+    layers = [10,10,10]
+    weights = model(X_train, y_train, layers, 0.5, max_iter = 500, plot_N = 10)
     
     pred = predict(weights, X_train, len(layers))
     percnt = 0
