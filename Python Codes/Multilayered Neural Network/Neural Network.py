@@ -17,7 +17,7 @@ def model(X, Y, layer_sizes, learning_rate, max_iter = 100, plot_N = 100):
     weights = initialize_weights(n_x, n_y, layer_sizes)
     num_layers = len(layer_sizes)
 
-    return newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
+    return gradient_descent(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
 
 # Sigmoid activation function
 def sigmoid(t):
@@ -64,7 +64,7 @@ def forward_propagation(weights, X, num_layers):
     
 
 # Newton method for training a neural network
-def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
+def gradient_descent(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
     
     # Cache for ploting cost
     cost = []
@@ -115,7 +115,7 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
             else:
                 dZi = np.dot(Wnxt.T, dZnxt) * Ai * (1 - Ai)
 
-            # Calculates grad_ient vector (actually a matrix) of i-th layer
+            # Calculates dWi and dbi
             m = A_prev.shape[1]
             dWi = np.dot(A_prev, dZi.T)/m
             dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
