@@ -134,7 +134,7 @@ def gradient_descent(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
             plt.plot(iteration, cost, color = 'b')
             plt.xlabel("Iteration")
             plt.ylabel("Cost Function")
-            plt.title("Newton-Raphson Descent for Cost Function")
+            plt.title("Gradient Descent for Cost Function")
             plt.pause(0.001)
             
         # End of backprop loop ==================================================
