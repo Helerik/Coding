@@ -14,7 +14,7 @@ def model(X, Y, layer_sizes, learning_rate, max_iter = 100, plot_N = 100):
     if m_x != m_y:
         raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
 
-    weights = initialize_weights(n_x, n_y, layer_sizes)
+    weights = initialize_weights(n_x, n_y, layer_sizes, seed = 1)
     num_layers = len(layer_sizes)
 
     return newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N)
@@ -125,17 +125,20 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
             else:
                 dZi = np.dot(Wnxt.T, dZnxt) * Ai * (1 - Ai)
 
-            # Calculates grad_ient vector (actually a matrix) of i-th layer
+            # Calculates gradient vector (actually a matrix) of i-th layer
             m = A_prev.shape[1]
             grad_vecti = np.dot(A_prev, dZi.T)/m
             grad_bi = np.sum(dZi, axis = 1, keepdims = 1)/m
             grad_vecti = np.append(grad_vecti, grad_bi.T, axis = 0)
 
+            print(grad_vecti)
+            input()
+
             # Performs newton method on each node of i-th layer
             try:
                 for j in range(len(Ai)):
-                    
-                    # Creates hess_ian matrix for node j in layer i
+                        
+                    # Creates hessian matrix for node j in layer i
                     hess_Matxi = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T) * np.dot(A_prev, A_prev.T)/m
                     hess_bipar = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T) * np.dot(A_prev, np.ones((A_prev.shape[1],1)))/m
                     hess_bi = np.dot(np.array([Ai[j]]), (1-np.array([Ai[j]])).T)/m
@@ -143,13 +146,14 @@ def newton_method(X, Y, weights, learning_rate, num_layers, max_iter, plot_N):
                     hess_bipar = np.concatenate((hess_bipar, hess_bi), axis = 0)
                     hess_Matxi = np.concatenate((hess_Matxi, hess_bipar.T), axis = 0)
                     hess_Matxi = aprox_pos_def(hess_Matxi)
-
+                        
                     # Creates descent direction for layer i
                     if j == 0:
                         deltai = np.linalg.solve(hess_Matxi, np.array([grad_vecti[:,j]]).T).T
                     else:
                         deltai = np.append(deltai, np.linalg.solve(hess_Matxi, np.array([grad_vecti[:,j]]).T).T, axis = 0)
-            except Exception:
+            except Exception as e:
+                print(e)
                 print("Singular matrix found when calculating descent direction; terminating computation.")
                 break_code = 1
                 break
@@ -228,7 +232,7 @@ def example():
     y_train = np.array([y_train])
     y_test = np.array([y_test])
 
-    layers = [5, 5, 5]
+    layers = [4, 3, 2]
     weights = model(X_train, y_train, layers, 0.1, max_iter = 500, plot_N = 10)
     
     pred = predict(weights, X_train, len(layers))
