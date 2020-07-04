@@ -145,8 +145,6 @@ class NeuralNetwork():
         self.best_weights = self.weights.copy()
         min_cost = np.inf
 
-        # Init break_code = 0
-        break_code = 0
         for it in range(self.max_iter):
 
             # Forward propagation
