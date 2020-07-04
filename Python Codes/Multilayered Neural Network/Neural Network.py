@@ -11,7 +11,10 @@ class NeuralNetwork():
                  layer_sizes = [5,5],
                  learning_rate = 0.01,
                  L2 = 0, max_iter = 200,
+                 beta1 = 0,
+                 beta2 = 0,
                  activation = 'sigmoid',
+                 epsilon = 1e-8,
                  plot_N = None):
 
         # Structural variables
@@ -19,6 +22,9 @@ class NeuralNetwork():
         self.num_layers = len(layer_sizes) + 1
         self.learning_rate = learning_rate
         self.L2 = L2
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.epsilon = epsilon
         self.max_iter = max_iter
         self.plot_N = plot_N
 
@@ -48,11 +54,36 @@ class NeuralNetwork():
         self.X = None
         self.Y = None
         self.m = None
-        
+
         self.weights = {}
         self.best_weights = {}
         self.A_vals = {}
         self.Z_vals = {}
+        self.V_vals = {}
+        self.S_vals = {}
+        
+
+    # Initializes momentum for each layer
+    def __initialize_momentum(self, n_x, n_y):
+        
+        n_h_prev = n_x
+        for i in range(self.num_layers - 1):
+            n_h = self.layer_sizes[i]
+            
+            self.V_vals["VdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
+            self.V_vals["Vdb"+str(i+1)] = np.zeros((n_h,1))
+            
+            self.S_vals["SdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
+            self.S_vals["Sdb"+str(i+1)] = np.zeros((n_h,1))
+            
+            n_h_prev = n_h
+        
+        self.V_vals["VdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
+        self.V_vals["Vdb"+str(self.num_layers)] = np.zeros((n_y,1))
+        
+        self.S_vals["SdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
+        self.S_vals["Sdb"+str(self.num_layers)] = np.zeros((n_y,1))
+        
 
     # Initializes weights for each layer
     def __initialize_weights(self, n_x, n_y):
@@ -60,11 +91,11 @@ class NeuralNetwork():
         n_h_prev = n_x
         for i in range(self.num_layers - 1):
             n_h = self.layer_sizes[i]
-            self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(1/n_h_prev)
+            self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
             self.weights['b'+str(i+1)] = np.zeros((n_h,1))
             n_h_prev = n_h
         
-        self.weights['W'+str(self.num_layers)] = np.random.random((n_y, n_h_prev))*np.sqrt(1/n_h_prev)
+        self.weights['W'+str(self.num_layers)] = np.random.random((n_y, n_h_prev))*np.sqrt(2/n_h_prev)
         self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
     
 
@@ -80,6 +111,7 @@ class NeuralNetwork():
             self.weights = self.best_weights
         else:
             self.__initialize_weights(n_x, n_y)
+        self.__initialize_momentum(n_x, n_y)
 
         self.X = X
         self.Y = Y
@@ -97,7 +129,7 @@ class NeuralNetwork():
             bi = self.weights['b'+str(i+1)]
             
             Zi = np.dot(Wi, Ai_prev) + bi
-            Ai = self.activation[i].function(Zi)
+            Ai = self.activation[i].function(Zi)       
 
             self.A_vals['A'+str(i+1)] = Ai
             self.Z_vals['Z'+str(i+1)] = Zi
@@ -144,7 +176,7 @@ class NeuralNetwork():
         # Cache for minimum cost and best weights
         self.best_weights = self.weights.copy()
         min_cost = np.inf
-
+        
         for it in range(self.max_iter):
 
             # Forward propagation
@@ -180,6 +212,14 @@ class NeuralNetwork():
                 Ai = np.copy(self.A_vals['A'+str(i)])
                 Zi = np.copy(self.Z_vals['Z'+str(i)])
 
+                # Gets momentum
+                VdWi = np.copy(self.V_vals["VdW"+str(i)])
+                Vdbi = np.copy(self.V_vals["Vdb"+str(i)])
+
+                # Gets RMSprop
+                SdWi = np.copy(self.S_vals["SdW"+str(i)])
+                Sdbi = np.copy(self.S_vals["Sdb"+str(i)])
+
                 # If on first layer, Ai_prev = X itself
                 if i == 1:
                     Ai_prev = np.copy(self.X)
@@ -198,12 +238,26 @@ class NeuralNetwork():
 
                 # Cache dZi, Wi
                 dZnxt = np.copy(dZi)
-                Wnxt = np.copy(Wi)     
+                Wnxt = np.copy(Wi)
+
+                # Updates momentum
+                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
+                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
+
+                self.V_vals["VdW"+str(i)] = VdWi
+                self.V_vals["Vdb"+str(i)] = Vdbi
+
+                # Updates RMSprop
+                SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
+                Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+
+                self.S_vals["SdW"+str(i)] = SdWi
+                self.S_vals["Sdb"+str(i)] = Sdbi
 
                 # Updates weights and biases
-                Wi = Wi - self.learning_rate*dWi.T
-                bi = bi - self.learning_rate*dbi
-                
+                Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
+                bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
+
                 self.weights['W'+str(i)] = Wi
                 self.weights['b'+str(i)] = bi
                 
@@ -224,6 +278,7 @@ class NeuralNetwork():
             plt.title(f"Cost Function after {iteration[-1]} iterations:")
             plt.show(block = 0)
 
+        # Reset variables
         self.X = None
         self.Y = None
         self.m = None
@@ -231,6 +286,8 @@ class NeuralNetwork():
         self.weights = {}
         self.A_vals = {}
         self.Z_vals = {}
+        self.V_vals = {}
+        self.S_vals = {}
 
     # Predicts if X vector tag is 1 or 0
     def predict(self, X):
@@ -292,12 +349,15 @@ class LeakyTanh():
 class ReLu():
 
     @classmethod
-    def function(cls, t, leak = 0.0):
-        return np.maximum(t*leak, t)
+    def function(cls, t, leak = 0.1):
+        return np.maximum(t, leak)
 
     @classmethod
-    def derivative(cls, t, leak = 0.0):
-        return np.where(t > 0, 1.0, leak)
+    def derivative(cls, t, leak = 0.1):
+        dt = np.copy(t)
+        dt[t <= 0] = leak
+        dt[t > 0] = 1
+        return dt
 
 def example():
 
@@ -322,11 +382,13 @@ def example():
     y_test = np.array([y_test])
 
     clf = NeuralNetwork(
-        layer_sizes = [20,20,20,20],
-        learning_rate = 0.1,
+        layer_sizes = [10,10,10,10],
+        learning_rate = 0.01,
         L2 = 0,
+        beta1 = 0.9,
+        beta2 = 0.999,
         max_iter = 500,
-        activation = 'tanh',
+        activation = ['sigmoid', 'relu', 'relu', 'ltanh'],
         plot_N = 20)
 
     clf.fit(X_train, y_train)
