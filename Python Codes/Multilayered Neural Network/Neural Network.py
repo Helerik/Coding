@@ -7,7 +7,12 @@ import matplotlib.pyplot as plt
 class NeuralNetwork():
 
     # Initializes Neural Network structure
-    def __init__(self, layer_sizes = [1], learning_rate = 0.01, L2 = 0, max_iter = 200, activation = 'sigmoid', plot_N = None):
+    def __init__(self,
+                 layer_sizes = [5,5],
+                 learning_rate = 0.01,
+                 L2 = 0, max_iter = 200,
+                 activation = 'sigmoid',
+                 plot_N = None):
 
         # Structural variables
         self.layer_sizes = layer_sizes
@@ -17,20 +22,27 @@ class NeuralNetwork():
         self.max_iter = max_iter
         self.plot_N = plot_N
 
-        # Activation function
+        # Activation function can be string or list
         if isinstance(activation, str):
             if activation.lower() == 'sigmoid':
-                self.activation = Sigmoid
+                self.activation = [Sigmoid for _ in range(self.num_layers-1)]
             elif activation.lower() == 'tanh':
-                self.activation = Tanh
-            elif activation.lower() == 'ltanh' \
-            or activation.lower() == 'l-tanh' \
-            or activation.lower() == 'leakytanh' \
-            or activation.lower() == 'leaky tanh' \
-            or activation.lower() == 'leaky-tanh':
-                self.activation = LeakyTanh
+                self.activation = [Tanh for _ in range(self.num_layers-1)]
+            elif activation.lower() == 'ltanh':
+                self.activation = [LeakyTanh for _ in range(self.num_layers-1)]
             elif activation.lower() == 'relu':
-                self.activation = ReLu
+                self.activation = [ReLu for _ in range(self.num_layers-1)]
+        else:      
+            for i in range(len(activation)):
+                if activation[i].lower() == 'sigmoid':
+                    activation[i] = Sigmoid
+                elif activation[i].lower() == 'tanh':
+                    activation[i] = Tanh
+                elif activation[i].lower() == 'ltanh':
+                    activation[i] = LeakyTanh
+                elif activation[i].lower() == 'relu':
+                    activation[i] = ReLu
+            self.activation = activation
 
         # Variable variables
         self.X = None
@@ -57,14 +69,17 @@ class NeuralNetwork():
     
 
     # Fits for X and Y
-    def fit(self, X, Y):
+    def fit(self, X, Y, warm_start = False):
         
         n_x, m_x = X.shape
         n_y, m_y = Y.shape
         if m_x != m_y:
             raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
 
-        self.__initialize_weights(n_x, n_y)
+        if warm_start and self.best_weights:
+            self.weights = self.best_weights
+        else:
+            self.__initialize_weights(n_x, n_y)
 
         self.X = X
         self.Y = Y
@@ -82,7 +97,7 @@ class NeuralNetwork():
             bi = self.weights['b'+str(i+1)]
             
             Zi = np.dot(Wi, Ai_prev) + bi
-            Ai = self.activation.function(Zi)
+            Ai = self.activation[i].function(Zi)
 
             self.A_vals['A'+str(i+1)] = Ai
             self.Z_vals['Z'+str(i+1)] = Zi
@@ -158,7 +173,6 @@ class NeuralNetwork():
                     plt.title(f"Cost Function after {iteration[-1]} iterations:")
                     plt.pause(0.001)
 
-
             # Backward propagation
             for i in range(self.num_layers, 0, -1):
 
@@ -178,7 +192,7 @@ class NeuralNetwork():
                 if i == self.num_layers:
                     dZi = Ai - self.Y
                 else:
-                    dZi = np.dot(Wnxt.T, dZnxt) * self.activation.derivative(Zi)
+                    dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
 
                 # Calculates dWi and dbi
                 dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
@@ -218,21 +232,28 @@ class NeuralNetwork():
 
         self.weights = {}
         self.A_vals = {}
+        self.Z_vals = {}
 
     # Predicts if X vector tag is 1 or 0
     def predict(self, X):
 
         Ai_prev = np.copy(X)
-        for i in range(self.num_layers):
+        for i in range(self.num_layers - 1):
             
             Wi = self.best_weights['W'+str(i+1)]
             bi = self.best_weights['b'+str(i+1)]
             
             Zi = np.dot(Wi, Ai_prev) + bi
-            Ai = Ai = self.activation.function(Zi)
+            Ai = Ai = self.activation[i].function(Zi)
 
-            self.A_vals['A'+str(i+1)] = Ai
             Ai_prev = np.copy(Ai)
+
+        # Last layer always receives sigmoid
+        Wi = self.best_weights['W'+str(self.num_layers)]
+        bi = self.best_weights['b'+str(self.num_layers)]
+        
+        Zi = np.dot(Wi, Ai_prev) + bi
+        Ai = Sigmoid.function(Zi)
 
         return Ai > 0.5
 
@@ -307,7 +328,7 @@ def example():
         learning_rate = 0.1,
         L2 = 0,
         max_iter = 500,
-        activation = 'relu',
+        activation = 'tanh',
         plot_N = 20)
 
     clf.fit(X_train, y_train)
