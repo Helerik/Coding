@@ -11,7 +11,8 @@ class NeuralNetwork():
                  layer_sizes = [5,5],
                  learning_rate = 0.01,
                  L2 = 0, max_iter = 200,
-                 momentum = 0,
+                 beta1 = 0,
+                 beta2 = 0,
                  activation = 'sigmoid',
                  plot_N = None):
 
@@ -20,7 +21,8 @@ class NeuralNetwork():
         self.num_layers = len(layer_sizes) + 1
         self.learning_rate = learning_rate
         self.L2 = L2
-        self.momentum = momentum
+        self.beta1 = beta1
+        self.beta2 = beta2
         self.max_iter = max_iter
         self.plot_N = plot_N
 
@@ -56,19 +58,21 @@ class NeuralNetwork():
         self.A_vals = {}
         self.Z_vals = {}
         self.V_vals = {}
+        self.S_vals = {}
 
-    # Initializes momentum for each layer
-    def __initialize_momentum(self, n_x, n_y):
+    # Initializes beta1 for each layer
+    def __initialize_beta(self, n_x, n_y):
         
         n_h_prev = n_x
         for i in range(self.num_layers - 1):
             n_h = self.layer_sizes[i]
-            self.V_vals["VdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
-            self.V_vals["Vdb"+str(i+1)] = np.zeros((n_h,1))
+            self.V_vals["VdW"+str(i+1)], self.S_vals["SdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
+            self.V_vals["Vdb"+str(i+1)], self.S_vals["Sdb"+str(i+1)] = np.zeros((n_h,1))
             n_h_prev = n_h
         
-        self.V_vals["VdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
-        self.V_vals["Vdb"+str(self.num_layers)] = np.zeros((n_y,1))
+        self.V_vals["VdW"+str(self.num_layers)], self.S_vals["SdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
+        self.V_vals["Vdb"+str(self.num_layers)], self.S_vals["Sdb"+str(self.num_layers)] = np.zeros((n_y,1))
+
 
     # Initializes weights for each layer
     def __initialize_weights(self, n_x, n_y):
@@ -96,7 +100,7 @@ class NeuralNetwork():
             self.weights = self.best_weights
         else:
             self.__initialize_weights(n_x, n_y)
-        self.__initialize_momentum(n_x, n_y)
+        self.__initialize_beta(n_x, n_y)
 
         self.X = X
         self.Y = Y
@@ -197,9 +201,13 @@ class NeuralNetwork():
                 Ai = np.copy(self.A_vals['A'+str(i)])
                 Zi = np.copy(self.Z_vals['Z'+str(i)])
 
-                # Gets momentum
-                VdWi = self.V_vals["VdW"+str(i)]
-                Vdbi = self.V_vals["Vdb"+str(i)]
+                # Gets beta1
+                VdWi = np.copy(self.V_vals["VdW"+str(i)])
+                Vdbi = np.copy(self.V_vals["Vdb"+str(i)])
+
+                # Gets beta2
+                SdWi = np.copy(self.S_vals["SdW"+str(i)])
+                Sdbi = np.copy(self.S_vals["Sdb"+str(i)])
 
                 # If on first layer, Ai_prev = X itself
                 if i == 1:
@@ -221,12 +229,19 @@ class NeuralNetwork():
                 dZnxt = np.copy(dZi)
                 Wnxt = np.copy(Wi)
 
-                # Updates momentum
-                VdWi = self.momentum*VdWi + (1-self.momentum)*dWi.T
-                Vdbi = self.momentum*Vdbi + (1-self.momentum)*dbi
+                # Updates beta1
+                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
+                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
 
                 self.V_vals["VdW"+str(i)] = VdWi
                 self.V_vals["Vdb"+str(i)] = Vdbi
+
+                # Updates beta2
+                SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
+                Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+
+                self.S_vals["SdW"+str(i)] = SdWi
+                self.S_vals["Sdb"+str(i)] = Sdbi
 
                 # Updates weights and biases
                 Wi = Wi - self.learning_rate*VdWi
@@ -355,7 +370,7 @@ def example():
         layer_sizes = [20,10],
         learning_rate = 0.1,
         L2 = 0,
-        momentum = 0.9,
+        beta1 = 0.9,
         max_iter = 500,
         activation = 'tanh',
         plot_N = 20)
