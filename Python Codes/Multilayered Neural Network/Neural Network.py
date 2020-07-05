@@ -16,6 +16,7 @@ class NeuralNetwork():
                  activation = 'sigmoid',
                  epsilon = 1e-8,
                  minibatch_size = None,
+                 classification = 'binary'
                  plot_N = None):
 
         # Structural variables
@@ -28,6 +29,7 @@ class NeuralNetwork():
         self.epsilon = epsilon
         self.minibatch_size = minibatch_size
         self.max_iter = max_iter
+        self.classification = classification.lower()
         self.plot_N = plot_N
 
         # Activation function can be string or list
@@ -78,7 +80,7 @@ class NeuralNetwork():
         self.training_status = "Untrained"
 
     def __str__(self):
-        return f"""Neural Network ({self.training_status}):
+        return f"""{self.classification.capitalize()} Neural Network ({self.training_status}):
 
 Layer Size Structure:          {np.array(self.layer_sizes)}
 Activation Function Structure: {self._activation_str}
@@ -362,7 +364,7 @@ Max Iterations:                {self.max_iter}"""
         self.V_vals = {}
         self.S_vals = {}
 
-    # Predicts if X vector tag is 1 or 0
+    # Predicts X vector tag
     def predict(self, X):
 
         Ai_prev = np.copy(X)
@@ -376,14 +378,19 @@ Max Iterations:                {self.max_iter}"""
 
             Ai_prev = np.copy(Ai)
 
-        # Last layer always receives sigmoid
         Wi = self.best_weights['W'+str(self.num_layers)]
         bi = self.best_weights['b'+str(self.num_layers)]
-        
-        Zi = np.dot(Wi, Ai_prev) + bi
-        Ai = Sigmoid.function(Zi)
 
-        return Ai > 0.5
+        # Last layer always receives sigmoid or softmax
+        Zi = np.dot(Wi, Ai_prev) + bi
+        if self.classification == 'binary':
+            Ai = Sigmoid.function(Zi)
+            return Ai > 0.5
+
+        elif self.classification == 'multiclass':
+            Ai = Softmax.function(Zi)
+            return Ai
+            
 
 # Sigmoid class - contains sigmoid function and its derivative     
 class Sigmoid():
@@ -418,7 +425,7 @@ class LeakyTanh():
     def derivative(cls, t, leak = 0.2):
         return 1 - np.power(np.tanh(t), 2) + leak
 
-# ReLu class = contains ReLu function and its derivative
+# ReLu class - contains ReLu function and its derivative
 class ReLu():
 
     @classmethod
