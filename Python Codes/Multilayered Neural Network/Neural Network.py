@@ -15,6 +15,7 @@ class NeuralNetwork():
                  beta2 = 0,
                  activation = 'sigmoid',
                  epsilon = 1e-8,
+                 minibatch_size = None,
                  plot_N = None):
 
         # Structural variables
@@ -25,6 +26,7 @@ class NeuralNetwork():
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
+        self.minibatch_size = minibatch_size
         self.max_iter = max_iter
         self.plot_N = plot_N
 
@@ -55,13 +57,18 @@ class NeuralNetwork():
         self.Y = None
         self.m = None
 
+        self.minibatches = None
+        self.minibatch_X = None
+        self.minibatch_Y = None
+        self.minibatch_m = None
+        self.best_minibatch_cost = np.inf
+
         self.weights = {}
         self.best_weights = {}
         self.A_vals = {}
         self.Z_vals = {}
         self.V_vals = {}
         self.S_vals = {}
-        
 
     # Initializes momentum for each layer
     def __initialize_momentum(self, n_x, n_y):
@@ -82,8 +89,7 @@ class NeuralNetwork():
         self.V_vals["Vdb"+str(self.num_layers)] = np.zeros((n_y,1))
         
         self.S_vals["SdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
-        self.S_vals["Sdb"+str(self.num_layers)] = np.zeros((n_y,1))
-        
+        self.S_vals["Sdb"+str(self.num_layers)] = np.zeros((n_y,1))      
 
     # Initializes weights for each layer
     def __initialize_weights(self, n_x, n_y):
@@ -97,7 +103,6 @@ class NeuralNetwork():
         
         self.weights['W'+str(self.num_layers)] = np.random.random((n_y, n_h_prev))*np.sqrt(2/n_h_prev)
         self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
-    
 
     # Fits for X and Y
     def fit(self, X, Y, warm_start = False):
@@ -117,12 +122,15 @@ class NeuralNetwork():
         self.Y = Y
         self.m = m_x
 
-        self.__gradient_descent()
+        if self.minibatch_size == None:
+            self.minibatch_size = m_x
+
+        self.__mini_batch_gradient_descent()
 
     # Performs foward propagation
     def __forward_propagation(self):
 
-        Ai_prev = np.copy(self.X)
+        Ai_prev = np.copy(self.minibatch_X)
         for i in range(self.num_layers - 1):
             
             Wi = self.weights['W'+str(i+1)]
@@ -150,7 +158,7 @@ class NeuralNetwork():
     def __evaluate_cost(self):
         
         AL = np.copy(self.A_vals['A'+str(self.num_layers)])
-        loss_func = -(self.Y*np.log(AL) + (1-self.Y)*np.log(1-AL))
+        loss_func = -(self.minibatch_Y*np.log(AL) + (1-self.minibatch_Y)*np.log(1-AL))
         cost_func = np.mean(loss_func)
 
         # Evaluates regularization cost
@@ -158,18 +166,41 @@ class NeuralNetwork():
             L2_reg = 0
             for i in range(1, self.num_layers):
                 L2_reg += np.sum(np.square(self.weights['W'+str(i)]))
-            L2_reg *= self.L2/(2*self.m)
+            L2_reg *= self.L2/(2*self.minibatch_m)
             cost_func += L2_reg
 
-        return cost_func
+        if cost_func < self.best_minibatch_cost:
+            self.best_minibatch_cost = cost_func
+
+    # Creates minibatches
+    def __make_minibatches(self):
+
+        # Initializes minibatches list
+        self.minibatches = []
+
+        # Shuffles data before creating minibatches
+        permutation = list(np.random.permutation(self.m))
+        shuffled_X = self.X[:, permutation]
+        shuffled_Y = self.Y[:, permutation].reshape((1,self.m))
+
+        num_full_minibatches = int(np.floor(self.m/self.minibatch_size))
+        for k in range(num_full_minibatches):
+            minibatch_X = shuffled_X[:, self.minibatch_size*k : self.minibatch_size*(k+1)]
+            minibatch_Y = shuffled_Y[:, self.minibatch_size*k : self.minibatch_size*(k+1)]
+            minibatch = (minibatch_X, minibatch_Y)
+            self.minibatches.append(minibatch)
+
+        # Depending on size of X and size of minibatches, the last minibatch will be smaller
+        if self.m % self.minibatch_size != 0:
+            minibatch_X = shuffled_X[:, self.minibatch_size*num_full_minibatches :]
+            minibatch_Y = shuffled_Y[:, self.minibatch_size*num_full_minibatches :]
+            minibatch = (minibatch_X, minibatch_Y)
+            self.minibatches.append(minibatch)  
 
     # Newton method for training a neural network
-    def __gradient_descent(self):
-
-        # Initialize constant m
-        m = self.m
+    def __mini_batch_gradient_descent(self):
         
-        # Cache for ploting cost
+        # Cache for plotting cost
         cost = []
         iteration = []
 
@@ -179,95 +210,107 @@ class NeuralNetwork():
 
         for it in range(self.max_iter):
 
-            # Forward propagation
-            self.__forward_propagation()
+            # Creates iteration minibatches
+            self.__make_minibatches()
 
-            # Evaluate cost
-            cost_func = self.__evaluate_cost()
-            
-            # Updates best weights
-            if cost_func < min_cost:
-                self.best_weights = self.weights.copy()
-                min_cost = cost_func
+            # Performs operations on every minibatch
+            for minibatch in self.minibatches:
+
+                # Defines current minibatch
+                self.minibatch_X = minibatch[0]
+                self.minibatch_Y = minibatch[1]
+                self.minibatch_m = self.minibatch_X.shape[1]
+                m = self.minibatch_m
+
+                # Forward propagation
+                self.__forward_propagation()
+
+                # Evaluate cost
+                self.__evaluate_cost()
+                
+                # Updates best weights
+                if self.best_minibatch_cost < min_cost:
+                    self.best_weights = self.weights.copy()
+                    min_cost = self.best_minibatch_cost
+
+                # Backward propagation
+                for i in range(self.num_layers, 0, -1):
+
+                    # Gets current layer weights
+                    Wi = np.copy(self.weights['W'+str(i)])
+                    bi = np.copy(self.weights['b'+str(i)])
+                    Ai = np.copy(self.A_vals['A'+str(i)])
+                    Zi = np.copy(self.Z_vals['Z'+str(i)])
+
+                    # Gets momentum
+                    VdWi = np.copy(self.V_vals["VdW"+str(i)])
+                    Vdbi = np.copy(self.V_vals["Vdb"+str(i)])
+
+                    # Gets RMSprop
+                    SdWi = np.copy(self.S_vals["SdW"+str(i)])
+                    Sdbi = np.copy(self.S_vals["Sdb"+str(i)])
+
+                    # If on first layer, Ai_prev = X itself
+                    if i == 1:
+                        Ai_prev = np.copy(self.minibatch_X)
+                    else:
+                        Ai_prev = np.copy(self.A_vals['A'+str(i-1)])
+
+                    # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * (Ai*(1-Ai))
+                    if i == self.num_layers:
+                        dZi = Ai - self.minibatch_Y
+                    else:
+                        dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
+
+                    # Calculates dWi and dbi
+                    dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
+                    dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
+
+                    # Cache dZi, Wi
+                    dZnxt = np.copy(dZi)
+                    Wnxt = np.copy(Wi)
+
+                    # Updates momentum
+                    VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
+                    Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
+
+                    self.V_vals["VdW"+str(i)] = VdWi
+                    self.V_vals["Vdb"+str(i)] = Vdbi
+
+                    # Updates RMSprop
+                    SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
+                    Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+
+                    self.S_vals["SdW"+str(i)] = SdWi
+                    self.S_vals["Sdb"+str(i)] = Sdbi
+
+                    # Updates weights and biases
+                    Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
+                    bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
+
+                    self.weights['W'+str(i)] = Wi
+                    self.weights['b'+str(i)] = bi
+                    
+                # End of backprop loop ==================================================
                 
             # Caches cost function every plot_N iterations
             if self.plot_N != None:
                 if (it + 1) % self.plot_N == 0:
-                    cost.append(cost_func)
+                    cost.append(self.best_minibatch_cost)
                     iteration.append(it+1)
-                    
                     plt.clf()
                     plt.plot(iteration, cost, color = 'b')
                     plt.xlabel("Iteration")
                     plt.ylabel("Cost Function")
-                    plt.title(f"Cost Function after {iteration[-1]} iterations:")
+                    plt.title(f"Cost Function over {iteration[-1]} iterations:")
                     plt.pause(0.001)
 
-            # Backward propagation
-            for i in range(self.num_layers, 0, -1):
-
-                # Gets current layer weights
-                Wi = np.copy(self.weights['W'+str(i)])
-                bi = np.copy(self.weights['b'+str(i)])
-                Ai = np.copy(self.A_vals['A'+str(i)])
-                Zi = np.copy(self.Z_vals['Z'+str(i)])
-
-                # Gets momentum
-                VdWi = np.copy(self.V_vals["VdW"+str(i)])
-                Vdbi = np.copy(self.V_vals["Vdb"+str(i)])
-
-                # Gets RMSprop
-                SdWi = np.copy(self.S_vals["SdW"+str(i)])
-                Sdbi = np.copy(self.S_vals["Sdb"+str(i)])
-
-                # If on first layer, Ai_prev = X itself
-                if i == 1:
-                    Ai_prev = np.copy(self.X)
-                else:
-                    Ai_prev = np.copy(self.A_vals['A'+str(i-1)])
-
-                # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * (Ai*(1-Ai))
-                if i == self.num_layers:
-                    dZi = Ai - self.Y
-                else:
-                    dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
-
-                # Calculates dWi and dbi
-                dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
-                dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
-
-                # Cache dZi, Wi
-                dZnxt = np.copy(dZi)
-                Wnxt = np.copy(Wi)
-
-                # Updates momentum
-                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
-                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
-
-                self.V_vals["VdW"+str(i)] = VdWi
-                self.V_vals["Vdb"+str(i)] = Vdbi
-
-                # Updates RMSprop
-                SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
-                Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
-
-                self.S_vals["SdW"+str(i)] = SdWi
-                self.S_vals["Sdb"+str(i)] = Sdbi
-
-                # Updates weights and biases
-                Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
-                bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
-
-                self.weights['W'+str(i)] = Wi
-                self.weights['b'+str(i)] = bi
-                
-            # End of backprop loop ==================================================
-
+        # Final plot
         if self.plot_N != None:
             
             # Final cost evaluation:
-            cost_func = self.__evaluate_cost()
-            cost.append(cost_func)
+            self.__evaluate_cost()
+            cost.append(self.best_minibatch_cost)
             iteration.append(it+1)
             
             # Plots cost function over time
@@ -275,13 +318,19 @@ class NeuralNetwork():
             plt.plot(iteration, cost, color = 'b')
             plt.xlabel("Iteration")
             plt.ylabel("Cost Function")
-            plt.title(f"Cost Function after {iteration[-1]} iterations:")
+            plt.title(f"Cost Function over {iteration[-1]} iterations:")
             plt.show(block = 0)
 
         # Reset variables
         self.X = None
         self.Y = None
         self.m = None
+
+        self.minibatches = None
+        self.minibatch_X = None
+        self.minibatch_Y = None
+        self.minibatch_m = None
+        self.best_minibatch_cost = np.inf
 
         self.weights = {}
         self.A_vals = {}
@@ -382,14 +431,15 @@ def example():
     y_test = np.array([y_test])
 
     clf = NeuralNetwork(
-        layer_sizes = [10,10,10,10],
+        layer_sizes = [10, 10],
         learning_rate = 0.01,
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
         max_iter = 500,
-        activation = ['sigmoid', 'relu', 'relu', 'ltanh'],
-        plot_N = 20)
+        minibatch_size = 128,
+        activation = ['sigmoid', 'ltanh'],
+        plot_N = 10)
 
     clf.fit(X_train, y_train)
     
