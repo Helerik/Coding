@@ -144,7 +144,10 @@ Max Iterations:                {self.max_iter}"""
         self.__initialize_momentum(n_x, n_y)
 
         self.X = X
-        self.Y = Y
+        if self.classification == 'binary':
+            self.Y = Y
+        else:
+            
         self.m = m_x
 
         if self.minibatch_size == None:
@@ -170,12 +173,13 @@ Max Iterations:                {self.max_iter}"""
             
             Ai_prev = np.copy(Ai)
 
-        # Last layer always receives sigmoid
-        Wi = self.weights['W'+str(self.num_layers)]
-        bi = self.weights['b'+str(self.num_layers)]
-        
+        # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
-        Ai = Sigmoid.function(Zi)
+        if self.classification == 'binary':
+            Ai = Sigmoid.function(Zi)
+
+        elif self.classification == 'multiclass':
+            Ai = Softmax.function(Zi)
 
         self.A_vals['A'+str(self.num_layers)] = Ai
         self.Z_vals['Z'+str(self.num_layers)] = Zi
