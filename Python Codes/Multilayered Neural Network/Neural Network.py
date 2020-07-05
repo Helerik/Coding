@@ -34,13 +34,18 @@ class NeuralNetwork():
         if isinstance(activation, str):
             if activation.lower() == 'sigmoid':
                 self.activation = [Sigmoid for _ in range(self.num_layers-1)]
+                self._activation_str = ['sigmoid' for _ in range(self.num_layers-1)]
             elif activation.lower() == 'tanh':
                 self.activation = [Tanh for _ in range(self.num_layers-1)]
+                self._activation_str = ['tanh' for _ in range(self.num_layers-1)]
             elif activation.lower() == 'ltanh':
                 self.activation = [LeakyTanh for _ in range(self.num_layers-1)]
+                self._activation_str = ['ltanh' for _ in range(self.num_layers-1)]
             elif activation.lower() == 'relu':
                 self.activation = [ReLu for _ in range(self.num_layers-1)]
-        else:      
+                self._activation_str = ['relu' for _ in range(self.num_layers-1)]
+        else:
+            self._activation_str = np.copy(activation)
             for i in range(len(activation)):
                 if activation[i].lower() == 'sigmoid':
                     activation[i] = Sigmoid
@@ -69,6 +74,24 @@ class NeuralNetwork():
         self.Z_vals = {}
         self.V_vals = {}
         self.S_vals = {}
+
+        self.training_status = "Untrained"
+
+    def __str__(self):
+        return f"""Neural Network ({self.training_status}):
+
+Layer Size Structure:          {np.array(self.layer_sizes)}
+Activation Function Structure: {self._activation_str}
+
+Learning Rate:                 {self.learning_rate}
+L2 Regularization:             {self.L2}
+
+Beta1 (Momentum):              {self.beta1}
+Beta2 (RMSprop):               {self.beta2}
+Epsilon:                       {self.epsilon:.1e}
+
+Mini-Batch Size:               {self.minibatch_size}
+Max Iterations:                {self.max_iter}"""
 
     # Initializes momentum for each layer
     def __initialize_momentum(self, n_x, n_y):
@@ -126,6 +149,7 @@ class NeuralNetwork():
             self.minibatch_size = m_x
 
         self.__mini_batch_gradient_descent()
+        self.training_status = "Trained"
 
     # Performs foward propagation
     def __forward_propagation(self):
@@ -436,10 +460,13 @@ def example():
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
-        max_iter = 500,
+        max_iter = 100,
         minibatch_size = 128,
         activation = ['sigmoid', 'ltanh'],
-        plot_N = 10)
+        plot_N = 1)
+
+    print()
+    print(clf)
 
     clf.fit(X_train, y_train)
     
