@@ -432,6 +432,14 @@ class ReLu():
         dt[t > 0] = 1
         return dt
 
+# Softmax class - contains softmax function
+class Softmax():
+
+    @classmethod
+    def function(cls, t):
+        denominator = np.sum(np.exp(t))
+        return t/denominator
+
 def example():
 
     from sklearn.datasets import load_breast_cancer
