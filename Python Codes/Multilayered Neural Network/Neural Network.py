@@ -4,15 +4,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 class NeuralNetwork():
 
     # Initializes Neural Network structure
     def __init__(self,
                  layer_sizes = [5,5],
                  learning_rate = 0.01,
-                 L2 = 0, max_iter = 200,
+                 max_iter = 200,
+                 L2 = 0,
                  beta1 = 0,
-                 beta2 = 0,
+                 beta2 = 0.999,
                  activation = 'sigmoid',
                  epsilon = 1e-8,
                  minibatch_size = None,
@@ -23,12 +25,12 @@ class NeuralNetwork():
         self.layer_sizes = layer_sizes
         self.num_layers = len(layer_sizes) + 1
         self.learning_rate = learning_rate
+        self.max_iter = max_iter
         self.L2 = L2
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
         self.minibatch_size = minibatch_size
-        self.max_iter = max_iter
         self.classification = classification.lower()
         self.plot_N = plot_N
 
@@ -95,7 +97,7 @@ Epsilon:                       {self.epsilon:.1e}
 Mini-Batch Size:               {self.minibatch_size}
 Max Iterations:                {self.max_iter}"""
 
-    # Initializes momentum for each layer
+    # Initializes momentum and RMSprop for each layer
     def __initialize_momentum(self, n_x, n_y):
         
         n_h_prev = n_x
@@ -129,7 +131,7 @@ Max Iterations:                {self.max_iter}"""
         self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
         self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
 
-    # Fits for X and Y
+    # Sets the network up and fits for X and Y
     def fit(self, X, Y, warm_start = False):
 
         self.X = X
@@ -148,7 +150,7 @@ Max Iterations:                {self.max_iter}"""
         if m_x != m_y:
             raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
 
-        if warm_start and self.best_weights:
+        if warm_start and self.training_status == "Trained":
             self.weights = self.best_weights
         else:
             self.__initialize_weights(n_x, n_y)
@@ -159,6 +161,7 @@ Max Iterations:                {self.max_iter}"""
         if self.minibatch_size == None:
             self.minibatch_size = m_x
 
+        # Trains the network
         self.__mini_batch_gradient_descent()
         self.training_status = "Trained"
 
@@ -168,19 +171,19 @@ Max Iterations:                {self.max_iter}"""
         Ai_prev = np.copy(self.minibatch_X)
         for i in range(self.num_layers - 1):
             
-            Wi = self.weights['W'+str(i+1)]
-            bi = self.weights['b'+str(i+1)]
+            Wi = np.copy(self.weights['W'+str(i+1)])
+            bi = np.copy(self.weights['b'+str(i+1)])
             
             Zi = np.dot(Wi, Ai_prev) + bi
             Ai = self.activation[i].function(Zi)       
 
-            self.A_vals['A'+str(i+1)] = Ai
-            self.Z_vals['Z'+str(i+1)] = Zi
+            self.A_vals['A'+str(i+1)] = np.copy(Ai)
+            self.Z_vals['Z'+str(i+1)] = np.copy(Zi)
             
             Ai_prev = np.copy(Ai)
 
-        Wi = self.weights['W'+str(self.num_layers)]
-        bi = self.weights['b'+str(self.num_layers)]
+        Wi = np.copy(self.weights['W'+str(self.num_layers)])
+        bi = np.copy(self.weights['b'+str(self.num_layers)])
 
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
@@ -189,8 +192,8 @@ Max Iterations:                {self.max_iter}"""
         elif self.classification == 'multiclass':
             Ai = Softmax.function(Zi)
 
-        self.A_vals['A'+str(self.num_layers)] = Ai
-        self.Z_vals['Z'+str(self.num_layers)] = Zi
+        self.A_vals['A'+str(self.num_layers)] = np.copy(Ai)
+        self.Z_vals['Z'+str(self.num_layers)] = np.copy(Zi)
 
     # Evaluates cost function
     def __evaluate_cost(self):
@@ -217,7 +220,7 @@ Max Iterations:                {self.max_iter}"""
     # Creates minibatches
     def __make_minibatches(self):
 
-        # Initializes minibatches list
+        # Initializes list of minibatches
         self.minibatches = []
 
         # Shuffles data before creating minibatches
@@ -243,8 +246,9 @@ Max Iterations:                {self.max_iter}"""
     def __mini_batch_gradient_descent(self):
         
         # Cache for plotting cost
-        cost = []
-        iteration = []
+        if self.plot_N != None and self.plot_N != 0:
+            cost = []
+            iteration = []
 
         # Cache for minimum cost and best weights
         self.best_weights = self.weights.copy()
@@ -304,42 +308,41 @@ Max Iterations:                {self.max_iter}"""
                     else:
                         dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
 
-                    # Calculates dWi and dbi
-                    dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
-                    dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
-
                     # Cache dZi, Wi
                     dZnxt = np.copy(dZi)
                     Wnxt = np.copy(Wi)
 
+                    # Calculates dWi and dbi
+                    dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
+                    dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
+
                     # Updates momentum
                     VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
                     Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
-
-                    self.V_vals["VdW"+str(i)] = VdWi
-                    self.V_vals["Vdb"+str(i)] = Vdbi
+                    self.V_vals["VdW"+str(i)] = np.copy(VdWi)
+                    self.V_vals["Vdb"+str(i)] = np.copy(Vdbi)
 
                     # Updates RMSprop
                     SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
                     Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
-
-                    self.S_vals["SdW"+str(i)] = SdWi
-                    self.S_vals["Sdb"+str(i)] = Sdbi
+                    self.S_vals["SdW"+str(i)] = np.copy(SdWi)
+                    self.S_vals["Sdb"+str(i)] = np.copy(Sdbi)
 
                     # Updates weights and biases
                     Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
                     bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
-
-                    self.weights['W'+str(i)] = Wi
-                    self.weights['b'+str(i)] = bi
+                    self.weights['W'+str(i)] = np.copy(Wi)
+                    self.weights['b'+str(i)] = np.copy(bi)
                     
                 # End of backprop loop ==================================================
                 
-            # Caches cost function every plot_N iterations
-            if self.plot_N != None:
+            # Caches cost function every plot_N iterations and plots cost function over time
+            if self.plot_N != None and self.plot_N != 0:
                 if (it + 1) % self.plot_N == 0:
+                    
                     cost.append(self.best_minibatch_cost)
                     iteration.append(it+1)
+                    
                     plt.clf()
                     plt.plot(iteration, cost, color = 'b')
                     plt.xlabel("Iteration")
@@ -348,7 +351,7 @@ Max Iterations:                {self.max_iter}"""
                     plt.pause(0.001)
 
         # Final plot
-        if self.plot_N != None:
+        if self.plot_N != None and self.plot_N != 0:
             
             # Final cost evaluation:
             self.__evaluate_cost()
@@ -380,22 +383,22 @@ Max Iterations:                {self.max_iter}"""
         self.V_vals = {}
         self.S_vals = {}
 
-    # Predicts X vector tag
+    # Predicts X vector tags
     def predict(self, X):
 
         Ai_prev = np.copy(X)
         for i in range(self.num_layers - 1):
             
-            Wi = self.best_weights['W'+str(i+1)]
-            bi = self.best_weights['b'+str(i+1)]
+            Wi = np.copy(self.best_weights['W'+str(i+1)])
+            bi = np.copy(self.best_weights['b'+str(i+1)])
             
             Zi = np.dot(Wi, Ai_prev) + bi
-            Ai = Ai = self.activation[i].function(Zi)
+            Ai = self.activation[i].function(Zi)
 
             Ai_prev = np.copy(Ai)
 
-        Wi = self.best_weights['W'+str(self.num_layers)]
-        bi = self.best_weights['b'+str(self.num_layers)]
+        Wi = np.copy(self.best_weights['W'+str(self.num_layers)])
+        bi = np.copy(self.best_weights['b'+str(self.num_layers)])
 
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
@@ -475,9 +478,12 @@ def example():
 
     # Won't work properly without scalling data
     scaler = StdScaler()
+
+    # Importing data from sklearn datasets
 ##    data = load_breast_cancer(return_X_y = True)
     data = load_iris(return_X_y = True)
-    
+
+    # Scalling X
     X = data[0]
     scaler.fit(X)
     X = scaler.transform(X)
@@ -490,23 +496,25 @@ def example():
     y_train = np.array([y_train])
     y_test = np.array([y_test])
 
+    # Initializes NN classifier
     clf = NeuralNetwork(
-        layer_sizes = [10, 10],
+        layer_sizes = [10],
         learning_rate = 0.001,
+        max_iter = 500,
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
-        max_iter = 500,
         minibatch_size = None,
-        activation = 'relu',
+        activation = 'tanh',
         classification = 'multiclass',
-        plot_N = 10)
+        plot_N = 50)
 
     print()
     print(clf)
 
     clf.fit(X_train, y_train)
-    
+
+    # Makes predictions
     pred = clf.predict(X_train)
     percnt = 0
     for i in range(pred.shape[1]):
