@@ -16,7 +16,7 @@ class NeuralNetwork():
                  activation = 'sigmoid',
                  epsilon = 1e-8,
                  minibatch_size = None,
-                 classification = 'binary'
+                 classification = 'binary',
                  plot_N = None):
 
         # Structural variables
@@ -125,15 +125,26 @@ Max Iterations:                {self.max_iter}"""
             self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
             self.weights['b'+str(i+1)] = np.zeros((n_h,1))
             n_h_prev = n_h
-        
-        self.weights['W'+str(self.num_layers)] = np.random.random((n_y, n_h_prev))*np.sqrt(2/n_h_prev)
+
+        self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
         self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
 
     # Fits for X and Y
     def fit(self, X, Y, warm_start = False):
+
+        self.X = X
+        if self.classification == 'binary':
+            self.Y = Y
+        elif self.classification == 'multiclass':
+            self.Y = []
+            class_num = np.max(Y)
+            for i in range(Y.shape[1]):
+                self.Y.append([0 for _ in range(class_num+1)])
+                self.Y[i][Y[0][i]] = 1
+            self.Y = np.array(self.Y).T
         
-        n_x, m_x = X.shape
-        n_y, m_y = Y.shape
+        n_x, m_x = self.X.shape
+        n_y, m_y = self.Y.shape
         if m_x != m_y:
             raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
 
@@ -142,11 +153,6 @@ Max Iterations:                {self.max_iter}"""
         else:
             self.__initialize_weights(n_x, n_y)
         self.__initialize_momentum(n_x, n_y)
-
-        self.X = X
-        if self.classification == 'binary':
-            self.Y = Y
-        else:
             
         self.m = m_x
 
@@ -173,11 +179,13 @@ Max Iterations:                {self.max_iter}"""
             
             Ai_prev = np.copy(Ai)
 
+        Wi = self.weights['W'+str(self.num_layers)]
+        bi = self.weights['b'+str(self.num_layers)]
+
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
         if self.classification == 'binary':
             Ai = Sigmoid.function(Zi)
-
         elif self.classification == 'multiclass':
             Ai = Softmax.function(Zi)
 
@@ -188,7 +196,11 @@ Max Iterations:                {self.max_iter}"""
     def __evaluate_cost(self):
         
         AL = np.copy(self.A_vals['A'+str(self.num_layers)])
-        loss_func = -(self.minibatch_Y*np.log(AL) + (1-self.minibatch_Y)*np.log(1-AL))
+
+        if self.classification == 'binary':
+            loss_func = -(self.minibatch_Y*np.log(AL) + (1-self.minibatch_Y)*np.log(1-AL))
+        elif self.classification == 'multiclass':
+            loss_func = -np.sum(self.minibatch_Y*np.log(AL), axis = 0, keepdims = 1)
         cost_func = np.mean(loss_func)
 
         # Evaluates regularization cost
@@ -211,7 +223,7 @@ Max Iterations:                {self.max_iter}"""
         # Shuffles data before creating minibatches
         permutation = list(np.random.permutation(self.m))
         shuffled_X = self.X[:, permutation]
-        shuffled_Y = self.Y[:, permutation].reshape((1,self.m))
+        shuffled_Y = self.Y[:, permutation]
 
         num_full_minibatches = int(np.floor(self.m/self.minibatch_size))
         for k in range(num_full_minibatches):
@@ -286,7 +298,7 @@ Max Iterations:                {self.max_iter}"""
                     else:
                         Ai_prev = np.copy(self.A_vals['A'+str(i-1)])
 
-                    # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * (Ai*(1-Ai))
+                    # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * g'(Zi)
                     if i == self.num_layers:
                         dZi = Ai - self.minibatch_Y
                     else:
@@ -393,7 +405,10 @@ Max Iterations:                {self.max_iter}"""
 
         elif self.classification == 'multiclass':
             Ai = Softmax.function(Zi)
-            return Ai
+            prediction = []
+            for i in range(Ai.shape[1]):
+                prediction.append(np.argmax(Ai[:,i]))
+            return np.array([prediction])
             
 
 # Sigmoid class - contains sigmoid function and its derivative     
@@ -448,19 +463,21 @@ class Softmax():
 
     @classmethod
     def function(cls, t):
-        denominator = np.sum(np.exp(t))
-        return t/denominator
+        new_t = np.exp(t)
+        denominator = np.sum(new_t, axis = 0, keepdims = 1)
+        return np.divide(new_t, denominator)
 
 def example():
 
-    from sklearn.datasets import load_breast_cancer
+    from sklearn.datasets import load_breast_cancer, load_iris
     from sklearn.preprocessing import StandardScaler as StdScaler
     from sklearn.model_selection import train_test_split
 
     # Won't work properly without scalling data
     scaler = StdScaler()
-    data = load_breast_cancer(return_X_y = True)
-
+##    data = load_breast_cancer(return_X_y = True)
+    data = load_iris(return_X_y = True)
+    
     X = data[0]
     scaler.fit(X)
     X = scaler.transform(X)
@@ -475,14 +492,15 @@ def example():
 
     clf = NeuralNetwork(
         layer_sizes = [10, 10],
-        learning_rate = 0.01,
+        learning_rate = 0.001,
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
-        max_iter = 100,
-        minibatch_size = 128,
-        activation = ['sigmoid', 'ltanh'],
-        plot_N = 1)
+        max_iter = 500,
+        minibatch_size = None,
+        activation = 'relu',
+        classification = 'multiclass',
+        plot_N = 10)
 
     print()
     print(clf)
