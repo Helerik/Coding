@@ -412,7 +412,67 @@ Max Iterations:                {self.max_iter}"""
             for i in range(Ai.shape[1]):
                 prediction.append(np.argmax(Ai[:,i]))
             return np.array([prediction])
-            
+
+
+# Metrics class for storing different evaluation methods
+class Metrics():
+
+    @classmethod
+    def __true_positives(cls, true_Y, predicted_Y, average):
+        if average == "micro":
+            return len(np.where((predicted_Y == true_Y) == True)[0])
+        elif average == "macro":
+            TPs = []
+            for tag in range(np.max(true_Y)+1):
+                   TPs.append(len(np.where((predicted_Y[np.where(predicted_Y == tag)] == true_Y[np.where(predicted_Y == tag)]) == True)[0]))
+            return np.array(TPs)
+
+    @classmethod
+    def __false_positives(cls, true_Y, predicted_Y, average):
+        if average == "micro":
+            return len(np.where((predicted_Y == true_Y) == False)[0])
+        elif average == "macro":
+            FPs = []
+            for tag in range(np.max(true_Y)+1):
+                FPs.append(len(np.where((predicted_Y[np.where(predicted_Y == tag)] == true_Y[np.where(predicted_Y == tag)]) == False)[0]))
+            return np.array(FPs)
+
+    @classmethod
+    def __false_negatives(cls, true_Y, predicted_Y, average):
+        if average == "micro":
+            return len(np.where((predicted_Y != true_Y) == True)[0])
+        elif average == "macro":
+            FNs = []
+            for tag in range(np.max(true_Y)+1):
+                FNs.append(len(np.where((predicted_Y[np.where(true_Y == tag)] != true_Y[np.where(true_Y == tag)]) == True)[0]))
+            return np.array(FNs)
+
+    @classmethod
+    def accuracy(cls, true_Y, predicted_Y):
+        percent = np.mean((predicted_Y == true_Y).astype(int))
+        return percent
+
+    @classmethod
+    def precision(cls, true_Y, predicted_Y, average = "micro"):
+        TP = cls.__true_positives(true_Y, predicted_Y, average)
+        FP = cls.__false_positives(true_Y, predicted_Y, average)
+        return np.divide(TP, (TP + FP))
+
+    @classmethod
+    def recall(cls, true_Y, predicted_Y, average = "micro"):
+        TP = cls.__true_positives(true_Y, predicted_Y, average)
+        FN = cls.__false_negatives(true_Y, predicted_Y, average)
+        return np.divide(TP, (TP + FN))
+    
+    @classmethod
+    def f1_score(cls, true_Y, predicted_Y, average = "micro"):
+        precision = cls.precision(true_Y, predicted_Y, average)
+        recall = cls.recall(true_Y, predicted_Y, average)
+        if average == "micro":
+            return 2*precision*recall/(precision + recall)
+        elif average == "macro":
+            return np.mean(2*precision*recall/(precision + recall))
+        
 
 # Sigmoid class - contains sigmoid function and its derivative     
 class Sigmoid():
@@ -447,12 +507,12 @@ class LeakyTanh():
     def derivative(cls, t, leak = 0.2):
         return 1 - np.power(np.tanh(t), 2) + leak
 
-# ReLu class - contains ReLu function and its derivative
+# ReLu class - contains (leaky) ReLu function and its derivative
 class ReLu():
 
     @classmethod
     def function(cls, t, leak = 0.1):
-        return np.maximum(t, leak)
+        return np.maximum(t, t*leak)
 
     @classmethod
     def derivative(cls, t, leak = 0.1):
@@ -500,14 +560,14 @@ def example():
     clf = NeuralNetwork(
         layer_sizes = [10],
         learning_rate = 0.001,
-        max_iter = 500,
+        max_iter = 100,
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
         minibatch_size = None,
         activation = 'tanh',
         classification = 'multiclass',
-        plot_N = 50)
+        plot_N = 0)
 
     print()
     print(clf)
@@ -516,22 +576,18 @@ def example():
 
     # Makes predictions
     pred = clf.predict(X_train)
-    percnt = 0
-    for i in range(pred.shape[1]):
-        if pred[0,i] == y_train[0,i]:
-            percnt += 1
-    percnt /= pred.shape[1]
+    percnt = Metrics.accuracy(y_train, pred)
+    f1 = Metrics.f1_score(y_train, pred, "macro")
     print()
     print(f"Accuracy of {percnt:.2%} on training set")
+    print(f"F1-Score of {f1:.2} on training set")
 
     pred = clf.predict(X_test)
-    percnt = 0
-    for i in range(pred.shape[1]):
-        if pred[0,i] == y_test[0,i]:
-            percnt += 1
-    percnt /= pred.shape[1]
+    percnt = Metrics.accuracy(y_test, pred)
+    f1 = Metrics.f1_score(y_test, pred, "macro")
     print()
     print(f"Accuracy of {percnt:.2%} on test set")
+    print(f"F1-Score of {f1:.2} on test set")
     
 example()
 
