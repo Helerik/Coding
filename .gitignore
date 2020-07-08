@@ -28,7 +28,7 @@ Driven Data Competitions/Millenium Development Goals/*.csv
 Cursos/Google Foundations of Programming - Incomplete
 Cursos/Google Machine Learning Crash Course - Ongoing
 Cursos/Pandas Tutorial  - Complete
-Python Codes\Multilayered Neural Network\MNIST
+Python Codes/Multilayered Neural Network/MNIST
 
 # Ignore zip types #
 
@@ -50,9 +50,5 @@ Python Codes\Multilayered Neural Network\MNIST
 # Ignore .svg files
 
 *.svg
-
-
-
-
 
 
