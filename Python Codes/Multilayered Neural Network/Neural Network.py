@@ -614,18 +614,14 @@ def example():
 
     # Make predictions
     predicted_y = clf.predict(X_train)
-    accuracy = Metrics.accuracy(y_train, predicted_y)
-    f1 = Metrics.f1_score(y_train, predicted_y, "macro")
+    table = Metrics.score_table(y_train, predicted_y)
     print()
-    print(f"Accuracy of {accuracy:.2%} on training set")
-    print(f"F1-Score of {f1:.2} on training set")
+    print(table)
 
     predicted_y = clf.predict(X_dev)
-    accuracy = Metrics.accuracy(y_dev, predicted_y)
-    f1 = Metrics.f1_score(y_dev, predicted_y, "macro")
+    table = Metrics.score_table(y_train, predicted_y)
     print()
-    print(f"Accuracy of {accuracy:.2%} on dev set")
-    print(f"F1-Score of {f1:.2} on dev set")
+    print(table)
     
 example()
 
