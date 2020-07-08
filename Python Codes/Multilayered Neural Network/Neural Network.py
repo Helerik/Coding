@@ -13,7 +13,7 @@ class NeuralNetwork():
                  learning_rate = 0.01,
                  max_iter = 200,
                  L2 = 0,
-                 beta1 = 0,
+                 beta1 = 0.9,
                  beta2 = 0.999,
                  activation = 'sigmoid',
                  epsilon = 1e-8,
@@ -82,20 +82,20 @@ class NeuralNetwork():
         self.training_status = "Untrained"
 
     def __str__(self):
-        return f"""{self.classification.capitalize()} Neural Network ({self.training_status}):
+        return f"""         {self.classification.capitalize()} Neural Network ({self.training_status}):
 
-Layer Size Structure:          {np.array(self.layer_sizes)}
-Activation Function Structure: {self._activation_str}
-
-Learning Rate:                 {self.learning_rate}
-L2 Regularization:             {self.L2}
-
-Beta1 (Momentum):              {self.beta1}
-Beta2 (RMSprop):               {self.beta2}
-Epsilon:                       {self.epsilon:.1e}
-
-Mini-Batch Size:               {self.minibatch_size}
-Max Iterations:                {self.max_iter}"""
+    |    Layer Size Structure:          {np.array(self.layer_sizes)}
+    |    Activation Function Structure: {self._activation_str}
+    |
+    |    Learning Rate:                 {self.learning_rate}
+    |    L2 Regularization:             {self.L2}
+    |
+    |    Beta1 (Momentum):              {self.beta1}
+    |    Beta2 (RMSprop):               {self.beta2}
+    |    Epsilon:                       {self.epsilon:.1e}
+    |
+    |    Mini-Batch Size:               {self.minibatch_size}
+    |    Max Iterations:                {self.max_iter}"""
 
     # Initializes momentum and RMSprop for each layer
     def __initialize_momentum(self, n_x, n_y):
@@ -466,12 +466,40 @@ class Metrics():
     
     @classmethod
     def f1_score(cls, true_Y, predicted_Y, average = "micro"):
-        precision = cls.precision(true_Y, predicted_Y, average)
-        recall = cls.recall(true_Y, predicted_Y, average)
         if average == "micro":
+            precision = cls.precision(true_Y, predicted_Y, average)
+            recall = cls.recall(true_Y, predicted_Y, average)
             return 2*precision*recall/(precision + recall)
         elif average == "macro":
+            precision = cls.precision(true_Y, predicted_Y, average)
+            recall = cls.recall(true_Y, predicted_Y, average)
             return np.mean(2*precision*recall/(precision + recall))
+        elif average == "_all":
+            precision = cls.precision(true_Y, predicted_Y, "macro")
+            recall = cls.recall(true_Y, predicted_Y, "macro")
+            return 2*precision*recall/(precision + recall)
+
+    @classmethod
+    def score_table(cls, true_Y, predicted_Y):
+        precision_macro = cls.precision(true_Y, predicted_Y, "macro")
+        recall_macro = cls.recall(true_Y, predicted_Y, "macro")
+
+        f1_micro = cls.f1_score(true_Y, predicted_Y, "micro")
+        f1_macro = cls.f1_score(true_Y, predicted_Y, "macro")
+        f1_all = cls.f1_score(true_Y, predicted_Y, "_all")
+        
+        accuracy = cls.accuracy(true_Y, predicted_Y)
+
+        ret_str =  f"""         Score Table:
+
+    |    Accuracy: {accuracy:.2%}
+    |
+    |    Tag     Recall     Precision     F1-Score"""
+        for tag in range(0, len(f1_all)):
+            ret_str += f"\n    |     {tag} :     {recall_macro[tag]:.2f}       {precision_macro[tag]:.2f}          {f1_all[tag]:.2f}"
+        ret_str += "\n    |    " + f"\n    |    Micro F1-Score: {f1_micro:.2f}    Macro F1-Score: {f1_macro:.2f}"
+
+        return ret_str
         
 
 # Sigmoid class - contains sigmoid function and its derivative     
@@ -532,19 +560,21 @@ class Softmax():
 
 def example():
 
-    from sklearn.datasets import load_breast_cancer, load_iris
     from sklearn.preprocessing import StandardScaler as StdScaler
     from sklearn.model_selection import train_test_split
+    from mnist import MNIST
+
+    # import MNIST dataset
+    mndata = MNIST('C:\\Users\\Cliente\\Desktop\\Coding\\Python Codes\\Multilayered Neural Network\MNIST')
+    X_train, y_train = mndata.load_training()
+
+    plt.imshow(np.array(X_train[0]).reshape(28,28), cmap = 'Greys')
+    plt.show()
 
     # Won't work properly without scalling data
     scaler = StdScaler()
 
-    # Importing data from sklearn datasets
-##    data = load_breast_cancer(return_X_y = True)
-    data = load_iris(return_X_y = True)
-
     # Scalling X
-    X = data[0]
     scaler.fit(X)
     X = scaler.transform(X)
     y = data[1]
@@ -588,6 +618,9 @@ def example():
     print()
     print(f"Accuracy of {percnt:.2%} on test set")
     print(f"F1-Score of {f1:.2} on test set")
+
+    print()
+    print(Metrics.score_table(y_test, pred))
     
 example()
 
