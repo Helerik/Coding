@@ -529,22 +529,22 @@ class Tanh():
 class LeakyTanh():
 
     @classmethod
-    def function(cls, t, leak = 0.2):
+    def function(cls, t, leak = 0.01):
         return np.tanh(t) + t*leak
 
     @classmethod
-    def derivative(cls, t, leak = 0.2):
+    def derivative(cls, t, leak = 0.01):
         return 1 - np.power(np.tanh(t), 2) + leak
 
 # ReLu class - contains (leaky) ReLu function and its derivative
 class ReLu():
 
     @classmethod
-    def function(cls, t, leak = 0.1):
+    def function(cls, t, leak = 0.01):
         return np.maximum(t, t*leak)
 
     @classmethod
-    def derivative(cls, t, leak = 0.1):
+    def derivative(cls, t, leak = 0.01):
         dt = np.copy(t)
         dt[t <= 0] = leak
         dt[t > 0] = 1
@@ -568,6 +568,8 @@ def example():
     # import MNIST dataset
     mndata = MNIST('C:\\Users\\Cliente\\Desktop\\Coding\\Python Codes\\Multilayered Neural Network\MNIST')
     X_train, y_train = mndata.load_training()
+    X_train = np.asarray(X_train)
+    y_train = np.asarray(y_train)
 
     # An example in the dataset
     idx = np.random.randint(low = 0, high = len(X_train)-1)
@@ -575,13 +577,13 @@ def example():
     plt.title(f"Number {y_train[idx]} from MNIST dataset (without scalling)")
     plt.show()
 
-    # Won't work properly without scalling data
+    # Creates scaler "classifier" from sklearn to scale the set
     scaler = StdScaler()
 
-    # Scalling X_train
+    # Scalling X
     scaler.fit(X_train)
     X_train = scaler.transform(X_train)
-
+    
     # The same example with scalling applied
     plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
     plt.title(f"Number {y_train[idx]} from MNIST dataset (with scalling)")
@@ -596,17 +598,18 @@ def example():
 
     # Initializes NN classifier
     clf = NeuralNetwork(
-        layer_sizes = [15,15],
-        learning_rate = 0.0005,
-        max_iter = 100,
-        L2 = 0,
+        layer_sizes = [20,20,20],
+        learning_rate = 0.005,
+        max_iter = 200,
+        L2 = 10,
         beta1 = 0.9,
         beta2 = 0.999,
-        minibatch_size = None,
+        minibatch_size = 512,
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1)
 
+    print()
     print()
     print(clf)
 
@@ -616,10 +619,12 @@ def example():
     predicted_y = clf.predict(X_train)
     table = Metrics.score_table(y_train, predicted_y)
     print()
+    print()
     print(table)
 
     predicted_y = clf.predict(X_dev)
-    table = Metrics.score_table(y_train, predicted_y)
+    table = Metrics.score_table(y_dev, predicted_y)
+    print()
     print()
     print(table)
     
