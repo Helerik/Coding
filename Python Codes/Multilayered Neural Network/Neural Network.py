@@ -649,6 +649,24 @@ def example():
     table = Metrics.score_table(y_dev, predicted_y)
     print()
     print()
+    print("    Results for dev set")
+    print(table)
+
+    # Import test set
+    X_test, y_test = mndata.load_testing()
+    X_test = np.asarray(X_test)
+    y_test = np.asarray(y_test)
+
+    X_test = scaler.transform(X_test)
+
+    X_test = X_test.T
+    y_test = np.array([y_test])
+
+    predicted_y = clf.predict(X_test)
+    table = Metrics.score_table(y_test, predicted_y)
+    print()
+    print()
+    print("    Results for test set")
     print(table)
     
 example()
