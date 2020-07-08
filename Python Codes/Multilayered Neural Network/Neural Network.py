@@ -596,7 +596,7 @@ def example():
     # Initializes NN classifier
     clf = NeuralNetwork(
         layer_sizes = [15,15],
-        learning_rate = 0.001,
+        learning_rate = 0.0001,
         max_iter = 100,
         L2 = 0,
         beta1 = 0.9,
@@ -611,7 +611,7 @@ def example():
 
     clf.fit(X_train, y_train)
 
-    # Makes predictions
+    # Make predictions
     predicted_y = clf.predict(X_train)
     accuracy = Metrics.accuracy(y_train, predicted_y)
     f1 = Metrics.f1_score(y_train, predicted_y, "macro")
@@ -621,10 +621,10 @@ def example():
 
     predicted_y = clf.predict(X_dev)
     accuracy = Metrics.accuracy(y_dev, predicted_y)
-    f1 = Metrics.f1_score(y_test, predicted_y, "macro")
+    f1 = Metrics.f1_score(y_dev, predicted_y, "macro")
     print()
     print(f"Accuracy of {accuracy:.2%} on dev set")
-    print(f"F1-Score of {f1:.2} on test set")
+    print(f"F1-Score of {f1:.2} on dev set")
     
 example()
 
