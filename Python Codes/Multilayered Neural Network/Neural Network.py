@@ -19,7 +19,8 @@ class NeuralNetwork():
                  epsilon = 1e-8,
                  minibatch_size = None,
                  classification = 'binary',
-                 plot_N = None):
+                 plot_N = None,
+                 end_on_close = False):
 
         # Structural variables
         self.layer_sizes = layer_sizes
@@ -33,6 +34,7 @@ class NeuralNetwork():
         self.minibatch_size = minibatch_size
         self.classification = classification.lower()
         self.plot_N = plot_N
+        self.end_on_close = end_on_close
 
         # Activation function can be string or list
         if isinstance(activation, str):
@@ -80,6 +82,8 @@ class NeuralNetwork():
         self.S_vals = {}
 
         self.training_status = "Untrained"
+
+        self.code_breaker = 0
 
     def __str__(self):
         return f"""         {self.classification.capitalize()} Neural Network ({self.training_status}):
@@ -247,6 +251,11 @@ class NeuralNetwork():
         
         # Cache for plotting cost
         if self.plot_N != None and self.plot_N != 0:
+            fig = plt.figure()
+            if self.end_on_close:
+                def handle_close(evt):
+                    self.code_breaker = 1
+                fig.canvas.mpl_connect('close_event', handle_close)
             cost = []
             iteration = []
 
@@ -260,6 +269,9 @@ class NeuralNetwork():
             self.__make_minibatches()
             self.best_minibatch_cost = np.inf
 
+            if self.code_breaker:
+                break
+                
             # Performs operations on every minibatch
             for minibatch in self.minibatches:
 
@@ -279,6 +291,9 @@ class NeuralNetwork():
                 if self.best_minibatch_cost < best_cost:
                     self.best_weights = self.weights.copy()
                     best_cost = self.best_minibatch_cost
+
+                if self.code_breaker:
+                    break
 
                 # Backward propagation
                 for i in range(self.num_layers, 0, -1):
@@ -334,6 +349,9 @@ class NeuralNetwork():
                     bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
                     self.weights['W'+str(i)] = np.copy(Wi)
                     self.weights['b'+str(i)] = np.copy(bi)
+
+                    if self.code_breaker:
+                        break
                     
                 # End of backprop loop ==================================================
                 
@@ -350,6 +368,9 @@ class NeuralNetwork():
                     plt.ylabel("Cost Function")
                     plt.title(f"Cost Function over {iteration[-1]} iterations:")
                     plt.pause(0.001)
+
+            if self.code_breaker:
+                break
 
         # Final plot
         if self.plot_N != None and self.plot_N != 0:
@@ -598,16 +619,17 @@ def example():
 
     # Initializes NN classifier
     clf = NeuralNetwork(
-        layer_sizes = [20,20,20],
-        learning_rate = 0.005,
+        layer_sizes = [30,20,10,20,30],
+        learning_rate = 0.001,
         max_iter = 200,
-        L2 = 10,
+        L2 = 1,
         beta1 = 0.9,
         beta2 = 0.999,
         minibatch_size = 512,
         activation = 'relu',
         classification = 'multiclass',
-        plot_N = 1)
+        plot_N = 1,
+        end_on_close = True)
 
     print()
     print()
@@ -620,6 +642,7 @@ def example():
     table = Metrics.score_table(y_train, predicted_y)
     print()
     print()
+    print("    Results for train set")
     print(table)
 
     predicted_y = clf.predict(X_dev)
