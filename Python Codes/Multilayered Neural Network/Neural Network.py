@@ -569,8 +569,9 @@ def example():
     X_train, y_train = mndata.load_training()
 
     # An example in the dataset
-    plt.imshow(np.array(X_train[5]).reshape(28,28), cmap = 'Greys')
-    plt.title(f"Number {y_train[5]} from MNIST dataset (without scalling)")
+    idx = np.random.randint(low = 0, high = len(X_train)-1)
+    plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
+    plt.title(f"Number {y_train[idx]} from MNIST dataset (without scalling)")
     plt.show()
 
     # Won't work properly without scalling data
@@ -581,8 +582,8 @@ def example():
     X_train = scaler.transform(X_train)
 
     # The same example with scalling applied
-    plt.imshow(np.array(X_train[5]).reshape(28,28), cmap = 'Greys')
-    plt.title(f"Number {y_train[5]} from MNIST dataset (with scalling)")
+    plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
+    plt.title(f"Number {y_train[idx]} from MNIST dataset (with scalling)")
     plt.show()
 
     X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
@@ -596,7 +597,7 @@ def example():
     clf = NeuralNetwork(
         layer_sizes = [15,15],
         learning_rate = 0.001,
-        max_iter = 500,
+        max_iter = 100,
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
