@@ -568,36 +568,42 @@ def example():
     mndata = MNIST('C:\\Users\\Cliente\\Desktop\\Coding\\Python Codes\\Multilayered Neural Network\MNIST')
     X_train, y_train = mndata.load_training()
 
-    plt.imshow(np.array(X_train[0]).reshape(28,28), cmap = 'Greys')
+    # An example in the dataset
+    plt.imshow(np.array(X_train[5]).reshape(28,28), cmap = 'Greys')
+    plt.title(f"Number {y_train[5]} from MNIST dataset (without scalling)")
     plt.show()
 
     # Won't work properly without scalling data
     scaler = StdScaler()
 
-    # Scalling X
-    scaler.fit(X)
-    X = scaler.transform(X)
-    y = data[1]
+    # Scalling X_train
+    scaler.fit(X_train)
+    X_train = scaler.transform(X_train)
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
+    # The same example with scalling applied
+    plt.imshow(np.array(X_train[5]).reshape(28,28), cmap = 'Greys')
+    plt.title(f"Number {y_train[5]} from MNIST dataset (with scalling)")
+    plt.show()
+
+    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
     
     X_train = X_train.T
-    X_test = X_test.T
+    X_dev = X_dev.T
     y_train = np.array([y_train])
-    y_test = np.array([y_test])
+    y_dev = np.array([y_dev])
 
     # Initializes NN classifier
     clf = NeuralNetwork(
-        layer_sizes = [10],
+        layer_sizes = [15,15],
         learning_rate = 0.001,
-        max_iter = 100,
+        max_iter = 500,
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
-        minibatch_size = None,
-        activation = 'tanh',
+        minibatch_size = 128,
+        activation = 'relu',
         classification = 'multiclass',
-        plot_N = 0)
+        plot_N = 10)
 
     print()
     print(clf)
@@ -605,22 +611,19 @@ def example():
     clf.fit(X_train, y_train)
 
     # Makes predictions
-    pred = clf.predict(X_train)
-    percnt = Metrics.accuracy(y_train, pred)
-    f1 = Metrics.f1_score(y_train, pred, "macro")
+    predicted_y = clf.predict(X_train)
+    accuracy = Metrics.accuracy(y_train, predicted_y)
+    f1 = Metrics.f1_score(y_train, predicted_y, "macro")
     print()
-    print(f"Accuracy of {percnt:.2%} on training set")
+    print(f"Accuracy of {accuracy:.2%} on training set")
     print(f"F1-Score of {f1:.2} on training set")
 
-    pred = clf.predict(X_test)
-    percnt = Metrics.accuracy(y_test, pred)
-    f1 = Metrics.f1_score(y_test, pred, "macro")
+    predicted_y = clf.predict(X_dev)
+    accuracy = Metrics.accuracy(y_dev, predicted_y)
+    f1 = Metrics.f1_score(y_test, predicted_y, "macro")
     print()
-    print(f"Accuracy of {percnt:.2%} on test set")
+    print(f"Accuracy of {accuracy:.2%} on dev set")
     print(f"F1-Score of {f1:.2} on test set")
-
-    print()
-    print(Metrics.score_table(y_test, pred))
     
 example()
 
