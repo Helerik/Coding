@@ -250,14 +250,15 @@ class NeuralNetwork():
             cost = []
             iteration = []
 
-        # Cache for minimum cost and best weights
+        # Cache for best cost and best weights
         self.best_weights = self.weights.copy()
-        min_cost = np.inf
+        best_cost = np.inf
 
         for it in range(self.max_iter):
 
-            # Creates iteration minibatches
+            # Creates iteration minibatches and best minibatch cost
             self.__make_minibatches()
+            self.best_minibatch_cost = np.inf
 
             # Performs operations on every minibatch
             for minibatch in self.minibatches:
@@ -274,10 +275,10 @@ class NeuralNetwork():
                 # Evaluate cost
                 self.__evaluate_cost()
                 
-                # Updates best weights
-                if self.best_minibatch_cost < min_cost:
+                # Updates best weights and best_cost
+                if self.best_minibatch_cost < best_cost:
                     self.best_weights = self.weights.copy()
-                    min_cost = self.best_minibatch_cost
+                    best_cost = self.best_minibatch_cost
 
                 # Backward propagation
                 for i in range(self.num_layers, 0, -1):
@@ -596,15 +597,15 @@ def example():
     # Initializes NN classifier
     clf = NeuralNetwork(
         layer_sizes = [15,15],
-        learning_rate = 0.0001,
+        learning_rate = 0.0005,
         max_iter = 100,
         L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
-        minibatch_size = 128,
+        minibatch_size = None,
         activation = 'relu',
         classification = 'multiclass',
-        plot_N = 10)
+        plot_N = 1)
 
     print()
     print(clf)
