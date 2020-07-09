@@ -19,6 +19,18 @@ def profile(username):
 def post(post_id):
     return f"<h2>Post ID is {post_id}<h2>"
 
+# About requests
+@app.route("/new_page")
+def new_page():
+    return f"Method used: {request.method}"
+
+@app.route("/bacon", methods = ["GET", "POST"])
+def bacon():
+    if request.method == "POST":
+        return "Using POST"
+    else:
+        return "Probably using GET"
+
 # Starts the web-server
 if __name__ == "__main__":
     app.run(host = "0.0.0.0", debug = True)
