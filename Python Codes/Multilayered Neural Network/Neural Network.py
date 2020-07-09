@@ -635,8 +635,8 @@ def example():
 
     # Initializes NN classifier
     clf = NeuralNetwork(
-        layer_sizes = [30,20,30],
-        learning_rate = 0.0075,
+        layer_sizes = [20,20],
+        learning_rate = 0.005,
         max_iter = 200,
         L2 = 1,
         beta1 = 0.9,
@@ -645,8 +645,8 @@ def example():
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1,
-        end_on_close = False,
-        end_on_backspace = True)
+        end_on_close = True,
+        end_on_backspace = False)
 
     print()
     print()
