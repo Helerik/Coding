@@ -3,6 +3,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from pynput import keyboard
 
 
 class NeuralNetwork():
@@ -20,7 +21,8 @@ class NeuralNetwork():
                  minibatch_size = None,
                  classification = 'binary',
                  plot_N = None,
-                 end_on_close = False):
+                 end_on_close = False,
+                 end_on_backspace = False):
 
         # Structural variables
         self.layer_sizes = layer_sizes
@@ -35,6 +37,7 @@ class NeuralNetwork():
         self.classification = classification.lower()
         self.plot_N = plot_N
         self.end_on_close = end_on_close
+        self.end_on_backspace = end_on_backspace
 
         # Activation function can be string or list
         if isinstance(activation, str):
@@ -258,6 +261,16 @@ class NeuralNetwork():
                 fig.canvas.mpl_connect('close_event', handle_close)
             cost = []
             iteration = []
+
+        if self.end_on_backspace:
+            def on_press(key):
+                if key == keyboard.Key.backspace:
+                    self.code_breaker = 1
+            def on_release(key):
+                pass
+            listener = keyboard.Listener(on_press=on_press, on_release=on_release)
+            listener.start()
+            
 
         # Cache for best cost and best weights
         self.best_weights = self.weights.copy()
@@ -582,7 +595,7 @@ class Softmax():
 
 def example():
 
-    from sklearn.preprocessing import StandardScaler as StdScaler
+    from sklearn.preprocessing import StandardScaler as StdScaler, MinMaxScaler as MMScaler
     from sklearn.model_selection import train_test_split
     from mnist import MNIST
 
@@ -595,11 +608,13 @@ def example():
     # An example in the dataset
     idx = np.random.randint(low = 0, high = len(X_train)-1)
     plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
+    plt.colorbar()
     plt.title(f"Number {y_train[idx]} from MNIST dataset (without scalling)")
     plt.show()
 
     # Creates scaler "classifier" from sklearn to scale the set
-    scaler = StdScaler()
+##    scaler = StdScaler()
+    scaler = MMScaler()
 
     # Scalling X
     scaler.fit(X_train)
@@ -607,6 +622,7 @@ def example():
     
     # The same example with scalling applied
     plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
+    plt.colorbar()
     plt.title(f"Number {y_train[idx]} from MNIST dataset (with scalling)")
     plt.show()
 
@@ -619,17 +635,18 @@ def example():
 
     # Initializes NN classifier
     clf = NeuralNetwork(
-        layer_sizes = [30,20,10,20,30],
-        learning_rate = 0.001,
+        layer_sizes = [30,20,30],
+        learning_rate = 0.0075,
         max_iter = 200,
         L2 = 1,
         beta1 = 0.9,
         beta2 = 0.999,
-        minibatch_size = 512,
+        minibatch_size = 1024,
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1,
-        end_on_close = True)
+        end_on_close = False,
+        end_on_backspace = True)
 
     print()
     print()
@@ -662,6 +679,7 @@ def example():
     X_test = X_test.T
     y_test = np.array([y_test])
 
+    # Make predictions for test set
     predicted_y = clf.predict(X_test)
     table = Metrics.score_table(y_test, predicted_y)
     print()
