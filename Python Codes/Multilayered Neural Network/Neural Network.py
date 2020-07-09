@@ -686,6 +686,15 @@ def example():
     print()
     print("    Results for test set")
     print(table)
+
+    # Plots a mislabeled test example
+    plt.figure()
+    indexes = np.where(predicted_y != y_test)[1]
+    idx = np.random.choice(indexes)
+    plt.imshow(X_test.T[idx].reshape(28,28), cmap = 'Greys')
+    plt.colorbar()
+    plt.title(f"Number {y_test[0,idx]}, mislabeled as {predicted_y[0,idx]}")
+    plt.show()
     
 example()
 
