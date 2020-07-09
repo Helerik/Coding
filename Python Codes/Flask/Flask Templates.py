@@ -4,10 +4,10 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 # An example
-@app.route('/profile/<name>')
-def index(name):
+@app.route('/')
+@app.route("/profile/<name>")
+def profile(name = None):
     return render_template("profile.html", name = name)
-
 
 # Starts the web-server
 if __name__ == "__main__":
