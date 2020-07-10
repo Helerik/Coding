@@ -3,9 +3,18 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+posts = [
+    {"author": "Erik Vincent",
+     "date": "07/10/2020",
+     "title": "The posts"
+     "number": "1",
+     "content": "Blah foo fun"}
+    ]
+
 @app.route('/')
-def home_page():
-    return render_template("home_page.html")
+@app.route("/home")
+def home_page(posts):
+    return render_template("home_page.html", posts = posts)
 
 @app.route("/about")
 def about():
