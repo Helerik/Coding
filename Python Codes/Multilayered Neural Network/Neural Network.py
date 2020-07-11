@@ -696,7 +696,7 @@ def example():
     plt.title(f"Number {y_test[0,idx]}, mislabeled as {predicted_y[0,idx]}")
     plt.show()
     
-example()
+##example()
 
 
 
