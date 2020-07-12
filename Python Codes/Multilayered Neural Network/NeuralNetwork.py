@@ -6,7 +6,9 @@ sys.path.insert(0, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Ne
 
 import numpy as np
 import matplotlib.pyplot as plt
+
 from pynput import keyboard
+
 from ActivationFunction import *
 
 class NeuralNetwork():
