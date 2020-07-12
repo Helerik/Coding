@@ -40,7 +40,7 @@ img = np.array([
     [3,3,3,3,3,0,0,0,0]
     ])
 
-img1 = conv_forward(img, vertical_edge(), padding = 10)
+img1 = conv_forward(img, vertical_edge(), padding = 1)
 
 plt.imshow(img, cmap = "Greys")
 plt.show()
