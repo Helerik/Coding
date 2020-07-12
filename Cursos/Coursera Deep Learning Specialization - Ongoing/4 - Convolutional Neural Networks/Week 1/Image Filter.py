@@ -11,7 +11,17 @@ def vertical_edge():
         ])
     return  ret_filter
 
-def conv_forward(img, filtr):
+def pad(image, p = 1):
+    img = np.copy(image)
+    for _ in range(p):
+        img = np.concatenate((img, np.zeros((img.shape[0], 1))), axis = 1)
+        img = np.concatenate((np.zeros((img.shape[0], 1)), img), axis = 1)
+        img = np.concatenate((img, np.zeros((1, img.shape[1]))), axis = 0)
+        img = np.concatenate((np.zeros((1, img.shape[1])), img), axis = 0)
+    return img
+
+def conv_forward(image, filtr, padding = 0):
+    img = pad(image, padding)
     ret_matrix = np.zeros((img.shape[0]-filtr.shape[0]+1, img.shape[1]-filtr.shape[1]+1))
     for i in range(img.shape[0]-filtr.shape[0]+1):
         for j in range(img.shape[1]-filtr.shape[1]+1):
@@ -30,7 +40,7 @@ img = np.array([
     [3,3,3,3,3,0,0,0,0]
     ])
 
-img1 = conv_forward(img, vertical_edge())
+img1 = conv_forward(img, vertical_edge(), padding = 10)
 
 plt.imshow(img, cmap = "Greys")
 plt.show()
