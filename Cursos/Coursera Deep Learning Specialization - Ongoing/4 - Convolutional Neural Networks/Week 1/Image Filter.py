@@ -22,9 +22,12 @@ def pad(image, p = 1):
 
 def conv_forward(image, filtr, padding = 0, stride = 1):
     img = pad(image, padding)
-    ret_matrix = np.zeros((img.shape[0]-filtr.shape[0]+1, img.shape[1]-filtr.shape[1]+1))
-    for i in range(img.shape[0]-filtr.shape[0]+1):
-        for j in range(img.shape[1]-filtr.shape[1]+1):
+    m, n = img.shape
+    f, g = filtr.shape
+    size = (int(np.floor((m-f)/stride + 1)), int(np.floor((n-g)/stride + 1)))
+    ret_matrix = np.zeros(size)
+    for i in range(0, size[0]):
+        for j in range(0, size[1]):
             ret_matrix[i,j] = np.sum(img[i:i+filtr.shape[0], j:j+filtr.shape[1]] * filtr)
     return ret_matrix        
 
