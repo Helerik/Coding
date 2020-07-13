@@ -189,7 +189,7 @@ class NeuralNetwork():
             bi = np.copy(self.weights['b'+str(i+1)])
             
             Zi = np.dot(Wi, Ai_prev) + bi
-            if redisude:
+            if self.residue:
                 Ai = self.activation[i].function(Zi + Ai_prev)
             else:
                 Ai = self.activation[i].function(Zi)       
