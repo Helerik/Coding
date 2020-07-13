@@ -205,12 +205,12 @@ class NeuralNetwork():
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
         if self.classification == 'binary':
-            if residue:
+            if self.residue:
                 Ai = Sigmoid.function(Zi + Ai_prev)
             else:
                 Ai = Sigmoid.function(Zi)
         elif self.classification == 'multiclass':
-            if residue:
+            if self.residue:
                 Ai = Softmax.function(Zi + Ai_prev)
             else:
                 Ai = Softmax.function(Zi)
