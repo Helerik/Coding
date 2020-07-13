@@ -25,6 +25,7 @@ class NeuralNetwork():
                  epsilon = 1e-8,
                  minibatch_size = None,
                  classification = 'binary',
+                 residue = True,
                  plot_N = None,
                  end_on_close = False,
                  end_on_backspace = False):
@@ -40,6 +41,7 @@ class NeuralNetwork():
         self.epsilon = epsilon
         self.minibatch_size = minibatch_size
         self.classification = classification.lower()
+        self.residue = residue
         self.plot_N = plot_N
         self.end_on_close = end_on_close
         self.end_on_backspace = end_on_backspace
@@ -187,7 +189,10 @@ class NeuralNetwork():
             bi = np.copy(self.weights['b'+str(i+1)])
             
             Zi = np.dot(Wi, Ai_prev) + bi
-            Ai = self.activation[i].function(Zi)       
+            if redisude:
+                Ai = self.activation[i].function(Zi + Ai_prev)
+            else:
+                Ai = self.activation[i].function(Zi)       
 
             self.A_vals['A'+str(i+1)] = np.copy(Ai)
             self.Z_vals['Z'+str(i+1)] = np.copy(Zi)
@@ -200,10 +205,16 @@ class NeuralNetwork():
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
         if self.classification == 'binary':
-            Ai = Sigmoid.function(Zi)
+            if residue:
+                Ai = Sigmoid.function(Zi + Ai_prev)
+            else:
+                Ai = Sigmoid.function(Zi)
         elif self.classification == 'multiclass':
-            Ai = Softmax.function(Zi)
-
+            if residue:
+                Ai = Softmax.function(Zi + Ai_prev)
+            else:
+                Ai = Softmax.function(Zi)
+                
         self.A_vals['A'+str(self.num_layers)] = np.copy(Ai)
         self.Z_vals['Z'+str(self.num_layers)] = np.copy(Zi)
 
