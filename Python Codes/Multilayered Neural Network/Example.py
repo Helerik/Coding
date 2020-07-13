@@ -60,7 +60,6 @@ def example():
         minibatch_size = 1024,
         activation = 'relu',
         classification = 'multiclass',
-        residue = True,
         plot_N = 1,
         end_on_close = True,
         end_on_backspace = False)
