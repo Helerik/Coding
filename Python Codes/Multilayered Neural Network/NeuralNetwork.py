@@ -185,16 +185,16 @@ class NeuralNetwork():
         self.A_vals['A'+str(self.num_layers)] = Ai.copy()
         self.Z_vals['Z'+str(self.num_layers)] = Zi.copy()
 
+    # Performs backward propagation loop
     def __backward_propagation(self):
         
-        # Backward propagation
         for i in range(self.num_layers, 0, -1):
 
             # Gets current layer weights
             Wi = self.weights['W'+str(i)].copy()
             bi = self.weights['b'+str(i)].copy()
             Ai = self.A_vals['A'+str(i)].copy()
-            Zi = nself.Z_vals['Z'+str(i)].copy()
+            Zi = self.Z_vals['Z'+str(i)].copy()
 
             # Gets momentum
             VdWi = self.V_vals["VdW"+str(i)].copy()
