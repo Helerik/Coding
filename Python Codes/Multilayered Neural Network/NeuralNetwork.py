@@ -216,9 +216,8 @@ class NeuralNetwork():
             else:
                 dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
 
-            # Cache dZi, Wi
-            dZnxt = dZi.copy()
-            Wnxt = Wi.copy()
+            # Cache dA
+            dA = np.dot(Wi.T, dZi)
 
             # Calculates dWi and dbi
             dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
