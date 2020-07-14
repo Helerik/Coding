@@ -210,7 +210,7 @@ class NeuralNetwork():
             else:
                 Ai_prev = self.A_vals['A'+str(i-1)].copy()
 
-            # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * g'(Zi)
+            # If on the last layer, dZi = Ai - Y; else dZi = dA * g'(Zi)
             if i == self.num_layers:
                 dZi = Ai - self.minibatch_Y
             else:
