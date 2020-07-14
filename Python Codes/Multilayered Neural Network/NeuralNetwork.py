@@ -214,7 +214,7 @@ class NeuralNetwork():
             if i == self.num_layers:
                 dZi = Ai - self.minibatch_Y
             else:
-                dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
+                dZi = dA * self.activation[i-1].derivative(Zi)
 
             # Cache dA
             dA = np.dot(Wi.T, dZi)
