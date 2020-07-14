@@ -188,7 +188,7 @@ class NeuralNetwork():
     # Evaluates cost function
     def __evaluate_cost(self):
         
-        AL = np.copy(self.A_vals['A'+str(self.num_layers)])
+        AL = self.A_vals['A'+str(self.num_layers)].copy()
 
         if self.classification == 'binary':
             loss_func = -(self.minibatch_Y*np.log(AL) + (1-self.minibatch_Y)*np.log(1-AL))
@@ -295,24 +295,24 @@ class NeuralNetwork():
                 for i in range(self.num_layers, 0, -1):
 
                     # Gets current layer weights
-                    Wi = np.copy(self.weights['W'+str(i)])
-                    bi = np.copy(self.weights['b'+str(i)])
-                    Ai = np.copy(self.A_vals['A'+str(i)])
-                    Zi = np.copy(self.Z_vals['Z'+str(i)])
+                    Wi = self.weights['W'+str(i)].copy()
+                    bi = self.weights['b'+str(i)].copy()
+                    Ai = self.A_vals['A'+str(i)].copy()
+                    Zi = nself.Z_vals['Z'+str(i)].copy()
 
                     # Gets momentum
-                    VdWi = np.copy(self.V_vals["VdW"+str(i)])
-                    Vdbi = np.copy(self.V_vals["Vdb"+str(i)])
+                    VdWi = self.V_vals["VdW"+str(i)].copy()
+                    Vdbi = self.V_vals["Vdb"+str(i)].copy()
 
                     # Gets RMSprop
-                    SdWi = np.copy(self.S_vals["SdW"+str(i)])
-                    Sdbi = np.copy(self.S_vals["Sdb"+str(i)])
+                    SdWi = self.S_vals["SdW"+str(i)].copy()
+                    Sdbi = self.S_vals["Sdb"+str(i)].copy()
 
                     # If on first layer, Ai_prev = X itself
                     if i == 1:
-                        Ai_prev = np.copy(self.minibatch_X)
+                        Ai_prev = self.minibatch_X.copy()
                     else:
-                        Ai_prev = np.copy(self.A_vals['A'+str(i-1)])
+                        Ai_prev = self.A_vals['A'+str(i-1)].copy()
 
                     # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * g'(Zi)
                     if i == self.num_layers:
@@ -321,8 +321,8 @@ class NeuralNetwork():
                         dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
 
                     # Cache dZi, Wi
-                    dZnxt = np.copy(dZi)
-                    Wnxt = np.copy(Wi)
+                    dZnxt = dZi.copy()
+                    Wnxt = Wi.copy()
 
                     # Calculates dWi and dbi
                     dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
@@ -331,20 +331,20 @@ class NeuralNetwork():
                     # Updates momentum
                     VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
                     Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
-                    self.V_vals["VdW"+str(i)] = np.copy(VdWi)
-                    self.V_vals["Vdb"+str(i)] = np.copy(Vdbi)
+                    self.V_vals["VdW"+str(i)] = VdWi.copy()
+                    self.V_vals["Vdb"+str(i)] = Vdbi.copy()
 
                     # Updates RMSprop
                     SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
                     Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
-                    self.S_vals["SdW"+str(i)] = np.copy(SdWi)
-                    self.S_vals["Sdb"+str(i)] = np.copy(Sdbi)
+                    self.S_vals["SdW"+str(i)] = SdWi.copy()
+                    self.S_vals["Sdb"+str(i)] = Sdbi.copy()
 
                     # Updates weights and biases
                     Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
                     bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
-                    self.weights['W'+str(i)] = np.copy(Wi)
-                    self.weights['b'+str(i)] = np.copy(bi)
+                    self.weights['W'+str(i)] = Wi.copy()
+                    self.weights['b'+str(i)] = bi.copy()
 
                     if self.code_breaker:
                         break
@@ -438,19 +438,19 @@ class NeuralNetwork():
     # Predicts X vector tags
     def predict(self, X):
 
-        Ai_prev = np.copy(X)
+        Ai_prev = X.copy()
         for i in range(self.num_layers - 1):
             
-            Wi = np.copy(self.best_weights['W'+str(i+1)])
-            bi = np.copy(self.best_weights['b'+str(i+1)])
+            Wi = self.best_weights['W'+str(i+1)].copy()
+            bi = self.best_weights['b'+str(i+1)].copy()
             
             Zi = np.dot(Wi, Ai_prev) + bi
             Ai = self.activation[i].function(Zi)
 
-            Ai_prev = np.copy(Ai)
+            Ai_prev = Ai.copy()
 
-        Wi = np.copy(self.best_weights['W'+str(self.num_layers)])
-        bi = np.copy(self.best_weights['b'+str(self.num_layers)])
+        Wi = self.best_weights['W'+str(self.num_layers)].copy()
+        bi = self.best_weights['b'+str(self.num_layers)].copy()
 
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
