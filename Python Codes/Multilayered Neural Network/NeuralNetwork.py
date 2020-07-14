@@ -122,9 +122,12 @@ class NeuralNetwork():
         
         n_h_prev = n_x
         for i in range(self.num_layers - 1):
+            
             n_h = self.layer_sizes[i]
+            
             self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
             self.weights['b'+str(i+1)] = np.zeros((n_h,1))
+            
             n_h_prev = n_h
 
         self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
@@ -135,6 +138,7 @@ class NeuralNetwork():
         
         n_h_prev = n_x
         for i in range(self.num_layers - 1):
+            
             n_h = self.layer_sizes[i]
             
             self.V_vals["VdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
