@@ -3,7 +3,7 @@
 
 # Imports sys for creating path to imported files on runtime
 import sys
-sys.path.insert(0, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network/ActivationFunction.py')
+sys.path.insert(1, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network/')
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,9 +19,9 @@ class CNN():
     def __init__(self,
                  layer_sizes = [
                      {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':6, 'stride':1, 'pad':1},
-                     {'type':'pool', 'f_H':14, 'f_W':14, 'n_C':8, 'stride':14, 'pad':0, 'mode':'max'},
+                     {'type':'pool', 'f_H':14, 'f_W':14, 'n_C':8, 'stride':14, 'mode':'max'},
                      {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':10, 'stride':1, 'pad':1},
-                     {'type':'pool', 'f_H':3, 'f_W':3, 'n_C':12, 'stride':3, 'pad':0, 'mode':'max'},
+                     {'type':'pool', 'f_H':3, 'f_W':3, 'n_C':12, 'stride':3, 'mode':'max'},
                      {'type':'fc', 'size':10},
                      {'type':'fc', 'size':10}
                      ],
@@ -97,6 +97,8 @@ class CNN():
         self.minibatch_m = None
         self.best_minibatch_cost = np.inf
 
+        self.fc_weights = False
+
         self.weights = {}
         self.best_weights = {}
         self.A_vals = {}
@@ -125,13 +127,13 @@ class CNN():
     |    Max Iterations:                {self.max_iter}"""
 
     # Initializes weights for each layer
-    def __initialize_weights(self, n_Cx, n_y):
+    def __initialize_weights(self, n_Cx):
 
         # Convolutional and pooling weights
         n_C_prev = n_Cx
         for i in range(self.num_layers - 1):
 
-            if self.layer_sizes[i]['type'] == 'conv' or self.layer_sizes[i]['type'] == 'pool':
+            if self.layer_sizes[i]['type'] == 'conv':
 
                 n_C = self.layer_sizes[i]['n_C']
                 f_H = self.layer_sizes[i]['f_H']
@@ -142,74 +144,125 @@ class CNN():
 
                 n_C_prev = n_C
 
-            else:
-                k = i
+            elif self.layer_sizes[i]['type'] == 'pool':
+                self.weights['W'+str(i+1)] = None
+                self.weights['b'+str(i+1)] = None
+
+            elif self.layer_sizes[i]['type'] == 'fc':
                 break
+            
+    # Initialize fully connected weights
+    def __initialize_fc_weights(self, n_a, n_y):
 
         # Fully connected weights
-        n_h_prev = len(self.weights['W'+str(k-1)].flatten())
-        for i in range(k, self.num_layers - 1):
+        n_h_prev = n_a
+        for i in range(self.num_layers - 1):
+
+            if self.layer_sizes[i]['type'] == 'fc':
         
-            n_h = self.layer_sizes[i]['size']
-            
-            self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
-            self.weights['b'+str(i+1)] = np.zeros((n_h,1))
-            
-            n_h_prev = n_h
+                n_h = self.layer_sizes[i]['size']
+                
+                self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
+                self.weights['b'+str(i+1)] = np.zeros((n_h,1))
+                
+                n_h_prev = n_h
 
         # Output weights
         self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
         self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
 
     # Initializes momentum and RMSprop for each layer
-    def __initialize_momentum(self, n_Cx, n_y):
-
-        # Convolutional and pooling momentums
-        n_C_prev = n_Cx
-        for i in range(self.num_layers - 1):
-
-            if self.layer_sizes[i]['type'] == 'conv' or self.layer_sizes[i]['type'] == 'pool':
-
-                n_C = self.layer_sizes[i]['n_C']
-                f_H = self.layer_sizes[i]['f_H']
-                f_W = self.layer_sizes[i]['f_W']
-
-                self.V_vals["VdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
-                self.V_vals["Vdb"+str(i+1)] = np.zeros((n_C,1,1,1))
-            
-                self.S_vals["SdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
-                self.S_vals["Sdb"+str(i+1)] = np.zeros((n_C,1,1,1))
-
-                n_C_prev = n_C
-
-            else:
-                k = i
-                break
-
-        # Fully connected momentums
-        n_h_prev = len(self.V_vals["VdW"+str(k-1)].flatten())
-        for i in range(k, self.num_layers - 1):
-        
-            n_h = self.layer_sizes[i]['size']
-            
-            self.V_vals["VdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
-            self.V_vals["Vdb"+str(i+1)] = np.zeros((n_h,1))
-            
-            self.S_vals["SdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
-            self.S_vals["Sdb"+str(i+1)] = np.zeros((n_h,1))
-            
-            n_h_prev = n_h
-
-        # Output momentums
-        self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
-        self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
+##    def __initialize_momentum(self, n_Cx, n_y):
+##
+##        # Convolutional and pooling momentums
+##        n_C_prev = n_Cx
+##        for i in range(self.num_layers - 1):
+##
+##            if self.layer_sizes[i]['type'] == 'conv' or self.layer_sizes[i]['type'] == 'pool':
+##
+##                n_C = self.layer_sizes[i]['n_C']
+##                f_H = self.layer_sizes[i]['f_H']
+##                f_W = self.layer_sizes[i]['f_W']
+##
+##                self.V_vals["VdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
+##                self.V_vals["Vdb"+str(i+1)] = np.zeros((n_C,1,1,1))
+##            
+##                self.S_vals["SdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
+##                self.S_vals["Sdb"+str(i+1)] = np.zeros((n_C,1,1,1))
+##
+##                n_C_prev = n_C
+##
+##            else:
+##                k = i
+##                break
+##
+##        # Fully connected momentums
+##        n_h_prev = len(self.V_vals["VdW"+str(k-1)].flatten())
+##        for i in range(k, self.num_layers - 1):
+##        
+##            n_h = self.layer_sizes[i]['size']
+##            
+##            self.V_vals["VdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
+##            self.V_vals["Vdb"+str(i+1)] = np.zeros((n_h,1))
+##            
+##            self.S_vals["SdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
+##            self.S_vals["Sdb"+str(i+1)] = np.zeros((n_h,1))
+##            
+##            n_h_prev = n_h
+##
+##        # Output momentums
+##        self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
+##        self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
 
     # Performs foward propagation
     def __forward_propagation(self):
 
         Ai_prev = self.minibatch_X.copy()
         for i in range(self.num_layers - 1):
+
+            if self.layer_sizes[i]['type'] == 'conv':
+
+                stridei = self.layer_sizes[i]['stride']
+                padi = self.layer_sizes[i]['pad']
             
+                Wi = self.weights['W'+str(i+1)].copy()
+                bi = self.weights['b'+str(i+1)].copy()
+
+                Zi = ConvPool.conv_forward(Ai_prev, Wi, bi, stridei, padi)
+                Ai = self.activation[i].function(Zi)
+
+                self.A_vals['A'+str(i+1)] = Ai.copy()
+                self.Z_vals['Z'+str(i+1)] = Zi.copy()
+
+                Ai_prev = Ai.copy()
+
+            elif self.layer_sizes[i]['type'] == 'pool':
+
+                f_Hi = self.layer_sizes[i]['f_H']
+                f_Wi = self.layer_sizes[i]['f_W']
+                stridei = self.layer_sizes[i]['stride']
+                modei = self.layer_sizes[i]['mode']
+
+                Ai = ConvPool.pool_forward(Ai_prev, f_Hi, f_Wi, stridei, modei)
+
+                self.A_vals['A'+str(i+1)] = Ai.copy()
+                self.Z_vals['Z'+str(i+1)] = None
+
+                Ai_prev = Ai.copy()
+
+            elif self.layer_sizes[i]['type'] == 'fc':
+                k = i
+                break
+
+        Ai_prev = np.array([Ai.flatten()]).T
+        
+        if not self.fc_weights:
+            n_a, m_a = Ai_prev.shape
+            n_y, m_y = self.Y.shape
+            self.__initialize_fc_weights(n_a, n_y)
+            
+        for i in range(k, self.num_layers - 1):
+
             Wi = self.weights['W'+str(i+1)].copy()
             bi = self.weights['b'+str(i+1)].copy()
             
@@ -251,49 +304,72 @@ class CNN():
             # Gets Zi value
             Zi = self.Z_vals['Z'+str(i)].copy()
 
-            # If on the last layer, dZi = AL - Y; else dZi = dA * g'(Zi)
-            if i == self.num_layers:
-                AL = self.A_vals['A'+str(i)].copy()
-                dZi = AL - self.minibatch_Y
-            else:
+            if self.layer_sizes[i]['type'] == 'fc':
+            
+                if i == self.num_layers:
+                    AL = self.A_vals['A'+str(i)].copy()
+                    dZi = AL - self.minibatch_Y
+                else:
+                    dZi = dAi * self.activation[i-1].derivative(Zi)
+
+                # Gets current layer weights
+                Wi = self.weights['W'+str(i)].copy()
+                bi = self.weights['b'+str(i)].copy()
+
+                # Gets momentum
+##                VdWi = self.V_vals["VdW"+str(i)].copy()
+##                Vdbi = self.V_vals["Vdb"+str(i)].copy()
+
+                # Gets RMSprop
+##                SdWi = self.S_vals["SdW"+str(i)].copy()
+##                Sdbi = self.S_vals["Sdb"+str(i)].copy()
+                
+                # Cache dA; on last layer, dA = Wi.T . dZi = Wi.T . (Ai - Y)
+                dAi = np.dot(Wi.T, dZi)
+
+                # Calculates dWi and dbi
+                dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
+                dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
+
+            elif self.layer_sizes[i]['type'] == 'pool':
+
+                f_Hi = self.layer_sizes[i]['f_H']
+                f_Wi = self.layer_sizes[i]['f_W']
+                stridei = self.layer_sizes[i]['stride']
+                modei = self.layer_sizes[i]['mode']
+
+                dAi = ConvPool.pool_backward(dAi, Ai_prev, f_Hi, f_Wi, stridei, modei)
+
+            elif self.layer_sizes[i]['type'] == 'conv':
+
+                stridei = self.layer_sizes[i]['stride']
+                padi = self.layer_sizes[i]['pad']
+            
+                Wi = self.weights['W'+str(i)].copy()
+                bi = self.weights['b'+str(i)].copy()
+
+                dAi = ConvPool.conv_backward(dZi, Ai_prev, Wi, bi, stridei, padi)
                 dZi = dAi * self.activation[i-1].derivative(Zi)
 
-            # Gets current layer weights
-            Wi = self.weights['W'+str(i)].copy()
-            bi = self.weights['b'+str(i)].copy()
+            if self.layer_sizes[i]['type'] != 'pool':
+##                # Updates momentum
+##                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
+##                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
+##                self.V_vals["VdW"+str(i)] = VdWi.copy()
+##                self.V_vals["Vdb"+str(i)] = Vdbi.copy()
+##
+##                # Updates RMSprop
+##                SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
+##                Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+##                self.S_vals["SdW"+str(i)] = SdWi.copy()
+##                self.S_vals["Sdb"+str(i)] = Sdbi.copy()
 
-            # Gets momentum
-            VdWi = self.V_vals["VdW"+str(i)].copy()
-            Vdbi = self.V_vals["Vdb"+str(i)].copy()
-
-            # Gets RMSprop
-            SdWi = self.S_vals["SdW"+str(i)].copy()
-            Sdbi = self.S_vals["Sdb"+str(i)].copy()
-            
-            # Cache dA; on last layer, dA = Wi.T . dZi = Wi.T . (Ai - Y)
-            dAi = np.dot(Wi.T, dZi)
-
-            # Calculates dWi and dbi
-            dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
-            dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
-
-            # Updates momentum
-            VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
-            Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
-            self.V_vals["VdW"+str(i)] = VdWi.copy()
-            self.V_vals["Vdb"+str(i)] = Vdbi.copy()
-
-            # Updates RMSprop
-            SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
-            Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
-            self.S_vals["SdW"+str(i)] = SdWi.copy()
-            self.S_vals["Sdb"+str(i)] = Sdbi.copy()
-
-            # Updates weights and biases
-            Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
-            bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
-            self.weights['W'+str(i)] = Wi.copy()
-            self.weights['b'+str(i)] = bi.copy()
+                # Updates weights and biases
+                Wi = Wi - self.learning_rate*dWi    #*VdWi/(np.sqrt(SdWi) + self.epsilon)
+                bi = bi - self.learning_rate*dbi    #*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
+                self.weights['W'+str(i)] = Wi.copy()
+                self.weights['b'+str(i)] = bi.copy()
+                
 
     # Evaluates cost function
     def __evaluate_cost(self):
@@ -325,19 +401,19 @@ class CNN():
 
         # Shuffles data before creating minibatches
         permutation = list(np.random.permutation(self.m))
-        shuffled_X = self.X[:, permutation]
+        shuffled_X = self.X[permutation]
         shuffled_Y = self.Y[:, permutation]
 
         num_full_minibatches = int(np.floor(self.m/self.minibatch_size))
         for k in range(num_full_minibatches):
-            minibatch_X = shuffled_X[:, self.minibatch_size*k : self.minibatch_size*(k+1)]
+            minibatch_X = shuffled_X[self.minibatch_size*k : self.minibatch_size*(k+1)]
             minibatch_Y = shuffled_Y[:, self.minibatch_size*k : self.minibatch_size*(k+1)]
             minibatch = (minibatch_X, minibatch_Y)
             self.minibatches.append(minibatch)
 
         # Depending on size of X and size of minibatches, the last minibatch will be smaller
         if self.m % self.minibatch_size != 0:
-            minibatch_X = shuffled_X[:, self.minibatch_size*num_full_minibatches :]
+            minibatch_X = shuffled_X[self.minibatch_size*num_full_minibatches :]
             minibatch_Y = shuffled_Y[:, self.minibatch_size*num_full_minibatches :]
             minibatch = (minibatch_X, minibatch_Y)
             self.minibatches.append(minibatch)  
@@ -591,7 +667,7 @@ class ConvPool():
         return A
 
     @classmethod
-    def conv_backward(cls, dZ, A_prev, W, b, f_H, f_W, stride, pad):
+    def conv_backward(cls, dZ, A_prev, W, b, stride, pad):
         
         (m, n_C_prev, n_H_prev, n_W_prev) = A_prev.shape
         (n_C, n_C_prev, f_H, f_W) = W.shape
@@ -640,7 +716,7 @@ class ConvPool():
         return np.one(shape)*avrg
 
     @classmethod
-    def pool_backward(cls, dA, A_prev, f_H, f_W, stride, mode)
+    def pool_backward(cls, dA, A_prev, f_H, f_W, stride, mode):
 
         (m, n_C_prev, n_H_prev, n_W_prev) = A_prev.shape
         (m, n_C, n_H, n_W) = dA.shape
