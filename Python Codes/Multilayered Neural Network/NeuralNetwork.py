@@ -158,22 +158,22 @@ class NeuralNetwork():
     # Performs foward propagation
     def __forward_propagation(self):
 
-        Ai_prev = np.copy(self.minibatch_X)
+        Ai_prev = self.minibatch_X.copy()
         for i in range(self.num_layers - 1):
             
-            Wi = np.copy(self.weights['W'+str(i+1)])
-            bi = np.copy(self.weights['b'+str(i+1)])
+            Wi = self.weights['W'+str(i+1)].copy()
+            bi = self.weights['b'+str(i+1).copy()
             
             Zi = np.dot(Wi, Ai_prev) + bi
             Ai = self.activation[i].function(Zi)       
 
-            self.A_vals['A'+str(i+1)] = np.copy(Ai)
-            self.Z_vals['Z'+str(i+1)] = np.copy(Zi)
+            self.A_vals['A'+str(i+1)] = Ai.copy()
+            self.Z_vals['Z'+str(i+1)] = Zi.copy()
             
-            Ai_prev = np.copy(Ai)
+            Ai_prev = Ai.copy()
 
-        Wi = np.copy(self.weights['W'+str(self.num_layers)])
-        bi = np.copy(self.weights['b'+str(self.num_layers)])
+        Wi = self.weights['W'+str(self.num_layers)].copy()
+        bi = self.weights['b'+str(self.num_layers)].copy()
 
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
@@ -182,8 +182,8 @@ class NeuralNetwork():
         elif self.classification == 'multiclass':
             Ai = Softmax.function(Zi)
 
-        self.A_vals['A'+str(self.num_layers)] = np.copy(Ai)
-        self.Z_vals['Z'+str(self.num_layers)] = np.copy(Zi)
+        self.A_vals['A'+str(self.num_layers)] = Ai.copy()
+        self.Z_vals['Z'+str(self.num_layers)] = Zi.copy()
 
     # Evaluates cost function
     def __evaluate_cost(self):
