@@ -28,7 +28,7 @@ class NeuralNetwork():
                  
                  activation = "relu",
                  minibatch_size = None,
-                 classification = 'binary',
+                 classification = "multiclass",
                  
                  plot_N = None,
                  end_on_close = False,
