@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 # Author: Erik Davino Vincent
 
+# Imports sys for creating path to imported files on runtime
 import sys
 sys.path.insert(0, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network/ActivationFunction.py')
 
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Pynput library for early stopping on command
 from pynput import keyboard
 
 from ActivationFunction import *
@@ -16,15 +18,18 @@ class NeuralNetwork():
     # Initializes Neural Network structure
     def __init__(self,
                  layer_sizes = [5,5],
+                 
                  learning_rate = 0.01,
                  max_iter = 200,
                  L2 = 0,
                  beta1 = 0.9,
                  beta2 = 0.999,
-                 activation = 'sigmoid',
                  epsilon = 1e-8,
+                 
+                 activation = 'sigmoid',
                  minibatch_size = None,
                  classification = 'binary',
+                 
                  plot_N = None,
                  end_on_close = False,
                  end_on_backspace = False):
@@ -32,14 +37,17 @@ class NeuralNetwork():
         # Structural variables
         self.layer_sizes = layer_sizes
         self.num_layers = len(layer_sizes) + 1
+        
         self.learning_rate = learning_rate
         self.max_iter = max_iter
         self.L2 = L2
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
+        
         self.minibatch_size = minibatch_size
         self.classification = classification.lower()
+        
         self.plot_N = plot_N
         self.end_on_close = end_on_close
         self.end_on_backspace = end_on_backspace
@@ -109,6 +117,19 @@ class NeuralNetwork():
     |    Mini-Batch Size:               {self.minibatch_size}
     |    Max Iterations:                {self.max_iter}"""
 
+    # Initializes weights for each layer
+    def __initialize_weights(self, n_x, n_y):
+        
+        n_h_prev = n_x
+        for i in range(self.num_layers - 1):
+            n_h = self.layer_sizes[i]
+            self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
+            self.weights['b'+str(i+1)] = np.zeros((n_h,1))
+            n_h_prev = n_h
+
+        self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
+        self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
+
     # Initializes momentum and RMSprop for each layer
     def __initialize_momentum(self, n_x, n_y):
         
@@ -129,53 +150,6 @@ class NeuralNetwork():
         
         self.S_vals["SdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
         self.S_vals["Sdb"+str(self.num_layers)] = np.zeros((n_y,1))      
-
-    # Initializes weights for each layer
-    def __initialize_weights(self, n_x, n_y):
-        
-        n_h_prev = n_x
-        for i in range(self.num_layers - 1):
-            n_h = self.layer_sizes[i]
-            self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
-            self.weights['b'+str(i+1)] = np.zeros((n_h,1))
-            n_h_prev = n_h
-
-        self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
-        self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
-
-    # Sets the network up and fits for X and Y
-    def fit(self, X, Y, warm_start = False):
-
-        self.X = X
-        if self.classification == 'binary':
-            self.Y = Y
-        elif self.classification == 'multiclass':
-            self.Y = []
-            class_num = np.max(Y)
-            for i in range(Y.shape[1]):
-                self.Y.append([0 for _ in range(class_num+1)])
-                self.Y[i][Y[0][i]] = 1
-            self.Y = np.array(self.Y).T
-        
-        n_x, m_x = self.X.shape
-        n_y, m_y = self.Y.shape
-        if m_x != m_y:
-            raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
-
-        if warm_start and self.training_status == "Trained":
-            self.weights = self.best_weights
-        else:
-            self.__initialize_weights(n_x, n_y)
-        self.__initialize_momentum(n_x, n_y)
-            
-        self.m = m_x
-
-        if self.minibatch_size == None:
-            self.minibatch_size = m_x
-
-        # Trains the network
-        self.__mini_batch_gradient_descent()
-        self.training_status = "Trained"
 
     # Performs foward propagation
     def __forward_propagation(self):
@@ -422,6 +396,40 @@ class NeuralNetwork():
         self.Z_vals = {}
         self.V_vals = {}
         self.S_vals = {}
+
+    # Sets the network up and fits for X and Y
+    def fit(self, X, Y, warm_start = False):
+
+        self.X = X
+        if self.classification == 'binary':
+            self.Y = Y
+        elif self.classification == 'multiclass':
+            self.Y = []
+            class_num = np.max(Y)
+            for i in range(Y.shape[1]):
+                self.Y.append([0 for _ in range(class_num+1)])
+                self.Y[i][Y[0][i]] = 1
+            self.Y = np.array(self.Y).T
+        
+        n_x, m_x = self.X.shape
+        n_y, m_y = self.Y.shape
+        if m_x != m_y:
+            raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
+
+        if warm_start and self.training_status == "Trained":
+            self.weights = self.best_weights
+        else:
+            self.__initialize_weights(n_x, n_y)
+        self.__initialize_momentum(n_x, n_y)
+            
+        self.m = m_x
+
+        if self.minibatch_size == None:
+            self.minibatch_size = m_x
+
+        # Trains the network
+        self.__mini_batch_gradient_descent()
+        self.training_status = "Trained"
 
     # Predicts X vector tags
     def predict(self, X):
