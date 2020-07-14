@@ -520,6 +520,50 @@ class CNN():
                 prediction.append(np.argmax(Ai[:,i]))
             return np.array([prediction])
 
+# Class for convolution and pooling operations + padding
+class ConvPool():
+
+    @classmethod
+    def zero_pad(cls, X, p):
+        return np.pad(X, ((0, 0), (p, p), (p, p), (0, 0)), 'constant', constant_values = (0, 0))
+
+    @classmethod
+    def __conv_step(X_slice, filt, add):
+        return float(np.sum(X_slice * filt) + add)
+
+    @classmethod
+    def conv_forward(cls, X, W, b, stride, pad):
+
+        (m, n_C_prev, n_H_prev, n_W_prev) = X.shape
+        (n_C, n_C_prev, f_H, f_W) = W.shape
+
+        n_H = int(np.floor((n_H_prev-f_H+2*pad)/stride + 1))
+        n_W = int(np.floor((n_W_prev-f_W+2*pad)/stride + 1))
+
+        Z = np.zeros((m, n_C, n_H, n_W))
+
+        X_pad = cls.zero_pad(X, pad)
+
+        for i in range(m):
+            Xi_pad = X_pad[i]
+            for h in range(n_H):
+                start_H = h*stride
+                end_H = h*stride + f_H
+                for w in range(n_W):
+                    start_W = w*stride
+                    end_W = w*stride + f_W
+                    for c in range(n_C):
+
+                        Xi_slice = Xi_pad[:, start_H:end_H, start_W:end_W]
+                        W_filt = W[c,:,:,:]
+                        b_filt = b[c,:,:,:]
+                        Z[i, c, h, w] = cls.__conv_step(Xi_slice, W_filt, b_filt)
+
+        return Z
+
+
+
+
 
 
 
