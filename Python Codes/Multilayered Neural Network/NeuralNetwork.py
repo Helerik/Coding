@@ -185,6 +185,66 @@ class NeuralNetwork():
         self.A_vals['A'+str(self.num_layers)] = Ai.copy()
         self.Z_vals['Z'+str(self.num_layers)] = Zi.copy()
 
+    def __backward_propagation(self):
+        
+        # Backward propagation
+        for i in range(self.num_layers, 0, -1):
+
+            # Gets current layer weights
+            Wi = self.weights['W'+str(i)].copy()
+            bi = self.weights['b'+str(i)].copy()
+            Ai = self.A_vals['A'+str(i)].copy()
+            Zi = nself.Z_vals['Z'+str(i)].copy()
+
+            # Gets momentum
+            VdWi = self.V_vals["VdW"+str(i)].copy()
+            Vdbi = self.V_vals["Vdb"+str(i)].copy()
+
+            # Gets RMSprop
+            SdWi = self.S_vals["SdW"+str(i)].copy()
+            Sdbi = self.S_vals["Sdb"+str(i)].copy()
+
+            # If on first layer, Ai_prev = X itself
+            if i == 1:
+                Ai_prev = self.minibatch_X.copy()
+            else:
+                Ai_prev = self.A_vals['A'+str(i-1)].copy()
+
+            # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * g'(Zi)
+            if i == self.num_layers:
+                dZi = Ai - self.minibatch_Y
+            else:
+                dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
+
+            # Cache dZi, Wi
+            dZnxt = dZi.copy()
+            Wnxt = Wi.copy()
+
+            # Calculates dWi and dbi
+            dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
+            dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
+
+            # Updates momentum
+            VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
+            Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
+            self.V_vals["VdW"+str(i)] = VdWi.copy()
+            self.V_vals["Vdb"+str(i)] = Vdbi.copy()
+
+            # Updates RMSprop
+            SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
+            Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+            self.S_vals["SdW"+str(i)] = SdWi.copy()
+            self.S_vals["Sdb"+str(i)] = Sdbi.copy()
+
+            # Updates weights and biases
+            Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
+            bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
+            self.weights['W'+str(i)] = Wi.copy()
+            self.weights['b'+str(i)] = bi.copy()
+
+            if self.code_breaker:
+                break
+
     # Evaluates cost function
     def __evaluate_cost(self):
         
@@ -291,63 +351,7 @@ class NeuralNetwork():
                 if self.code_breaker:
                     break
 
-                # Backward propagation
-                for i in range(self.num_layers, 0, -1):
-
-                    # Gets current layer weights
-                    Wi = self.weights['W'+str(i)].copy()
-                    bi = self.weights['b'+str(i)].copy()
-                    Ai = self.A_vals['A'+str(i)].copy()
-                    Zi = nself.Z_vals['Z'+str(i)].copy()
-
-                    # Gets momentum
-                    VdWi = self.V_vals["VdW"+str(i)].copy()
-                    Vdbi = self.V_vals["Vdb"+str(i)].copy()
-
-                    # Gets RMSprop
-                    SdWi = self.S_vals["SdW"+str(i)].copy()
-                    Sdbi = self.S_vals["Sdb"+str(i)].copy()
-
-                    # If on first layer, Ai_prev = X itself
-                    if i == 1:
-                        Ai_prev = self.minibatch_X.copy()
-                    else:
-                        Ai_prev = self.A_vals['A'+str(i-1)].copy()
-
-                    # If on the last layer, dZi = Ai - Y; else dZi = (Wi+1 . dZi+1) * g'(Zi)
-                    if i == self.num_layers:
-                        dZi = Ai - self.minibatch_Y
-                    else:
-                        dZi = np.dot(Wnxt.T, dZnxt) * self.activation[i-1].derivative(Zi)
-
-                    # Cache dZi, Wi
-                    dZnxt = dZi.copy()
-                    Wnxt = Wi.copy()
-
-                    # Calculates dWi and dbi
-                    dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
-                    dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
-
-                    # Updates momentum
-                    VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
-                    Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
-                    self.V_vals["VdW"+str(i)] = VdWi.copy()
-                    self.V_vals["Vdb"+str(i)] = Vdbi.copy()
-
-                    # Updates RMSprop
-                    SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
-                    Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
-                    self.S_vals["SdW"+str(i)] = SdWi.copy()
-                    self.S_vals["Sdb"+str(i)] = Sdbi.copy()
-
-                    # Updates weights and biases
-                    Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
-                    bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
-                    self.weights['W'+str(i)] = Wi.copy()
-                    self.weights['b'+str(i)] = bi.copy()
-
-                    if self.code_breaker:
-                        break
+                
                     
                 # End of backprop loop ==================================================
                 
