@@ -524,17 +524,17 @@ class CNN():
 class ConvPool():
 
     @classmethod
-    def zero_pad(cls, X, p):
-        return np.pad(X, ((0, 0), (p, p), (p, p), (0, 0)), 'constant', constant_values = (0, 0))
+    def zero_pad(cls, A_prev, p):
+        return np.pad(A_prev, ((0, 0), (p, p), (p, p), (0, 0)), 'constant', constant_values = (0, 0))
 
     @classmethod
-    def __conv_step(X_slice, filt, add):
-        return float(np.sum(X_slice * filt) + add)
+    def __conv_step(cls, A_prev_slice, filt, add):
+        return float(np.sum(A_prev_slice * filt) + add)
 
     @classmethod
-    def conv_forward(cls, X, W, b, stride, pad):
+    def conv_forward(cls, A_prev, W, b, stride, pad):
 
-        (m, n_C_prev, n_H_prev, n_W_prev) = X.shape
+        (m, n_C_prev, n_H_prev, n_W_prev) = A_prev.shape
         (n_C, n_C_prev, f_H, f_W) = W.shape
 
         n_H = int(np.floor((n_H_prev-f_H+2*pad)/stride + 1))
@@ -542,10 +542,10 @@ class ConvPool():
 
         Z = np.zeros((m, n_C, n_H, n_W))
 
-        X_pad = cls.zero_pad(X, pad)
+        A_prev_pad = cls.zero_pad(A_prev, pad)
 
         for i in range(m):
-            Xi_pad = X_pad[i]
+            A_previ_pad = A_prev_pad[i]
             for h in range(n_H):
                 start_H = h*stride
                 end_H = h*stride + f_H
@@ -554,16 +554,124 @@ class ConvPool():
                     end_W = w*stride + f_W
                     for c in range(n_C):
 
-                        Xi_slice = Xi_pad[:, start_H:end_H, start_W:end_W]
+                        A_previ_slice = A_previ_pad[:, start_H:end_H, start_W:end_W]
                         W_filt = W[c,:,:,:]
                         b_filt = b[c,:,:,:]
-                        Z[i, c, h, w] = cls.__conv_step(Xi_slice, W_filt, b_filt)
+                        Z[i, c, h, w] = cls.__conv_step(A_previ_slice, W_filt, b_filt)
 
         return Z
 
+    @classmethod
+    def pool_forward(cls, A_prev, f_H, f_W, stride, mode):
 
+        (m, n_C_prev, n_H_prev, n_W_prev) = A_prev.shape
 
+        n_H = int(np.floor((n_H_prev-f_H+2*pad)/stride + 1))
+        n_W = int(np.floor((n_W_prev-f_W+2*pad)/stride + 1))
+        n_C = n_C_prev
 
+        A = np.zeros((m, n_C, n_H, n_W))
+
+        for i in range(m):
+            for h in range(n_H):
+                start_H = h*stride
+                end_H = h*stride + f_H
+                for w in range(n_W):
+                    start_W = w*stride
+                    end_W = w*stride + f_W
+                    for c in range(n_C):
+
+                        A_slice = A[i, c, start_H:end_H, start_W:end_W]
+
+                        if mode == "max":
+                            A[i, c, h, w] = np.max(A_slice)
+                        elif mode == "average":
+                            A[i, c, h, w] = np.mean(A_slice)
+
+        return A
+
+    @classmethod
+    def conv_backward(cls, dZ, A_prev, W, b, f_H, f_W, stride, pad):
+        
+        (m, n_C_prev, n_H_prev, n_W_prev) = A_prev.shape
+        (n_C, n_C_prev, f_H, f_W) = W.shape
+        (m, n_C, n_H, n_W) = dZ.shape
+
+        dA_prev = np.zeros((m, n_C_prev, n_H_prev, n_W_prev))
+        dW = np.zeros((n_C, n_C_prev, f_H, f_W))
+        db = np.zeros((n_C, 1, 1, 1))
+
+        Z = np.zeros((m, n_C, n_H, n_W))
+
+        A_prev_pad = cls.zero_pad(A_prev, pad)
+        dA_prev_pad = cls.zero_pad(dA_prev, pad)
+
+        for i in range(m):
+            A_previ_pad = A_prev_pad[i]
+            dA_previ_pad = dA_prev_pad[i]
+            for h in range(n_H):
+                start_H = h*stride
+                end_H = h*stride + f_H
+                for w in range(n_W):
+                    start_W = w*stride
+                    end_W = w*stride + f_W
+                    for c in range(n_C):
+
+                        A_previ_slice = A_previ_pad[:, start_H:end_H, start_W:end_W]
+
+                        dA_previ_pad[:, start_H:end_H, start_W:end_W] += W[c,:,:,:] * dZ[i, c, h, w]
+                        dW[c,:,:,:] += A_previ_slice * dZ[i, c, h, w]
+                        db[c,:,:,:] += dZ[i, c, h, w]
+
+            dA_prev[i] = dA_previ_pad[:, pad:-pad, pad:-pad]
+
+        return (dA_prev, dW, db)
+
+    @classmethod
+    def __max_mask(cls, X):
+        return (X == np.max(X))
+
+    @classmethod
+    def __mean_mask(cls, dZ, shape):
+
+        (n_H, n_W) = shape
+        avrg = 1/(n_H*n_W)
+
+        return np.one(shape)*avrg
+
+    @classmethod
+    def pool_backward(cls, dA, A_prev, f_H, f_W, stride, mode)
+
+        (m, n_C_prev, n_H_prev, n_W_prev) = A_prev.shape
+        (m, n_C, n_H, n_W) = dA.shape
+
+        dA_prev = np.zeros((m, n_C_prev, n_H_prev, n_W_prev))
+
+        for i in range(m):
+            Ai_prev = A_prev[i]
+            for h in range(n_H):
+                start_H = h*stride
+                end_H = h*stride + f_H
+                for w in range(n_W):
+                    start_W = w*stride
+                    end_W = w*stride + f_W
+                    for c in range(n_C):
+
+                        if mode == 'max':
+                            
+                            Ai_prev_slice = Ai_prev[c, start_H:end_H, start_W:end_W]
+                            mask = cls.__max_mask(Ai_prev_slice)
+                            dA_prev[i,c,start_H:end_H, start_W:end_W] += mask * dA[i,c,start_H:end_H, start_W:end_W]
+
+                        elif mode == 'average':
+
+                            dAi = dA[i]
+                            shape = (f_H, f_W)
+                            dA_prev[i,c,start_H:end_H, start_W:end_W] += cls.__mean_mask(dAi, shape)
+
+        return dA_prev
+
+                        
 
 
 
