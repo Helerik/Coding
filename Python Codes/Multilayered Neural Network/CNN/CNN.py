@@ -18,11 +18,9 @@ class CNN():
     # Initializes Neural Network structure
     def __init__(self,
                  layer_sizes = [
-                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':6, 'stride':1, 'pad':1},
-                     {'type':'pool', 'f_H':14, 'f_W':14, 'n_C':8, 'stride':14, 'mode':'max'},
-                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':10, 'stride':1, 'pad':1},
-                     {'type':'pool', 'f_H':3, 'f_W':3, 'n_C':12, 'stride':3, 'mode':'max'},
-                     {'type':'fc', 'size':10},
+                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':3, 'stride':1, 'pad':0},
+                     {'type':'pool', 'f_H':2, 'f_W':2, 'n_C':6, 'stride':2, 'mode':'max'},
+                     {'type':'fc', 'size':20},
                      {'type':'fc', 'size':10}
                      ],
                  
@@ -98,6 +96,7 @@ class CNN():
         self.best_minibatch_cost = np.inf
 
         self.fc_weights = False
+        self.connection_shape = None
 
         self.weights = {}
         self.best_weights = {}
@@ -159,7 +158,7 @@ class CNN():
         for i in range(self.num_layers - 1):
 
             if self.layer_sizes[i]['type'] == 'fc':
-        
+                
                 n_h = self.layer_sizes[i]['size']
                 
                 self.weights['W'+str(i+1)] = np.random.randn(n_h, n_h_prev)*np.sqrt(2/n_h_prev)
@@ -254,9 +253,13 @@ class CNN():
                 k = i
                 break
 
-        Ai_prev = np.array([Ai.flatten()]).T
-        
+        Ai = []
+        self.connection_shape = (Ai_prev.shape[1], Ai_prev.shape[2], Ai_prev.shape[3])
+        for j in range(Ai_prev.shape[0]):
+            Ai.append(Ai_prev[j].flatten())
+        Ai_prev = np.array(Ai).T
         if not self.fc_weights:
+            self.fc_weights = True
             n_a, m_a = Ai_prev.shape
             n_y, m_y = self.Y.shape
             self.__initialize_fc_weights(n_a, n_y)
@@ -295,16 +298,16 @@ class CNN():
         
         for i in range(self.num_layers, 0, -1):
 
+            # Gets Zi value
+            Zi = np.copy(self.Z_vals['Z'+str(i)])
+
             # Gets Ai_prev. If i = 1, Ai_prev = X
             if i == 1:
                 Ai_prev = self.minibatch_X.copy()
             else:
                 Ai_prev = self.A_vals['A'+str(i-1)].copy()
 
-            # Gets Zi value
-            Zi = self.Z_vals['Z'+str(i)].copy()
-
-            if self.layer_sizes[i]['type'] == 'fc':
+            if self.layer_sizes[i-2]['type'] == 'fc':
             
                 if i == self.num_layers:
                     AL = self.A_vals['A'+str(i)].copy()
@@ -326,32 +329,48 @@ class CNN():
                 
                 # Cache dA; on last layer, dA = Wi.T . dZi = Wi.T . (Ai - Y)
                 dAi = np.dot(Wi.T, dZi)
-
+                
                 # Calculates dWi and dbi
-                dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
+                dWi = np.dot(Ai_prev, dZi.T)/m #+ (self.L2/m)*Wi.T
                 dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
 
-            elif self.layer_sizes[i]['type'] == 'pool':
+            elif self.layer_sizes[i-2]['type'] == 'pool':
 
-                f_Hi = self.layer_sizes[i]['f_H']
-                f_Wi = self.layer_sizes[i]['f_W']
-                stridei = self.layer_sizes[i]['stride']
-                modei = self.layer_sizes[i]['mode']
+                f_Hi = self.layer_sizes[i-2]['f_H']
+                f_Wi = self.layer_sizes[i-2]['f_W']
+                stridei = self.layer_sizes[i-2]['stride']
+                modei = self.layer_sizes[i-2]['mode']
+
+                if self.layer_sizes[i-1]['type'] == 'fc':
+                    Ai = []
+                    for j in range(Ai_prev.shape[0]):
+                        Ai.append(Ai_prev[j].flatten())
+                    Ai = np.array(Ai)
+                    dAi = np.dot(dAi, Ai)
+                    dAi = dAi.reshape(20, self.connection_shape[0], self.connection_shape[1], self.connection_shape[1])
 
                 dAi = ConvPool.pool_backward(dAi, Ai_prev, f_Hi, f_Wi, stridei, modei)
 
-            elif self.layer_sizes[i]['type'] == 'conv':
+            elif self.layer_sizes[i-2]['type'] == 'conv':
 
-                stridei = self.layer_sizes[i]['stride']
-                padi = self.layer_sizes[i]['pad']
+                stridei = self.layer_sizes[i-2]['stride']
+                padi = self.layer_sizes[i-2]['pad']
             
                 Wi = self.weights['W'+str(i)].copy()
                 bi = self.weights['b'+str(i)].copy()
 
-                dAi = ConvPool.conv_backward(dZi, Ai_prev, Wi, bi, stridei, padi)
+                if self.layer_sizes[i-1]['type'] == 'fc':
+                    Ai = []
+                    for j in range(Ai_prev.shape[0]):
+                        Ai.append(Ai_prev[j].flatten())
+                    Ai = np.array(Ai)
+                    dAi = np.dot(dAi, Ai)
+                    dAi = dAi.reshape(20, self.connection_shape[0], self.connection_shape[1], self.connection_shape[1])
+
+                dAi, dWi, dbi = ConvPool.conv_backward(dZi, Ai_prev, Wi, bi, stridei, padi)
                 dZi = dAi * self.activation[i-1].derivative(Zi)
 
-            if self.layer_sizes[i]['type'] != 'pool':
+            if self.layer_sizes[i-2]['type'] != 'pool':
 ##                # Updates momentum
 ##                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
 ##                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
@@ -365,7 +384,7 @@ class CNN():
 ##                self.S_vals["Sdb"+str(i)] = Sdbi.copy()
 
                 # Updates weights and biases
-                Wi = Wi - self.learning_rate*dWi    #*VdWi/(np.sqrt(SdWi) + self.epsilon)
+                Wi = Wi - self.learning_rate*dWi.T    #*VdWi/(np.sqrt(SdWi) + self.epsilon)
                 bi = bi - self.learning_rate*dbi    #*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
                 self.weights['W'+str(i)] = Wi.copy()
                 self.weights['b'+str(i)] = bi.copy()
@@ -383,12 +402,12 @@ class CNN():
         cost_func = np.mean(loss_func)
 
         # Evaluates regularization cost
-        if self.L2 > 0:
-            L2_reg = 0
-            for i in range(1, self.num_layers):
-                L2_reg += np.sum(np.square(self.weights['W'+str(i)]))
-            L2_reg *= self.L2/(2*self.minibatch_m)
-            cost_func += L2_reg
+##        if self.L2 > 0:
+##            L2_reg = 0
+##            for i in range(1, self.num_layers):
+##                L2_reg += np.sum(np.square(self.weights['W'+str(i)]))
+##            L2_reg *= self.L2/(2*self.minibatch_m)
+##            cost_func += L2_reg
 
         if cost_func < self.best_minibatch_cost:
             self.best_minibatch_cost = cost_func
@@ -546,7 +565,7 @@ class CNN():
                 self.Y[i][Y[0][i]] = 1
             self.Y = np.array(self.Y).T
         
-        n_x, m_x = self.X.shape
+        m_x, n_Cx, _, _ = self.X.shape
         n_y, m_y = self.Y.shape
         if m_x != m_y:
             raise ValueError(f"Invalid vector sizes for X and Y -> X size = {X.shape} while Y size = {Y.shape}.")
@@ -554,8 +573,8 @@ class CNN():
         if warm_start and self.training_status == "Trained":
             self.weights = self.best_weights
         else:
-            self.__initialize_weights(n_x, n_y)
-        self.__initialize_momentum(n_x, n_y)
+            self.__initialize_weights(n_Cx)
+##        self.__initialize_momentum(n_x, n_y)
             
         self.m = m_x
 
@@ -601,7 +620,7 @@ class ConvPool():
 
     @classmethod
     def zero_pad(cls, A_prev, p):
-        return np.pad(A_prev, ((0, 0), (p, p), (p, p), (0, 0)), 'constant', constant_values = (0, 0))
+        return np.pad(A_prev, ((0, 0), (0, 0), (p, p), (p, p)), 'constant', constant_values = (0, 0))
 
     @classmethod
     def __conv_step(cls, A_prev_slice, filt, add):
@@ -631,6 +650,7 @@ class ConvPool():
                     for c in range(n_C):
 
                         A_previ_slice = A_previ_pad[:, start_H:end_H, start_W:end_W]
+
                         W_filt = W[c,:,:,:]
                         b_filt = b[c,:,:,:]
                         Z[i, c, h, w] = cls.__conv_step(A_previ_slice, W_filt, b_filt)
@@ -642,8 +662,8 @@ class ConvPool():
 
         (m, n_C_prev, n_H_prev, n_W_prev) = A_prev.shape
 
-        n_H = int(np.floor((n_H_prev-f_H+2*pad)/stride + 1))
-        n_W = int(np.floor((n_W_prev-f_W+2*pad)/stride + 1))
+        n_H = int(np.floor((n_H_prev-f_H)/stride + 1))
+        n_W = int(np.floor((n_W_prev-f_W)/stride + 1))
         n_C = n_C_prev
 
         A = np.zeros((m, n_C, n_H, n_W))
@@ -657,8 +677,8 @@ class ConvPool():
                     end_W = w*stride + f_W
                     for c in range(n_C):
 
-                        A_slice = A[i, c, start_H:end_H, start_W:end_W]
-
+                        A_slice = A_prev[i, c, start_H:end_H, start_W:end_W]
+                        
                         if mode == "max":
                             A[i, c, h, w] = np.max(A_slice)
                         elif mode == "average":
