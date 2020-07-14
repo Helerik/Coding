@@ -162,12 +162,35 @@ class CNN():
         self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
 
     # Initializes momentum and RMSprop for each layer
-    def __initialize_momentum(self, n_x, n_y):
-        
-        n_h_prev = n_x
+    def __initialize_momentum(self, n_Cx, n_y):
+
+        # Convolutional and pooling momentums
+        n_C_prev = n_Cx
         for i in range(self.num_layers - 1):
+
+            if self.layer_sizes[i]['type'] == 'conv' or self.layer_sizes[i]['type'] == 'pool':
+
+                n_C = self.layer_sizes[i]['n_C']
+                f_H = self.layer_sizes[i]['f_H']
+                f_W = self.layer_sizes[i]['f_W']
+
+                self.V_vals["VdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
+                self.V_vals["Vdb"+str(i+1)] = np.zeros((n_C,1,1,1))
             
-            n_h = self.layer_sizes[i]
+                self.S_vals["SdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
+                self.S_vals["Sdb"+str(i+1)] = np.zeros((n_C,1,1,1))
+
+                n_C_prev = n_C
+
+            else:
+                k = i
+                break
+
+        # Fully connected momentums
+        n_h_prev = len(self.V_vals["VdW"+str(k-1)].flatten())
+        for i in range(k, self.num_layers - 1):
+        
+            n_h = self.layer_sizes[i]['size']
             
             self.V_vals["VdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
             self.V_vals["Vdb"+str(i+1)] = np.zeros((n_h,1))
@@ -176,12 +199,10 @@ class CNN():
             self.S_vals["Sdb"+str(i+1)] = np.zeros((n_h,1))
             
             n_h_prev = n_h
-        
-        self.V_vals["VdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
-        self.V_vals["Vdb"+str(self.num_layers)] = np.zeros((n_y,1))
-        
-        self.S_vals["SdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
-        self.S_vals["Sdb"+str(self.num_layers)] = np.zeros((n_y,1))      
+
+        # Output momentums
+        self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
+        self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
 
     # Performs foward propagation
     def __forward_propagation(self):
