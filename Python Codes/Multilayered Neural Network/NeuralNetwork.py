@@ -162,7 +162,7 @@ class NeuralNetwork():
         for i in range(self.num_layers - 1):
             
             Wi = self.weights['W'+str(i+1)].copy()
-            bi = self.weights['b'+str(i+1).copy()
+            bi = self.weights['b'+str(i+1)].copy()
             
             Zi = np.dot(Wi, Ai_prev) + bi
             Ai = self.activation[i].function(Zi)       
@@ -187,6 +187,9 @@ class NeuralNetwork():
 
     # Performs backward propagation loop
     def __backward_propagation(self):
+
+        # Initialize m
+        m = self.minibatch_m
         
         for i in range(self.num_layers, 0, -1):
 
@@ -199,7 +202,7 @@ class NeuralNetwork():
             # Gets Zi value
             Zi = self.Z_vals['Z'+str(i)].copy()
 
-            # If on the last layer, dZi = Ai - Y; else dZi = dA * g'(Zi)
+            # If on the last layer, dZi = AL - Y; else dZi = dA * g'(Zi)
             if i == self.num_layers:
                 AL = self.A_vals['A'+str(i)].copy()
                 dZi = AL - self.minibatch_Y
@@ -349,7 +352,7 @@ class NeuralNetwork():
                     best_cost = self.best_minibatch_cost
 
                 # Backward propagation
-                self.__forward_propagation
+                self.__backward_propagation()
 
                 if self.code_breaker:
                     break
