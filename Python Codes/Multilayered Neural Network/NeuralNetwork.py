@@ -190,11 +190,25 @@ class NeuralNetwork():
         
         for i in range(self.num_layers, 0, -1):
 
+            # Gets Ai_prev. If i = 1, Ai_prev = X
+            if i == 1:
+                Ai_prev = self.minibatch_X.copy()
+            else:
+                Ai_prev = self.A_vals['A'+str(i-1)].copy()
+
+            # Gets Zi value
+            Zi = self.Z_vals['Z'+str(i)].copy()
+
+            # If on the last layer, dZi = Ai - Y; else dZi = dA * g'(Zi)
+            if i == self.num_layers:
+                AL = self.A_vals['A'+str(i)].copy()
+                dZi = AL - self.minibatch_Y
+            else:
+                dZi = dA * self.activation[i-1].derivative(Zi)
+
             # Gets current layer weights
             Wi = self.weights['W'+str(i)].copy()
             bi = self.weights['b'+str(i)].copy()
-            Ai = self.A_vals['A'+str(i)].copy()
-            Zi = self.Z_vals['Z'+str(i)].copy()
 
             # Gets momentum
             VdWi = self.V_vals["VdW"+str(i)].copy()
@@ -203,19 +217,7 @@ class NeuralNetwork():
             # Gets RMSprop
             SdWi = self.S_vals["SdW"+str(i)].copy()
             Sdbi = self.S_vals["Sdb"+str(i)].copy()
-
-            # If on first layer, Ai_prev = X itself
-            if i == 1:
-                Ai_prev = self.minibatch_X.copy()
-            else:
-                Ai_prev = self.A_vals['A'+str(i-1)].copy()
-
-            # If on the last layer, dZi = Ai - Y; else dZi = dA * g'(Zi)
-            if i == self.num_layers:
-                dZi = Ai - self.minibatch_Y
-            else:
-                dZi = dA * self.activation[i-1].derivative(Zi)
-
+            
             # Cache dA
             dA = np.dot(Wi.T, dZi)
 
@@ -240,9 +242,6 @@ class NeuralNetwork():
             bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)
             self.weights['W'+str(i)] = Wi.copy()
             self.weights['b'+str(i)] = bi.copy()
-
-            if self.code_breaker:
-                break
 
     # Evaluates cost function
     def __evaluate_cost(self):
@@ -297,6 +296,8 @@ class NeuralNetwork():
         # Cache for plotting cost
         if self.plot_N != None and self.plot_N != 0:
             fig = plt.figure()
+
+            # Ads closing graph handler if end_on_close
             if self.end_on_close:
                 def handle_close(evt):
                     self.code_breaker = 1
@@ -304,6 +305,7 @@ class NeuralNetwork():
             cost = []
             iteration = []
 
+        # Ads close on command if end_on_backspace
         if self.end_on_backspace:
             def on_press(key):
                 if key == keyboard.Key.backspace:
@@ -313,7 +315,6 @@ class NeuralNetwork():
             listener = keyboard.Listener(on_press=on_press, on_release=on_release)
             listener.start()
             
-
         # Cache for best cost and best weights
         self.best_weights = self.weights.copy()
         best_cost = np.inf
@@ -347,12 +348,11 @@ class NeuralNetwork():
                     self.best_weights = self.weights.copy()
                     best_cost = self.best_minibatch_cost
 
+                # Backward propagation
+                self.__forward_propagation
+
                 if self.code_breaker:
                     break
-
-                
-                    
-                # End of backprop loop ==================================================
                 
             # Caches cost function every plot_N iterations and plots cost function over time
             if self.plot_N != None and self.plot_N != 0:
