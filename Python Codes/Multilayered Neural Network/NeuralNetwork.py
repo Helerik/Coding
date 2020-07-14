@@ -3,7 +3,7 @@
 
 # Imports sys for creating path to imported files on runtime
 import sys
-sys.path.insert(0, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network/ActivationFunction.py')
+sys.path.insert(1, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network')
 
 import numpy as np
 import matplotlib.pyplot as plt

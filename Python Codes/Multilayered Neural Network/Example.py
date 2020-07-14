@@ -2,8 +2,7 @@
 # Author: Erik Davino Vincent
 
 import sys
-sys.path.insert(0, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network/Metrics.py')
-sys.path.insert(0, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network/NeuralNetwork.py')
+sys.path.insert(1, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network')
 
 import numpy as np
 
