@@ -207,7 +207,7 @@ class NeuralNetwork():
                 AL = self.A_vals['A'+str(i)].copy()
                 dZi = AL - self.minibatch_Y
             else:
-                dZi = dA * self.activation[i-1].derivative(Zi)
+                dZi = dAi * self.activation[i-1].derivative(Zi)
 
             # Gets current layer weights
             Wi = self.weights['W'+str(i)].copy()
@@ -221,8 +221,8 @@ class NeuralNetwork():
             SdWi = self.S_vals["SdW"+str(i)].copy()
             Sdbi = self.S_vals["Sdb"+str(i)].copy()
             
-            # Cache dA
-            dA = np.dot(Wi.T, dZi)
+            # Cache dA; on last layer, dA = Wi.T . dZi = Wi.T . (Ai - Y)
+            dAi = np.dot(Wi.T, dZi)
 
             # Calculates dWi and dbi
             dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
