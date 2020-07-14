@@ -13,11 +13,18 @@ from pynput import keyboard
 
 from ActivationFunction import *
 
-class NeuralNetwork():
+class CNN():
 
     # Initializes Neural Network structure
     def __init__(self,
-                 layer_sizes = [5,5],
+                 layer_sizes = [
+                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':6, 'stride':1, 'pad':1},
+                     {'type':'pool', 'f_H':14, 'f_W':14, 'n_C':8, 'stride':14, 'pad':0},
+                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':10, 'stride':1, 'pad':1},
+                     {'type':'pool', 'f_H':3, 'f_W':3, 'n_C':12, 'stride':3, 'pad':0},
+                     {'type':'fc', 'size':10},
+                     {'type':'fc', 'size':10}
+                     ],
                  
                  learning_rate = 0.01,
                  max_iter = 200,
