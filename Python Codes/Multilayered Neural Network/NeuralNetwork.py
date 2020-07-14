@@ -26,7 +26,7 @@ class NeuralNetwork():
                  beta2 = 0.999,
                  epsilon = 1e-8,
                  
-                 activation = 'sigmoid',
+                 activation = "relu",
                  minibatch_size = None,
                  classification = 'binary',
                  
