@@ -40,7 +40,7 @@ def example():
         new_X.append(np.array(X_train[i]).reshape(1,28,28))
     X_train = np.array(new_X)
 
-    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
+    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.95)
     
     y_train = np.array([y_train])
     y_dev = np.array([y_dev])
@@ -48,7 +48,7 @@ def example():
     # Initializes NN classifier
     clf = CNN(
 ##        layer_sizes = [20,20],
-        learning_rate = 0.005,
+        learning_rate = 0.001,
         max_iter = 200,
         L2 = 1,
         beta1 = 0.9,
