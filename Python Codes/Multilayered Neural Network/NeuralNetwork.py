@@ -202,13 +202,6 @@ class NeuralNetwork():
             # Gets Zi value
             Zi = self.Z_vals['Z'+str(i)].copy()
 
-            # If on the last layer, dZi = AL - Y; else dZi = dA * g'(Zi)
-            if i == self.num_layers:
-                AL = self.A_vals['A'+str(i)].copy()
-                dZi = AL - self.minibatch_Y
-            else:
-                dZi = dAi * self.activation[i-1].derivative(Zi)
-
             # Gets current layer weights
             Wi = self.weights['W'+str(i)].copy()
             bi = self.weights['b'+str(i)].copy()
@@ -220,6 +213,13 @@ class NeuralNetwork():
             # Gets RMSprop
             SdWi = self.S_vals["SdW"+str(i)].copy()
             Sdbi = self.S_vals["Sdb"+str(i)].copy()
+
+            # If on the last layer, dZi = AL - Y; else dZi = dA * g'(Zi)
+            if i == self.num_layers:
+                AL = self.A_vals['A'+str(i)].copy()
+                dZi = AL - self.minibatch_Y
+            else:
+                dZi = dAi * self.activation[i-1].derivative(Zi)
             
             # Cache dA; on last layer, dA = Wi.T . dZi = Wi.T . (Ai - Y)
             dAi = np.dot(Wi.T, dZi)
