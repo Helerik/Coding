@@ -136,9 +136,6 @@ class CNN():
     |    Mini-Batch Size:               {self.minibatch_size}
     |    Max Iterations:                {self.max_iter}"""
 
-    # Plots some of the found out filters
-    def plot_filters(self, n):
-
     # Initializes weights for each layer
     def __initialize_weights(self, n_Cx):
 
@@ -152,7 +149,7 @@ class CNN():
                 f_H = self.layer_sizes[i]['f_H']
                 f_W = self.layer_sizes[i]['f_W']
                 
-                self.weights['W'+str(i+1)] = np.random.randn(n_C, n_C_prev, f_H, f_W)*np.sqrt(2/f_H*f_W)
+                self.weights['W'+str(i+1)] = np.random.randn(n_C, n_C_prev, f_H, f_W)*np.sqrt(2/(f_H*f_W))
                 self.weights['b'+str(i+1)] = np.zeros((n_C,1,1,1))
 
                 n_C_prev = n_C
