@@ -61,6 +61,8 @@ def example():
 
     clf.fit(X_train, y_train)
 
+    clf.plot_filters(5)
+
     # Make predictions
     predicted_y = clf.predict(X_train)
     table = Metrics.score_table(y_train, predicted_y)
