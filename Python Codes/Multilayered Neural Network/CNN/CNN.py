@@ -18,16 +18,16 @@ class CNN():
     # Initializes Convolutional Neural Network structure
     def __init__(self,
                  layer_sizes = [
-                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':3, 'stride':1, 'pad':0},
-                     {'type':'pool', 'f_H':2, 'f_W':2, 'n_C':6, 'stride':2, 'mode':'max'},
+                     {'type':'conv', 'f_H':5, 'f_W':5, 'n_C':8, 'stride':1, 'pad':0},
+                     {'type':'pool', 'f_H':3, 'f_W':3, 'n_C':8, 'stride':2, 'mode':'max'},
                      {'type':'fc', 'size':10}
                      ],
                  
-                 learning_rate = 0.01,
+                 learning_rate = 0.001,
                  max_iter = 200,
-                 L2 = 0,
-                 beta1 = 0.9,
-                 beta2 = 0.999,
+                 L2 = 0, # Not working yet
+                 beta1 = 0.9, # Not working yet
+                 beta2 = 0.999, # Not working yet
                  epsilon = 1e-8,
                  
                  activation = "relu",
