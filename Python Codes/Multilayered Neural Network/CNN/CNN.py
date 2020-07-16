@@ -116,7 +116,7 @@ class CNN():
             if self.layer_sizes[i]['type'] == 'conv':
                 layer_struct_str += f"\n    |    Convolutional - Shape: ({self.layer_sizes[i]['n_C']}, {self.layer_sizes[i]['f_H']}, {self.layer_sizes[i]['f_W']})"
             elif self.layer_sizes[i]['type'] == 'pool':
-                layer_struct_str += f"\n    |    {self.layer_sizes[i]['mode'].capitalize()}-Pooling - Shape: ({self.layer_sizes[i]['n_C']}, {self.layer_sizes[i]['f_H']}, {self.layer_sizes[i]['f_W']})"
+                layer_struct_str += f"\n    |    {self.layer_sizes[i]['mode'].capitalize()}-Pooling - Shape: ({self.layer_sizes[i]['f_H']}, {self.layer_sizes[i]['f_W']})"
             elif self.layer_sizes[i]['type'] == 'fc':
                 layer_struct_str += f"\n    |    Fully Connected - Size: {self.layer_sizes[i]['size']}"
         return f"""         {self.classification.capitalize()} Neural Network ({self.training_status}):
@@ -138,13 +138,18 @@ class CNN():
 
     # Plots found out filters
     def plot_filters(self, num_plots):
-
-        for i in range(num_plots):
-            try:
-                plt.imshow(self.best_weights['W'+str(i+1)])
-                plt.plot()
-            except Exception:
-                pass
+        
+        for i in range(len(self.best_weights)//2):
+            for j in range(len(self.best_weights['W'+str(i+1)])):
+                for k in range(len(self.best_weights['W'+str(i+1)][j])):
+                    try:
+                        plt.imshow(self.best_weights['W'+str(i+1)][j][k])
+                        plt.plot()
+                        num_plots -= 1
+                    except Exception:
+                        pass
+                    if num_plots == 0:
+                        return
 
     # Initializes weights for each layer
     def __initialize_weights(self, n_Cx):
