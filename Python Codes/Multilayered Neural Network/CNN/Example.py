@@ -20,40 +20,23 @@ def example():
     X_train = np.asarray(X_train)
     y_train = np.asarray(y_train)
 
-##    # An example in the dataset
-##    idx = np.random.randint(low = 0, high = len(X_train)-1)
-##    plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
-##    plt.colorbar()
-##    plt.title(f"Number {y_train[idx]} from MNIST dataset (without scalling)")
-##    plt.show()
-
     X_train = X_train/255
-##    
-##    # The same example with scalling applied
-##    plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
-##    plt.colorbar()
-##    plt.title(f"Number {y_train[idx]} from MNIST dataset (with scalling)")
-##    plt.show()
 
     new_X = []
     for i in range(X_train.shape[0]):
         new_X.append(np.array(X_train[i]).reshape(1,28,28))
     X_train = np.array(new_X)
 
-    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.95)
+    # Will perform training on 1500 images from the dataset -10% for dev
+    X_train = X_train[:1500]
+
+    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
     
     y_train = np.array([y_train])
     y_dev = np.array([y_dev])
 
     # Initializes NN classifier
     clf = CNN(
-##        layer_sizes = [20,20],
-        learning_rate = 0.001,
-        max_iter = 200,
-        L2 = 1,
-        beta1 = 0.9,
-        beta2 = 0.999,
-        minibatch_size = 1024,
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1,
@@ -102,14 +85,5 @@ def example():
     print()
     print("    Results for test set")
     print(table)
-
-    # Plots a mislabeled test example
-    plt.figure()
-    indexes = np.where(predicted_y != y_test)[1]
-    idx = np.random.choice(indexes)
-    plt.imshow(X_test.T[idx].reshape(28,28), cmap = 'Greys')
-    plt.colorbar()
-    plt.title(f"Number {y_test[0,idx]}, mislabeled as {predicted_y[0,idx]}")
-    plt.show()
     
 example()
