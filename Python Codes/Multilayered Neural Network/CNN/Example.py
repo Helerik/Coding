@@ -53,7 +53,7 @@ def example():
         classification = 'multiclass',
         plot_N = 1,
         end_on_close = True,
-        end_on_backspace = False)
+        end_on_backspace = True)
 
     print()
     print()
@@ -84,7 +84,7 @@ def example():
     X_test = X_test/255
 
     new_X = []
-    for i in range(X_train.shape[0]):
+    for i in range(X_test.shape[0]):
         new_X.append(np.array(X_test[i]).reshape(1,28,28))
     X_test = np.array(new_X)
 
