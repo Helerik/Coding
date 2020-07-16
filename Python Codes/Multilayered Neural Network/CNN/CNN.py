@@ -415,8 +415,6 @@ class CNN():
 
         for it in range(self.max_iter):
 
-            print(f"Iteration {it}")
-
             # Creates iteration minibatches and best minibatch cost
             self.__make_minibatches()
             self.best_minibatch_cost = np.inf
@@ -424,12 +422,8 @@ class CNN():
             if self.code_breaker:
                 break
 
-            k = 0
             # Performs operations on every minibatch
             for minibatch in self.minibatches:
-
-                print(f"Minibatch Iteration {k}")
-                k+=1
 
                 # Defines current minibatch
                 self.minibatch_X = minibatch[0]
