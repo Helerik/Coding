@@ -19,7 +19,7 @@ class CNN():
     def __init__(self,
                  layer_sizes = [
                      {'type':'conv', 'f_H':5, 'f_W':5, 'n_C':8, 'stride':1, 'pad':1},
-                     {'type':'pool', 'f_H':3, 'f_W':3, 'n_C':8, 'stride':2, 'mode':'max'},
+                     {'type':'pool', 'f_H':3, 'f_W':3, 'stride':2, 'mode':'max'},
                      {'type':'fc', 'size':10}
                      ],
                  
