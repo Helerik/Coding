@@ -622,14 +622,17 @@ class CNN():
 # Class for convolution and pooling operations + padding operations
 class ConvPool():
 
+    # Pads a matrix with zeros
     @classmethod
     def zero_pad(cls, A_prev, p):
         return np.pad(A_prev, ((0, 0), (0, 0), (p, p), (p, p)), 'constant', constant_values = (0, 0))
 
+    # Performs one convolutional step
     @classmethod
     def __conv_step(cls, A_prev_slice, filt, add):
         return float(np.sum(A_prev_slice * filt) + add)
 
+    # Performs convolution operation between A_prev and the weights, given convolution operation hyperparameters
     @classmethod
     def conv_forward(cls, A_prev, W, b, stride, pad):
 
@@ -661,6 +664,7 @@ class ConvPool():
 
         return Z
 
+     # Performs pooling operation on A_prev
     @classmethod
     def pool_forward(cls, A_prev, f_H, f_W, stride, mode):
 
@@ -690,6 +694,8 @@ class ConvPool():
 
         return A
 
+     # Performs "derivative" of convolution operation between A_prev and the derivative of weights,
+     # given convolution operation hyperparameters
     @classmethod
     def conv_backward(cls, dZ, A_prev, W, b, stride, pad):
         
@@ -728,10 +734,12 @@ class ConvPool():
 
         return (dA_prev, dW, db)
 
+    # Creates max-pooling backprop mask
     @classmethod
     def __max_mask(cls, X):
         return (X == np.max(X))
 
+    # Creates average-pooling backprop mask
     @classmethod
     def __mean_mask(cls, dZ, shape):
 
@@ -740,6 +748,7 @@ class ConvPool():
 
         return np.one(shape)*avrg
 
+    # Performs "derivative" of pooling operation on A_prev, with dA.
     @classmethod
     def pool_backward(cls, dA, A_prev, f_H, f_W, stride, mode):
 
