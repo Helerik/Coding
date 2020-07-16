@@ -71,7 +71,7 @@ class CNN():
                 self.activation = [ReLu for _ in range(self.num_layers-1)]
                 self._activation_str = ['relu' for _ in range(self.num_layers-1)]
         else:
-            self._activation_str = np.copy(activation)
+            self._activation_str = activation
             for i in range(len(activation)):
                 if activation[i].lower() == 'sigmoid':
                     activation[i] = Sigmoid
@@ -172,7 +172,7 @@ class CNN():
     # Performs foward propagationself.conv_to_fc_shape
     def __forward_propagation(self):
 
-        Ai_prev = self.minibatch_X.copy()
+        Ai_prev = self.minibatch_X
         for i in range(self.num_layers - 1):
 
             if self.layer_sizes[i]['type'] == 'conv':
@@ -180,16 +180,16 @@ class CNN():
                 stridei = self.layer_sizes[i]['stride']
                 padi = self.layer_sizes[i]['pad']
             
-                Wi = self.weights['W'+str(i+1)].copy()
-                bi = self.weights['b'+str(i+1)].copy()
+                Wi = self.weights['W'+str(i+1)]
+                bi = self.weights['b'+str(i+1)]
 
                 Zi = ConvPool.conv_forward(Ai_prev, Wi, bi, stridei, padi)
                 Ai = self.activation[i].function(Zi)
 
-                self.A_vals['A'+str(i+1)] = Ai.copy()
-                self.Z_vals['Z'+str(i+1)] = Zi.copy()
+                self.A_vals['A'+str(i+1)] = Ai
+                self.Z_vals['Z'+str(i+1)] = Zi
 
-                Ai_prev = Ai.copy()
+                Ai_prev = Ai
 
             elif self.layer_sizes[i]['type'] == 'pool':
 
@@ -200,10 +200,10 @@ class CNN():
 
                 Ai = ConvPool.pool_forward(Ai_prev, f_Hi, f_Wi, stridei, modei)
 
-                self.A_vals['A'+str(i+1)] = Ai.copy()
+                self.A_vals['A'+str(i+1)] = Ai
                 self.Z_vals['Z'+str(i+1)] = None
 
-                Ai_prev = Ai.copy()
+                Ai_prev = Ai
 
             elif self.layer_sizes[i]['type'] == 'fc':
                 k = i
@@ -214,7 +214,7 @@ class CNN():
         for j in range(Ai_prev.shape[0]):
             Ai.append(Ai_prev[j].flatten())
         Ai_prev = np.array(Ai).T
-        self.A_vals['A'+str(k)] = Ai_prev.copy()
+        self.A_vals['A'+str(k)] = Ai_prev
         if not self.fc_weights:
             self.fc_weights = True
             n_a, m_a = Ai_prev.shape
@@ -223,19 +223,19 @@ class CNN():
             
         for i in range(k, self.num_layers - 1):
 
-            Wi = self.weights['W'+str(i+1)].copy()
-            bi = self.weights['b'+str(i+1)].copy()
+            Wi = self.weights['W'+str(i+1)]
+            bi = self.weights['b'+str(i+1)]
             
             Zi = np.dot(Wi, Ai_prev) + bi
             Ai = self.activation[i].function(Zi)       
 
-            self.A_vals['A'+str(i+1)] = Ai.copy()
-            self.Z_vals['Z'+str(i+1)] = Zi.copy()
+            self.A_vals['A'+str(i+1)] = Ai
+            self.Z_vals['Z'+str(i+1)] = Zi
             
-            Ai_prev = Ai.copy()
+            Ai_prev = Ai
 
-        Wi = self.weights['W'+str(self.num_layers)].copy()
-        bi = self.weights['b'+str(self.num_layers)].copy()
+        Wi = self.weights['W'+str(self.num_layers)]
+        bi = self.weights['b'+str(self.num_layers)]
 
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
@@ -244,8 +244,8 @@ class CNN():
         elif self.classification == 'multiclass':
             Ai = Softmax.function(Zi)
 
-        self.A_vals['A'+str(self.num_layers)] = Ai.copy()
-        self.Z_vals['Z'+str(self.num_layers)] = Zi.copy()
+        self.A_vals['A'+str(self.num_layers)] = Ai
+        self.Z_vals['Z'+str(self.num_layers)] = Zi
 
     # Performs backward propagation loop
     def __backward_propagation(self):
@@ -257,20 +257,20 @@ class CNN():
 
             # Gets Ai_prev. If i = 1, Ai_prev = X
             if i == 1:
-                Ai_prev = self.minibatch_X.copy()
+                Ai_prev = self.minibatch_X
             else:
-                Ai_prev = self.A_vals['A'+str(i-1)].copy()
+                Ai_prev = self.A_vals['A'+str(i-1)]
 
             # Gets Zi value
-            Zi = np.copy(self.Z_vals['Z'+str(i)])
+            Zi = self.Z_vals['Z'+str(i)]
             
             # Gets current layer weights
-            Wi = np.copy(self.weights['W'+str(i)])
-            bi = np.copy(self.weights['b'+str(i)])
+            Wi = self.weights['W'+str(i)]
+            bi = self.weights['b'+str(i)]
 
             # Output layer weight update
             if i == self.num_layers:
-                AL = self.A_vals['A'+str(i)].copy()
+                AL = self.A_vals['A'+str(i)]
                 dZi = AL - self.minibatch_Y
                 
                 # Cache dA; on last layer, dA = Wi.T . dZi = Wi.T . (Ai - Y)
@@ -283,8 +283,8 @@ class CNN():
                 # Updates weights and biases
                 Wi = Wi - self.learning_rate*dWi.T    
                 bi = bi - self.learning_rate*dbi   
-                self.weights['W'+str(i)] = Wi.copy()
-                self.weights['b'+str(i)] = bi.copy()
+                self.weights['W'+str(i)] = Wi
+                self.weights['b'+str(i)] = bi
 
             # Fully connected hidden layer weight update
             elif self.layer_sizes[i-1]['type'] == 'fc':
@@ -300,8 +300,8 @@ class CNN():
                 # Updates weights and biases
                 Wi = Wi - self.learning_rate*dWi.T   
                 bi = bi - self.learning_rate*dbi    
-                self.weights['W'+str(i)] = Wi.copy()
-                self.weights['b'+str(i)] = bi.copy()
+                self.weights['W'+str(i)] = Wi
+                self.weights['b'+str(i)] = bi
 
             # Pool layer weight updates
             elif self.layer_sizes[i-1]['type'] == 'pool':
@@ -334,13 +334,13 @@ class CNN():
                 # Updates weights and biases
                 Wi = Wi - self.learning_rate*dWi
                 bi = bi - self.learning_rate*dbi    
-                self.weights['W'+str(i)] = Wi.copy()
-                self.weights['b'+str(i)] = bi.copy()
+                self.weights['W'+str(i)] = Wi
+                self.weights['b'+str(i)] = bi
 
     # Evaluates cost function
     def __evaluate_cost(self):
         
-        AL = self.A_vals['A'+str(self.num_layers)].copy()
+        AL = self.A_vals['A'+str(self.num_layers)]
 
         if self.classification == 'binary':
             loss_func = -(self.minibatch_Y*np.log(AL) + (1-self.minibatch_Y)*np.log(1-AL))
@@ -410,7 +410,7 @@ class CNN():
             listener.start()
             
         # Cache for best cost and best weights
-        self.best_weights = self.weights.copy()
+        self.best_weights = self.weights
         best_cost = np.inf
 
         for it in range(self.max_iter):
@@ -445,7 +445,7 @@ class CNN():
                 
                 # Updates best weights and best_cost
                 if self.best_minibatch_cost < best_cost:
-                    self.best_weights = self.weights.copy()
+                    self.best_weights = self.weights
                     best_cost = self.best_minibatch_cost
 
                 # Backward propagation
@@ -540,7 +540,7 @@ class CNN():
     # Predicts X vector tags
     def predict(self, X):
 
-        Ai_prev = X.copy()
+        Ai_prev = X
         for i in range(self.num_layers - 1):
 
             if self.layer_sizes[i]['type'] == 'conv':
@@ -548,13 +548,13 @@ class CNN():
                 stridei = self.layer_sizes[i]['stride']
                 padi = self.layer_sizes[i]['pad']
             
-                Wi = self.best_weights['W'+str(i+1)].copy()
-                bi = self.best_weights['b'+str(i+1)].copy()
+                Wi = self.best_weights['W'+str(i+1)]
+                bi = self.best_weights['b'+str(i+1)]
 
                 Zi = ConvPool.conv_forward(Ai_prev, Wi, bi, stridei, padi)
                 Ai = self.activation[i].function(Zi)
 
-                Ai_prev = Ai.copy()
+                Ai_prev = Ai
 
             elif self.layer_sizes[i]['type'] == 'pool':
 
@@ -565,7 +565,7 @@ class CNN():
 
                 Ai = ConvPool.pool_forward(Ai_prev, f_Hi, f_Wi, stridei, modei)
 
-                Ai_prev = Ai.copy()
+                Ai_prev = Ai
 
             elif self.layer_sizes[i]['type'] == 'fc':
                 k = i
@@ -578,16 +578,16 @@ class CNN():
         Ai_prev = np.array(Ai).T
         for i in range(k, self.num_layers - 1):
 
-            Wi = self.best_weights['W'+str(i+1)].copy()
-            bi = self.best_weights['b'+str(i+1)].copy()
+            Wi = self.best_weights['W'+str(i+1)]
+            bi = self.best_weights['b'+str(i+1)]
             
             Zi = np.dot(Wi, Ai_prev) + bi
             Ai = self.activation[i].function(Zi)       
             
-            Ai_prev = Ai.copy()
+            Ai_prev = Ai
 
-        Wi = self.best_weights['W'+str(self.num_layers)].copy()
-        bi = self.best_weights['b'+str(self.num_layers)].copy()
+        Wi = self.best_weights['W'+str(self.num_layers)]
+        bi = self.best_weights['b'+str(self.num_layers)]
 
         # Last layer always receives sigmoid or softmax
         Zi = np.dot(Wi, Ai_prev) + bi
