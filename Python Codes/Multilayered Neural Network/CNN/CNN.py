@@ -342,7 +342,7 @@ class CNN():
             # Convolutional layer weight updates
             elif self.layer_sizes[i-1]['type'] == 'conv':
 
-                # If pooling layer was flattened, unflatten it
+                # If convolutional layer was flattened, unflatten it
                 if self.layer_sizes[i]['type'] == 'fc':
                     dAi = dAi.reshape(self.conv_to_fc_shape)
 
