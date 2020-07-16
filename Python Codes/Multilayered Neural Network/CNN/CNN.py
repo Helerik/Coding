@@ -183,7 +183,7 @@ class CNN():
         self.weights['W'+str(self.num_layers)] = np.random.randn(n_y, n_h_prev)*np.sqrt(2/n_h_prev)
         self.weights['b'+str(self.num_layers)] = np.zeros((n_y,1))
 
-    # Performs foward propagationself.conv_to_fc_shape
+    # Performs foward propagation
     def __forward_propagation(self):
 
         Ai_prev = self.minibatch_X
