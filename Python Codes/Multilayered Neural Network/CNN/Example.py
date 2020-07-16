@@ -37,11 +37,17 @@ def example():
 
     # Initializes NN classifier
     clf = CNN(
+        layer_sizes = [
+                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':3, 'stride':1, 'pad':0},
+                     {'type':'pool', 'f_H':2, 'f_W':2, 'n_C':6, 'stride':2, 'mode':'max'},
+                     {'type':'fc', 'size':10}
+                     ]
         learning_rate = 0.0005,
         max_iter = 75,
         L2 = 1, # Not working yet
         beta1 = 0.9, # Not working yet
         beta2 = 0.999, # Not working yet
+        minibatch_size = 100,
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1,
