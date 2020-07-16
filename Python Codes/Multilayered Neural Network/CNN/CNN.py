@@ -591,7 +591,9 @@ class CNN():
         self.conv_to_fc_shape = Ai_prev.shape
         for j in range(Ai_prev.shape[0]):
             Ai.append(Ai_prev[j].flatten())
+            
         Ai_prev = np.array(Ai).T
+        
         for i in range(k, self.num_layers - 1):
 
             Wi = self.best_weights['W'+str(i+1)]
@@ -617,7 +619,7 @@ class CNN():
                 prediction.append(np.argmax(Ai[:,i]))
             return np.array([prediction])
 
-# Class for convolution and pooling operations + padding
+# Class for convolution and pooling operations + padding operations
 class ConvPool():
 
     @classmethod
