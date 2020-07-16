@@ -29,6 +29,7 @@ def example():
 
     # Will perform training on 1500 images from the dataset -10% for dev
     X_train = X_train[:1500]
+    y_train = y_train[:1500]
 
     X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
     
@@ -41,7 +42,7 @@ def example():
                      {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':3, 'stride':1, 'pad':0},
                      {'type':'pool', 'f_H':2, 'f_W':2, 'n_C':6, 'stride':2, 'mode':'max'},
                      {'type':'fc', 'size':10}
-                     ]
+                     ],
         learning_rate = 0.0005,
         max_iter = 75,
         L2 = 1, # Not working yet
