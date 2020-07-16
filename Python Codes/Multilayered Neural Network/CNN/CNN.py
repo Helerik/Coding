@@ -189,6 +189,7 @@ class CNN():
         Ai_prev = self.minibatch_X
         for i in range(self.num_layers - 1):
 
+            # Performs convolutional layer forward propagation
             if self.layer_sizes[i]['type'] == 'conv':
 
                 stridei = self.layer_sizes[i]['stride']
@@ -205,6 +206,7 @@ class CNN():
 
                 Ai_prev = Ai
 
+            # Performs pooling layer forward propagation
             elif self.layer_sizes[i]['type'] == 'pool':
 
                 f_Hi = self.layer_sizes[i]['f_H']
@@ -223,18 +225,24 @@ class CNN():
                 k = i
                 break
 
+        # Performs 'flattening' on every example of last activation
         Ai = []
         self.conv_to_fc_shape = Ai_prev.shape
         for j in range(Ai_prev.shape[0]):
             Ai.append(Ai_prev[j].flatten())
+            
         Ai_prev = np.array(Ai).T
         self.A_vals['A'+str(k)] = Ai_prev
+
+        # Has to initialize weights on fully connected layers if they have not yet been
+        # This happens now, so that we can use the shape of the newly made Ai_prev
         if not self.fc_weights:
             self.fc_weights = True
             n_a, m_a = Ai_prev.shape
             n_y, m_y = self.Y.shape
             self.__initialize_fc_weights(n_a, n_y)
-            
+
+        # Performs fully connected layer forward propagation
         for i in range(k, self.num_layers - 1):
 
             Wi = self.weights['W'+str(i+1)]
