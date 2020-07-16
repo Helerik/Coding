@@ -293,7 +293,7 @@ class NeuralNetwork():
             minibatch = (minibatch_X, minibatch_Y)
             self.minibatches.append(minibatch)  
 
-    # Newton method for training a neural network
+    # Mini-Batch Gradient Descent + ADAM method for training a neural network
     def __mini_batch_gradient_descent(self):
         
         # Cache for plotting cost
