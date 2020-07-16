@@ -232,7 +232,6 @@ class CNN():
                 Ai_prev = Ai
 
             elif self.layer_sizes[i]['type'] == 'fc':
-                k = i
                 break
 
         # Performs 'flattening' on every example of last activation
@@ -242,7 +241,7 @@ class CNN():
             Ai.append(Ai_prev[j].flatten())
             
         Ai_prev = np.array(Ai).T
-        self.A_vals['A'+str(k)] = Ai_prev
+        self.A_vals['A'+str(i)] = Ai_prev
 
         # Has to initialize weights on fully connected layers if they have not yet been
         # This happens now, so that we can use the shape of the newly made Ai_prev
