@@ -6,7 +6,6 @@ sys.path.insert(1, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Ne
 
 import numpy as np
 
-from sklearn.preprocessing import MinMaxScaler as MMScaler
 from sklearn.model_selection import train_test_split
 from mnist import MNIST
 
@@ -28,18 +27,8 @@ def example():
     plt.title(f"Number {y_train[idx]} from MNIST dataset (without scalling)")
     plt.show()
 
-    # Creates scaler "classifier" from sklearn to scale the set
-    scaler = MMScaler()
-
     # Scalling X
-    scaler.fit(X_train)
-    X_train = scaler.transform(X_train)
-    
-    # The same example with scalling applied
-    plt.imshow(np.array(X_train[idx]).reshape(28,28), cmap = 'Greys')
-    plt.colorbar()
-    plt.title(f"Number {y_train[idx]} from MNIST dataset (with scalling)")
-    plt.show()
+    X_train = X_train/255
 
     X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
     
@@ -53,14 +42,14 @@ def example():
         layer_sizes = [20,20],
         learning_rate = 0.005,
         max_iter = 200,
-        L2 = 1,
+        L2 = 0,
         beta1 = 0.9,
         beta2 = 0.999,
         minibatch_size = 1024,
         activation = 'relu',
         classification = 'multiclass',
-        plot_N = 1,
-        end_on_close = True,
+        plot_N = 0,
+        end_on_close = False,
         end_on_backspace = False)
 
     print()
@@ -89,7 +78,7 @@ def example():
     X_test = np.asarray(X_test)
     y_test = np.asarray(y_test)
 
-    X_test = scaler.transform(X_test)
+    X_test = X_test/255
 
     X_test = X_test.T
     y_test = np.array([y_test])
