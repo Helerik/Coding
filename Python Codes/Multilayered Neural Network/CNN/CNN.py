@@ -136,6 +136,16 @@ class CNN():
     |    Mini-Batch Size:               {self.minibatch_size}
     |    Max Iterations:                {self.max_iter}"""
 
+    # Plots found out filters
+    def plot_filters(self, num_plots):
+
+        for i in range(num_plots):
+            try:
+                plt.imshow(self.best_weights['W'+str(i+1)])
+                plt.plot()
+            except Exception:
+                pass
+
     # Initializes weights for each layer
     def __initialize_weights(self, n_Cx):
 
