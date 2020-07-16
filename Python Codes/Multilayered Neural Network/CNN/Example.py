@@ -37,6 +37,11 @@ def example():
 
     # Initializes NN classifier
     clf = CNN(
+        learning_rate = 0.0005,
+        max_iter = 75,
+        L2 = 1, # Not working yet
+        beta1 = 0.9, # Not working yet
+        beta2 = 0.999, # Not working yet
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1,
