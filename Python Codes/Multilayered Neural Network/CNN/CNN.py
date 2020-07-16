@@ -18,7 +18,7 @@ class CNN():
     # Initializes Convolutional Neural Network structure
     def __init__(self,
                  layer_sizes = [
-                     {'type':'conv', 'f_H':5, 'f_W':5, 'n_C':8, 'stride':1, 'pad':0},
+                     {'type':'conv', 'f_H':5, 'f_W':5, 'n_C':8, 'stride':1, 'pad':1},
                      {'type':'pool', 'f_H':3, 'f_W':3, 'n_C':8, 'stride':2, 'mode':'max'},
                      {'type':'fc', 'size':10}
                      ],
@@ -94,6 +94,7 @@ class CNN():
         self.minibatch_m = None
         self.best_minibatch_cost = np.inf
 
+        # fc_weights verifies if fully connected layer weghts have been initialized
         self.fc_weights = False
         self.conv_to_fc_shape = None
 
