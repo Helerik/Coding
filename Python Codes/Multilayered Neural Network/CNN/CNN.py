@@ -109,9 +109,20 @@ class CNN():
         self.code_breaker = 0
 
     def __str__(self):
+
+        layer_struct_str = ""
+        for i in range(len(self.layer_sizes)):
+            if self.layer_sizes[i]['type'] == 'conv':
+                layer_struct_str += f"\n    |    Convolutional - Shape: ({self.layer_sizes[i]['n_C']}, {self.layer_sizes[i]['f_H']}, {self.layer_sizes[i]['f_W']})"
+            elif self.layer_sizes[i]['type'] == 'pool':
+                layer_struct_str += f"\n    |    {self.layer_sizes[i]['mode'].capitalize()}-Pooling - Shape: ({self.layer_sizes[i]['n_C']}, {self.layer_sizes[i]['f_H']}, {self.layer_sizes[i]['f_W']})"
+            elif self.layer_sizes[i]['type'] == 'fc':
+                layer_struct_str += f"\n    |    Fully Connected - Size: {self.layer_sizes[i]['size']}"
         return f"""         {self.classification.capitalize()} Neural Network ({self.training_status}):
 
-    |    Layer Size Structure:          {np.array(self.layer_sizes)}
+
+    |    Layer Size Structure:{layer_struct_str}
+    |
     |    Activation Function Structure: {self._activation_str}
     |
     |    Learning Rate:                 {self.learning_rate}
