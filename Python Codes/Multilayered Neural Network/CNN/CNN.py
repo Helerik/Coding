@@ -154,10 +154,12 @@ class CNN():
 
                 n_C_prev = n_C
 
+            # There are no pooling layer weights
             elif self.layer_sizes[i]['type'] == 'pool':
                 self.weights['W'+str(i+1)] = None
                 self.weights['b'+str(i+1)] = None
 
+            # The fully connected weights are added later
             elif self.layer_sizes[i]['type'] == 'fc':
                 break
             
