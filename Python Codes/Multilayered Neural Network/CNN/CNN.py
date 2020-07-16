@@ -704,8 +704,8 @@ class ConvPool():
 
         return A
 
-     # Performs "derivative" of convolution operation between A_prev and the derivative of weights,
-     # given convolution operation hyperparameters
+    # Performs "derivative" of convolution operation between A_prev and the derivative of weights,
+    # given convolution operation hyperparameters
     @classmethod
     def conv_backward(cls, dZ, A_prev, W, b, stride, pad):
         
