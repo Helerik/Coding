@@ -138,13 +138,13 @@ class CNN():
 
     # Plots found out filters
     def plot_filters(self, num_plots):
-        
         for i in range(len(self.best_weights)//2):
             try:
                 for j in range(len(self.best_weights['W'+str(i+1)])):
                     for k in range(len(self.best_weights['W'+str(i+1)][j])):
-                        plt.imshow(self.best_weights['W'+str(i+1)][j][k])
-                        plt.plot()
+                        plt.figure("Filters Plot")
+                        plt.imshow(self.best_weights['W'+str(i+1)][j][k], cmap = 'gray')
+                        plt.show()
                         num_plots -= 1
                     if num_plots == 0:
                         return
@@ -426,7 +426,7 @@ class CNN():
         
         # Cache for plotting cost
         if self.plot_N != None and self.plot_N != 0:
-            fig = plt.figure()
+            fig = plt.figure("Cost Plot")
 
             # Ads closing graph handler if end_on_close
             if self.end_on_close:
