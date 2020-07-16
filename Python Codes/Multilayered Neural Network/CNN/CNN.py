@@ -140,16 +140,16 @@ class CNN():
     def plot_filters(self, num_plots):
         
         for i in range(len(self.best_weights)//2):
-            for j in range(len(self.best_weights['W'+str(i+1)])):
-                for k in range(len(self.best_weights['W'+str(i+1)][j])):
-                    try:
+            try:
+                for j in range(len(self.best_weights['W'+str(i+1)])):
+                    for k in range(len(self.best_weights['W'+str(i+1)][j])):
                         plt.imshow(self.best_weights['W'+str(i+1)][j][k])
                         plt.plot()
                         num_plots -= 1
-                    except Exception:
-                        pass
                     if num_plots == 0:
                         return
+            except Exception:
+                pass    
 
     # Initializes weights for each layer
     def __initialize_weights(self, n_Cx):
