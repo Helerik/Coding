@@ -39,8 +39,9 @@ def example():
     # Initializes NN classifier
     clf = CNN(
         layer_sizes = [
-                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':8, 'stride':1, 'pad':0},
+                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':10, 'stride':1, 'pad':0},
                      {'type':'pool', 'f_H':2, 'f_W':2, 'stride':2, 'mode':'max'},
+                     {'type':'fc', 'size':20}
                      {'type':'fc', 'size':10}
                      ],
         learning_rate = 0.00075,

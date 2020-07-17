@@ -382,7 +382,7 @@ class CNN():
                 dAi = np.dot(Wi.T, dZi)
                 
                 # Calculates dWi and dbi
-                dWi = np.dot(Ai_prev, dZi.T)/m 
+                dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
                 dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
 
                 # Updates momentum
@@ -411,7 +411,7 @@ class CNN():
                 dAi = np.dot(Wi.T, dZi)
 
                 # Calculates dWi and dbi
-                dWi = np.dot(Ai_prev, dZi.T)/m #+ (self.L2/m)*Wi.T
+                dWi = np.dot(Ai_prev, dZi.T)/m + (self.L2/m)*Wi.T
                 dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
 
                 # Updates momentum
@@ -490,12 +490,13 @@ class CNN():
         cost_func = np.mean(loss_func)
 
         # Evaluates regularization cost
-##        if self.L2 > 0:
-##            L2_reg = 0
-##            for i in range(1, self.num_layers):
-##                L2_reg += np.sum(np.square(self.weights['W'+str(i)]))
-##            L2_reg *= self.L2/(2*self.minibatch_m)
-##            cost_func += L2_reg
+        if self.L2 > 0:
+            L2_reg = 0
+            for i in range(1, self.num_layers):
+                if self.layer_sizes[i]['type'] == 'fc':
+                    L2_reg += np.sum(np.square(self.weights['W'+str(i)]))
+            L2_reg *= self.L2/(2*self.minibatch_m)
+            cost_func += L2_reg
 
         if cost_func < self.best_minibatch_cost:
             self.best_minibatch_cost = cost_func
