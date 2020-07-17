@@ -36,7 +36,7 @@ class CNN():
                  
                  plot_N = None,
                  end_on_close = False,
-                 end_on_backspace = False):
+                 end_on_delete = False):
 
         # Structural variables
         self.layer_sizes = layer_sizes
@@ -541,9 +541,9 @@ class CNN():
             iteration = []
 
         # Ads close on command if end_on_backspace
-        if self.end_on_backspace:
+        if self.end_on_delete:
             def on_press(key):
-                if key == keyboard.Key.backspace:
+                if key == keyboard.Key.delete:
                     self.code_breaker = 1
             def on_release(key):
                 pass
