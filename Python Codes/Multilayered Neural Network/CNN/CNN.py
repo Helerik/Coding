@@ -25,9 +25,9 @@ class CNN():
                  
                  learning_rate = 0.001,
                  max_iter = 200,
-                 L2 = 0, # Not working yet
-                 beta1 = 0.9, # Not working yet
-                 beta2 = 0.999, # Not working yet
+                 L2 = 0, 
+                 beta1 = 0.9, 
+                 beta2 = 0.999, 
                  epsilon = 1e-8,
                  
                  activation = "relu",
@@ -178,6 +178,64 @@ class CNN():
             elif self.layer_sizes[i]['type'] == 'fc':
                 break
             
+    # Initializes momentum and RMSprop for each layer
+    def __initialize_momentum(self, n_Cx):
+
+        # Convolutional and pooling momentums
+        n_C_prev = n_Cx
+        for i in range(self.num_layers - 1):
+            
+            if self.layer_sizes[i]['type'] == 'conv':
+
+                n_C = self.layer_sizes[i]['n_C']
+                f_H = self.layer_sizes[i]['f_H']
+                f_W = self.layer_sizes[i]['f_W']
+            
+                self.V_vals["VdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
+                self.V_vals["Vdb"+str(i+1)] = np.zeros((n_C,1,1,1))
+                
+                self.S_vals["SdW"+str(i+1)] = np.zeros((n_C, n_C_prev, f_H, f_W))
+                self.S_vals["Sdb"+str(i+1)] = np.zeros((n_C,1,1,1))
+            
+                n_C_prev = n_C
+
+            # There are no pooling layer weights
+            elif self.layer_sizes[i]['type'] == 'pool':
+                self.V_vals["VdW"+str(i+1)] = None
+                self.V_vals["Vdb"+str(i+1)] = None
+                
+                self.S_vals["SdW"+str(i+1)] = None
+                self.S_vals["Sdb"+str(i+1)] = None
+        
+            # The fully connected weights are added later
+            elif self.layer_sizes[i]['type'] == 'fc':
+                break
+
+    # Initializes momentum and RMSprop for fully connected layers
+    def __initialize_fc_momentum(self, n_a, n_y):
+        
+        # Fully connected momentums
+        n_h_prev = n_a
+        for i in range(self.num_layers - 1):
+
+            if self.layer_sizes[i]['type'] == 'fc':
+                
+                n_h = self.layer_sizes[i]['size']
+            
+                self.V_vals["VdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
+                self.V_vals["Vdb"+str(i+1)] = np.zeros((n_h,1))
+            
+                self.S_vals["SdW"+str(i+1)] = np.zeros((n_h, n_h_prev))
+                self.S_vals["Sdb"+str(i+1)] = np.zeros((n_h,1))
+            
+                n_h_prev = n_h
+        
+        self.V_vals["VdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
+        self.V_vals["Vdb"+str(self.num_layers)] = np.zeros((n_y,1))
+        
+        self.S_vals["SdW"+str(self.num_layers)] = np.zeros((n_y, n_h_prev))
+        self.S_vals["Sdb"+str(self.num_layers)] = np.zeros((n_y,1))
+            
     # Initialize fully connected weights
     def __initialize_fc_weights(self, n_a, n_y):
 
@@ -256,6 +314,7 @@ class CNN():
             n_a, m_a = Ai_prev.shape
             n_y, m_y = self.Y.shape
             self.__initialize_fc_weights(n_a, n_y)
+            self.__initialize_fc_momentum(n_a, n_y)
 
         # Performs fully connected layer forward propagation
         for i in range(k, self.num_layers - 1):
@@ -305,6 +364,14 @@ class CNN():
             Wi = self.weights['W'+str(i)]
             bi = self.weights['b'+str(i)]
 
+            # Gets momentum
+            VdWi = self.V_vals["VdW"+str(i)]
+            Vdbi = self.V_vals["Vdb"+str(i)]
+
+            # Gets RMSprop
+            SdWi = self.S_vals["SdW"+str(i)]
+            Sdbi = self.S_vals["Sdb"+str(i)]
+
             # Output layer weight update
             if i == self.num_layers:
                 AL = self.A_vals['A'+str(i)]
@@ -317,9 +384,21 @@ class CNN():
                 dWi = np.dot(Ai_prev, dZi.T)/m 
                 dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
 
+                # Updates momentum
+                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
+                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
+                self.V_vals["VdW"+str(i)] = VdWi
+                self.V_vals["Vdb"+str(i)] = Vdbi
+
+                # Updates RMSprop
+                SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
+                Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+                self.S_vals["SdW"+str(i)] = SdWi
+                self.S_vals["Sdb"+str(i)] = Sdbi
+
                 # Updates weights and biases
-                Wi = Wi - self.learning_rate*dWi.T    
-                bi = bi - self.learning_rate*dbi   
+                Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
+                bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)   
                 self.weights['W'+str(i)] = Wi
                 self.weights['b'+str(i)] = bi
 
@@ -334,9 +413,21 @@ class CNN():
                 dWi = np.dot(Ai_prev, dZi.T)/m #+ (self.L2/m)*Wi.T
                 dbi = np.sum(dZi, axis = 1, keepdims = 1)/m
 
+                # Updates momentum
+                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi.T
+                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
+                self.V_vals["VdW"+str(i)] = VdWi
+                self.V_vals["Vdb"+str(i)] = Vdbi
+
+                # Updates RMSprop
+                SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi.T)
+                Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+                self.S_vals["SdW"+str(i)] = SdWi
+                self.S_vals["Sdb"+str(i)] = Sdbi
+
                 # Updates weights and biases
-                Wi = Wi - self.learning_rate*dWi.T   
-                bi = bi - self.learning_rate*dbi    
+                Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
+                bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)    
                 self.weights['W'+str(i)] = Wi
                 self.weights['b'+str(i)] = bi
 
@@ -368,9 +459,21 @@ class CNN():
 
                 dAi, dWi, dbi = ConvPool.conv_backward(dZi, Ai_prev, Wi, bi, stridei, padi)
 
+                # Updates momentum
+                VdWi = self.beta1*VdWi + (1-self.beta1)*dWi
+                Vdbi = self.beta1*Vdbi + (1-self.beta1)*dbi
+                self.V_vals["VdW"+str(i)] = VdWi
+                self.V_vals["Vdb"+str(i)] = Vdbi
+
+                # Updates RMSprop
+                SdWi = self.beta2*SdWi + (1-self.beta2)*np.square(dWi)
+                Sdbi = self.beta2*Sdbi + (1-self.beta2)*np.square(dbi)
+                self.S_vals["SdW"+str(i)] = SdWi
+                self.S_vals["Sdb"+str(i)] = Sdbi
+
                 # Updates weights and biases
-                Wi = Wi - self.learning_rate*dWi
-                bi = bi - self.learning_rate*dbi    
+                Wi = Wi - self.learning_rate*VdWi/(np.sqrt(SdWi) + self.epsilon)
+                bi = bi - self.learning_rate*Vdbi/(np.sqrt(Sdbi) + self.epsilon)    
                 self.weights['W'+str(i)] = Wi
                 self.weights['b'+str(i)] = bi
 
@@ -558,6 +661,7 @@ class CNN():
             self.weights = self.best_weights
         else:
             self.__initialize_weights(n_Cx)
+        self.__initialize_momentum(n_Cx)
             
         self.m = m_x
 
