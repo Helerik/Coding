@@ -453,7 +453,7 @@ class CNN():
                 if self.layer_sizes[i]['type'] == 'fc':
                     dAi = dAi.reshape(self.conv_to_fc_shape)
 
-                dZi = dAi * self.activation[i-1].derivative(Zi)
+                dZi = dAi * self.activation[i-1].derivative(ConvPool.rot180(Zi))
 
                 stridei = self.layer_sizes[i-1]['stride']
                 padi = self.layer_sizes[i-1]['pad']
