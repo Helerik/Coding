@@ -3,6 +3,7 @@
 
 import sys
 sys.path.insert(1, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Neural Network')
+import pickle
 
 import numpy as np
 
@@ -11,6 +12,30 @@ from mnist import MNIST
 
 from CNN import *
 from Metrics import *
+
+def init_CNN():
+    
+    # Initializes NN classifier
+    clf = CNN(
+        layer_sizes = [
+                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':10, 'stride':1, 'pad':0},
+                     {'type':'pool', 'f_H':2, 'f_W':2, 'stride':2, 'mode':'max'},
+                     {'type':'fc', 'size':20},
+                     {'type':'fc', 'size':10}
+                     ],
+        learning_rate = 0.001,
+        max_iter = 75,
+        L2 = 5,
+        beta1 = 0.9, 
+        beta2 = 0.999, 
+        minibatch_size = 540,
+        activation = 'relu',
+        classification = 'multiclass',
+        plot_N = 1,
+        end_on_close = False,
+        end_on_delete = True)
+    
+    return clf
 
 def example():
 
@@ -32,31 +57,34 @@ def example():
     y_train = np.array([y_train])
     y_dev = np.array([y_dev])
 
-    # Initializes NN classifier
-    clf = CNN(
-        layer_sizes = [
-                     {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':10, 'stride':1, 'pad':0},
-                     {'type':'pool', 'f_H':2, 'f_W':2, 'stride':2, 'mode':'max'},
-                     {'type':'fc', 'size':20},
-                     {'type':'fc', 'size':10}
-                     ],
-        learning_rate = 0.001,
-        max_iter = 75,
-        L2 = 5,
-        beta1 = 0.9, 
-        beta2 = 0.999, 
-        minibatch_size = 540,
-        activation = 'relu',
-        classification = 'multiclass',
-        plot_N = 1,
-        end_on_close = False,
-        end_on_delete = True)
+    print("Do you want to load a pre-trained model (Y/N)?")
+    inp = str(input("> "))
+
+    # Gives option to pickle pre-trained network
+    if inp.lower() == 'y':
+        try:
+            clf = pickle.load(open("CNN-MNIST.p", "rb"))
+        except Exception:
+            print("There is no saved model yet - a new model will be created.")
+            clf = init_CNN()
+    elif inp.lower() == 'n':
+        clf = init_CNN()
+    else:
+        print("No option selected - terminating.")
+        return 
 
     print()
     print()
     print(clf)
 
     clf.fit(X_train, y_train)
+
+    print("Do you want to save this classifier (Y/N)?")
+    inp = str(input("> "))
+    if inp.lower() == 'y':
+        
+        # Pickle down the classifier
+        pickle.dump(clf, open("CNN-MNIST.p", "wb"))
 
     # Make predictions
     predicted_y = clf.predict(X_train)
