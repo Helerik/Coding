@@ -32,7 +32,7 @@ class NeuralNetwork():
                  
                  plot_N = None,
                  end_on_close = False,
-                 end_on_backspace = False):
+                 end_on_delete = False):
 
         # Structural variables
         self.layer_sizes = layer_sizes
@@ -50,7 +50,7 @@ class NeuralNetwork():
         
         self.plot_N = plot_N
         self.end_on_close = end_on_close
-        self.end_on_backspace = end_on_backspace
+        self.end_on_delete = end_on_delete
 
         # Activation function can be string or list
         if isinstance(activation, str):
@@ -308,10 +308,10 @@ class NeuralNetwork():
             cost = []
             iteration = []
 
-        # Ads close on command if end_on_backspace
-        if self.end_on_backspace:
+        # Ads close on command if end_on_delete
+        if self.end_on_delete:
             def on_press(key):
-                if key == keyboard.Key.backspace:
+                if key == keyboard.Key.delete:
                     self.code_breaker = 1
             def on_release(key):
                 pass

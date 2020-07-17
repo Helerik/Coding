@@ -50,7 +50,7 @@ def example():
         classification = 'multiclass',
         plot_N = 0,
         end_on_close = False,
-        end_on_backspace = False)
+        end_on_delete = False)
 
     print()
     print()
