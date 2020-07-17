@@ -28,8 +28,8 @@ def example():
     X_train = np.array(new_X)
 
     # Will perform training on 1500 images from the dataset -10% for dev
-    X_train = X_train[:1500]
-    y_train = y_train[:1500]
+    X_train = X_train[:3000]
+    y_train = y_train[:3000]
 
     X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
     
@@ -44,16 +44,16 @@ def example():
                      {'type':'fc', 'size':20}
                      {'type':'fc', 'size':10}
                      ],
-        learning_rate = 0.00075,
+        learning_rate = 0.001,
         max_iter = 75,
-        L2 = 1, # Not working yet
+        L2 = 0,
         beta1 = 0.9, 
         beta2 = 0.999, 
-        minibatch_size = 100,
+        minibatch_size = 270,
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1,
-        end_on_close = True,
+        end_on_close = False,
         end_on_delete = True)
 
     print()
