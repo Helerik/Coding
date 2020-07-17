@@ -45,7 +45,7 @@ def example():
         L2 = 5,
         beta1 = 0.9, 
         beta2 = 0.999, 
-        minibatch_size = 270,
+        minibatch_size = 540,
         activation = 'relu',
         classification = 'multiclass',
         plot_N = 1,
