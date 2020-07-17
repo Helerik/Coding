@@ -21,11 +21,11 @@ def init_CNN():
                      {'type':'conv', 'f_H':3, 'f_W':3, 'n_C':10, 'stride':1, 'pad':0},
                      {'type':'pool', 'f_H':2, 'f_W':2, 'stride':2, 'mode':'max'},
                      {'type':'fc', 'size':20},
-                     {'type':'fc', 'size':10}
+                     {'type':'fc', 'size':20}
                      ],
         learning_rate = 0.001,
         max_iter = 75,
-        L2 = 5,
+        L2 = 10,
         beta1 = 0.9, 
         beta2 = 0.999, 
         minibatch_size = 540,
@@ -46,6 +46,9 @@ def example():
     y_train = np.asarray(y_train)
 
     X_train = X_train/255
+
+    X_train = X_train[:5000]
+    y_train = y_train[:5000]
 
     new_X = []
     for i in range(X_train.shape[0]):
