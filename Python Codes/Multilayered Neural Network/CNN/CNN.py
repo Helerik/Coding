@@ -144,6 +144,7 @@ class CNN():
                     for k in range(len(self.best_weights['W'+str(i+1)][j])):
                         plt.figure("Filters Plot")
                         plt.imshow(self.best_weights['W'+str(i+1)][j][k], cmap = 'gray')
+                        plt.colorbar()
                         plt.show()
                         num_plots -= 1
                     if num_plots == 0:
