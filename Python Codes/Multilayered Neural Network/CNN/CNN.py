@@ -458,7 +458,7 @@ class CNN():
                 stridei = self.layer_sizes[i-1]['stride']
                 padi = self.layer_sizes[i-1]['pad']
 
-                dAi, dWi, dbi = ConvPool.conv_backward(dZi, Ai_prev, Wi, bi, stridei, padi)
+                dAi, dWi, dbi = ConvPool.conv_backward(dZi, Ai_prev, ConvPool.rot180(Wi), bi, stridei, padi)
 
                 # Updates momentum
                 VdWi = self.beta1*VdWi + (1-self.beta1)*dWi
@@ -741,6 +741,11 @@ class CNN():
 
 # Class for convolution and pooling operations + padding operations
 class ConvPool():
+
+    # Rotates by 180 deg. a filter of shape (m, n_C, f, f) around second axis using numpy rot90
+    @classmethod
+    def rot180(cls, filter_matrix):
+        return np.rot90(filter_matrix, k=2, axes = (2,3))
 
     # Pads a matrix with zeros
     @classmethod
