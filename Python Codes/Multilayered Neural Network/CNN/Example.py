@@ -46,8 +46,8 @@ def example():
         learning_rate = 0.00075,
         max_iter = 75,
         L2 = 1, # Not working yet
-        beta1 = 0.9, # Not working yet
-        beta2 = 0.999, # Not working yet
+        beta1 = 0.9, 
+        beta2 = 0.999, 
         minibatch_size = 100,
         activation = 'relu',
         classification = 'multiclass',
