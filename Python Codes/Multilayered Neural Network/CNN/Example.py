@@ -27,10 +27,6 @@ def example():
         new_X.append(np.array(X_train[i]).reshape(1,28,28))
     X_train = np.array(new_X)
 
-    # Will perform training on 1500 images from the dataset -10% for dev
-    X_train = X_train[:3000]
-    y_train = y_train[:3000]
-
     X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
     
     y_train = np.array([y_train])
@@ -46,7 +42,7 @@ def example():
                      ],
         learning_rate = 0.001,
         max_iter = 75,
-        L2 = 0,
+        L2 = 5,
         beta1 = 0.9, 
         beta2 = 0.999, 
         minibatch_size = 270,
@@ -61,8 +57,6 @@ def example():
     print(clf)
 
     clf.fit(X_train, y_train)
-
-    clf.plot_filters(5)
 
     # Make predictions
     predicted_y = clf.predict(X_train)
