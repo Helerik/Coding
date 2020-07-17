@@ -492,9 +492,10 @@ class CNN():
         # Evaluates regularization cost
         if self.L2 > 0:
             L2_reg = 0
-            for i in range(1, self.num_layers):
+            for i in range(self.num_layers-1):
                 if self.layer_sizes[i]['type'] == 'fc':
-                    L2_reg += np.sum(np.square(self.weights['W'+str(i)]))
+                    L2_reg += np.sum(np.square(self.weights['W'+str(i+1)]))
+            L2_reg += np.sum(np.square(self.weights['W'+str(self.num_layers)]))
             L2_reg *= self.L2/(2*self.minibatch_m)
             cost_func += L2_reg
 
