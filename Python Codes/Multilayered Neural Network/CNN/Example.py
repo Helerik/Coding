@@ -67,20 +67,21 @@ def example():
     if inp.lower() == 'y':
         try:
             clf = pickle.load(open("CNN-MNIST.p", "rb"))
+            ws = True
         except Exception:
             print("There is no saved model yet - a new model will be created.")
             clf = init_CNN()
+            ws = False
     elif inp.lower() == 'n':
         clf = init_CNN()
+        ws = False
     else:
         print("No option selected - terminating.")
         return 
 
-    print()
-    print()
     print(clf)
 
-    clf.fit(X_train, y_train)
+    clf.fit(X_train, y_train, warm_start = ws)
 
     print("Do you want to save this classifier (Y/N)?")
     inp = str(input("> "))
