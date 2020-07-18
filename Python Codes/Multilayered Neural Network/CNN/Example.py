@@ -23,9 +23,9 @@ def init_CNN():
                      {'type':'fc', 'size':20},
                      {'type':'fc', 'size':20}
                      ],
-        learning_rate = 0.001,
+        learning_rate = 0.0005,
         max_iter = 75,
-        L2 = 10,
+        L2 = 0,
         beta1 = 0.9, 
         beta2 = 0.999, 
         minibatch_size = 540,
