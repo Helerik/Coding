@@ -407,6 +407,8 @@ class NeuralNetwork():
         self.V_vals = {}
         self.S_vals = {}
 
+        self.code_breaker = 0
+
     # Sets the network up and fits for X and Y
     def fit(self, X, Y, warm_start = False):
 
