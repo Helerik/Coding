@@ -25,6 +25,9 @@ class RRN_Layer():
         elif activation.lower() == 'relu':
             self.activation = ReLu
 
+        self.X = None
+        self.y = None
+        
         self.Z_values = None
         self.activations = None
         
@@ -45,16 +48,20 @@ class RRN_Layer():
     def forward_propapagtion(self, prevlayer):
 
         A_prev = prevlayer.activations
+        X = self.X
+        vector = np.concatenate((A_prev, X), axis = 1)
+        
         W = self.weights
         b = self.biases
 
-        Z = np.dot(W, A_prev) + b
+        Z = np.dot(W, vector) + b
         A = self.activation.function(Z)
 
         self.activations = A
         self.Z_values = Z
 
     def backward_propagation(self, prevlayer):
+
         
         A_prev = prevlayer.activations
         Z = self.Z_vals
