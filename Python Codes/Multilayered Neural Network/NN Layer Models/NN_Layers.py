@@ -7,19 +7,64 @@ sys.path.insert(1, 'C:/Users/Cliente/Desktop/Coding/Python Codes/Multilayered Ne
 import numpy as np
 from ActivationFunction import *
 
-from sklearn.model_selection import train_test_split
-from mnist import MNIST
-
-from Metrics import *
-
 class Layer():
+    '''
+    Layer Class: Building block of a Neural Network
 
-    def __init__(self, size, learning_rate, L2, activation, is_output = False):
-        
+    ...
+
+    Attributes
+    ----------
+    size : int
+        the number of nodes this layer has
+    activation : str
+        name of activation function of the layer, e.g. "relu", "sigmoid"
+    optimizer : object
+        optimizer that will be used to update the weights and biases
+    is_output : bool
+        defines if this is an output layer (default False)
+    Z : numpy.array
+        holds the dot product of weights and previous activation/X
+    A : numpy.array
+        the activated value of Z
+    dA_prev : numpy.array
+        derivative/error of previous activation
+    W : numpy.array
+        the weights of this layer
+    b : numpy.array
+        the biases of this layer
+
+    Methods
+    -------
+    init_weights(size_prev)
+        initializes this layer's weights
+    forward_pass(A_prev)
+        performs forward propagation on this layer
+    backward_pass(A_prev, optimizer, dA = None, Y = None)
+        performs backward propagation on this layer
+    '''
+    
+    def __init__(self,
+                 size,
+                 activation,
+                 optimizer,
+                 is_output = False):
+        '''
+        Parameters
+        ----------
+        size : int
+            the number of nodes this layer has
+        activation : str
+            name of activation function of the layer, e.g. "relu", "sigmoid"
+        optimizer : object
+            optimizer that will be used to update the weights and biases
+        is_output : bool
+            defines if this is an output layer (default False)
+        '''
+
+        # Structural variables
         self.size = size
-        self.learning_rate = learning_rate
-        self.L2 = L2
-
+        self.optimizer = optimizer
         self.is_output = is_output
 
         if activation.lower() == 'sigmoid':
@@ -33,19 +78,37 @@ class Layer():
         elif activation.lower() == 'softmax':
             self.activation = Softmax
 
+        # Cached variables
         self.Z = None
         self.A = None
+        
         self.dA_prev = None
 
         self.W = None
         self.b = None
 
     def init_weights(self, size_prev):
+        '''Initializes this layer's weights.
+        
+        Creates W and b using this layer's size and the previous layer's size.
 
-            self.W = np.random.randn(self.size, size_prev)*np.sqrt(2/size_prev)
-            self.b = np.zeros((self.size, 1))    
+        Parameters
+        ----------
+        size_prev : int
+            the number of nodes on the previous layer
+        '''
+
+        self.W = np.random.randn(self.size, size_prev)*np.sqrt(2/size_prev)
+        self.b = np.zeros((self.size, 1))    
 
     def forward_pass(self, A_prev):
+        '''Performs forward propagation on this layer.
+
+        Parameters
+        ----------
+        A_prev : numpy.array
+            the activations of the previous layer
+        '''
 
         W = self.W
         b = self.b
@@ -57,9 +120,22 @@ class Layer():
         self.A = A
 
     def backward_pass(self, A_prev, dA = None, Y = None):
+        '''Performs backward propagation on this layer.
 
-        m = A_prev.shape[1]
+        If this is the output layer, dA is 'don't care' and Y must be passed.
+        Otherwise, dA must be passed and Y is 'don't care'.
+        The optimizer is an object that must contain an update method for W and b.
 
+        Parameters
+        ----------
+        A_prev : numpy.array
+            the activations of the previous layer
+        dA : numpy.array
+            the derivative for this layer's activations
+        Y : numpy.array
+            the ground truth labels
+        '''
+        
         Z = self.Z
 
         W = self.W
