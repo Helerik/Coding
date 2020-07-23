@@ -148,62 +148,109 @@ class Layer():
 
         self.dA_prev = np.dot(W.T, dZ)
 
+        self.W, self.b = self.optimizer.update(A_prev, dZ, W, b)
+            
+class GradientDescent():
+    '''
+    Gradient Descent: slow, but simple optimizer
+
+    ...
+
+    Attributes
+    ----------
+    learning_rate : float
+        learning rate parameter - regulates gradient step size
+    L2 : float
+        L2-norm regularization; prevents overfitting
+    
+
+    Methods
+    -------
+    update(A_prev, dZ, W, b)
+        updates W and b using a gradient descent step
+    '''
+
+    def __init__(self, learning_rate = 0.001, L2 = 0):
+
+        self.learning_rate = learning_rate
+        self.L2 = L2
+
+    def update(self, A_prev, dZ, W, b):
+        
         dW = (np.dot(A_prev, dZ.T) + self.L2*W.T)/m
         db = np.sum(dZ, axis = 1, keepdims = 1)/m
 
         W = W - self.learning_rate*dW.T
         b = b - self.learning_rate*db
-        self.W = W
-        self.b = b
 
-def model():
+        return (W, b)
 
-    mndata = MNIST('C:\\Users\\Cliente\\Desktop\\Coding\\Python Codes\\Multilayered Neural Network\MNIST')
-    X_train, y_train = mndata.load_training()
-    X_train = np.asarray(X_train)
-    y_train = np.asarray(y_train)
+class Adam():
+    '''
+    Adam: an efficient optimizer
 
-    X_train = X_train/255
-    y_tmp = []
-    num = np.max(y_train)
-    for i in range(len(y_train)):
-        y_tmp.append([0 for _ in range(num+1)])
-        y_tmp[i][y_train[i]] = 1
-    y_train = np.array(y_tmp)
+    ...
 
-    X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.10)
+    Attributes
+    ----------
+    learning_rate : float
+        learning rate parameter - regulates gradient step size
+    L2 : float
+        L2-norm regularization; prevents overfitting (default = 0)
+    beta1 : float
+        momentum parameter; should be between 0 and 1 (default 0.9)
+    beta2 : float
+        second momentum (RMSprop) parameter; should be between 0 and 1 (default 0.999)
+    epsilon : float
+        a small value to prevent divisions by zero (default 1e-8)
     
-    X_train = X_train.T
-    X_dev = X_dev.T
-    y_train = y_train.T
-    y_dev = y_dev.T
 
-    l1 = Layer(size = 15, learning_rate = 0.1, L2 = 0, activation = 'relu', is_output = False)
-    l1.init_weights(X_train.shape[0])
-    
-    l2 = Layer(size = 15, learning_rate = 0.1, L2 = 0, activation = 'relu', is_output = False)
-    l2.init_weights(l1.size)
-    
-    l3 = Layer(size = 10, learning_rate = 0.1, L2 = 0, activation = 'softmax', is_output = True)
-    l3.init_weights(l2.size)
+    Methods
+    -------
+    update(A_prev, dZ, W, b)
+        updates W and b using an Adam step - this optimizer uses momentum to speed
+        up convergence to a minimum.
+    '''
 
-    for i in range(100):
+    def __init__(self, learning_rate = 0.001, L2 = 0, beta1 = 0.9, beta2 = 0.999, epsilon = 1e-8):
 
-        l1.forward_pass(X_train)
-        l2.forward_pass(l1.A)
-        l3.forward_pass(l2.A)
+        self.learning_rate = learning_rate
+        self.L2 = L2
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.epsilon = epsilon
 
-        loss = -np.sum(y_train*np.log(l3.A), axis = 0, keepdims = 1)
-        cost = np.mean(loss)
-        print(cost)
+        self.VdW = 0
+        self.Vdb = 0
+        self.SdW = 0
+        self.Sdb = 0
 
-        l3.backward_pass(l2.A, dA = None, Y = y_train)
-        l2.backward_pass(l1.A, dA = l3.dA_prev, Y = None)
-        l1.backward_pass(X_train, dA = l2.dA_prev, Y = None)
+    def update(self, A_prev, dZ, W, b):
 
-model()
+        VdW = self.VdW
+        Vdb = self.Vdb
+        SdW = self.SdW
+        Sdb = self.Sdb
+        
+        dW = (np.dot(A_prev, dZ.T) + self.L2*W.T)/m
+        db = np.sum(dZ, axis = 1, keepdims = 1)/m
 
+        VdW = self.beta1*VdW + (1 - self.beta1)*dW.T
+        vdb = self.beta1*Vdb + (1 - self.beta1)*db
+        SdW = self.beta2*SdW + (1 - self.beta2)*np.square(dW.T)
+        Sdb = self.beta2*Sdb + (1 - self.beta2)*np.square(db)
 
+        W = W - self.learning_rate*VdW/(np.sqrt(SdW) + self.epsilon)
+        b = b - self.learning_rate*Vdb/(np.sqrt(Sdb) + self.epsilon)
+
+        self.VdW = VdW
+        self.Vdb = Vdb
+        self.SdW = SdW
+        self.Sdb = Sdb
+
+        return (W, b)
+
+        
 
 
 
