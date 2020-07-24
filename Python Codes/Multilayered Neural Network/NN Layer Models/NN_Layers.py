@@ -176,6 +176,8 @@ class GradientDescent():
         self.L2 = L2
 
     def update(self, A_prev, dZ, W, b):
+
+        m = A_prev.shape[1]
         
         dW = (np.dot(A_prev, dZ.T) + self.L2*W.T)/m
         db = np.sum(dZ, axis = 1, keepdims = 1)/m
@@ -226,6 +228,8 @@ class Adam():
         self.Sdb = 0
 
     def update(self, A_prev, dZ, W, b):
+
+        m = A_prev.shape[1]
 
         VdW = self.VdW
         Vdb = self.Vdb
