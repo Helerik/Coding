@@ -208,7 +208,8 @@ class Adam():
         second momentum (RMSprop) parameter; should be between 0 and 1 (default 0.999)
     epsilon : float
         a small value to prevent divisions by zero (default 1e-8)
-    
+    VdW, Vdb, SdW, Sdb : int, numpy.array
+        momentum and RMS vectors - becomes an array after running for the first time
 
     Methods
     -------
