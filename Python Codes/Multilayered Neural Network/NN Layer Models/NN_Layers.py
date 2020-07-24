@@ -148,7 +148,10 @@ class Layer():
 
         self.dA_prev = np.dot(W.T, dZ)
 
-        self.W, self.b = self.optimizer.update(A_prev, dZ, W, b)
+        W, b = self.optimizer.update(A_prev, dZ, W, b)
+
+        self.W = W
+        self.b = b
             
 class GradientDescent():
     '''
