@@ -148,7 +148,10 @@ class Layer():
 
         self.dA_prev = np.dot(W.T, dZ)
 
-        W, b = self.optimizer.update(A_prev, dZ, W, b)
+        dW = np.dot(A_prev, dZ.T)/m
+        db = np.sum(dZ, axis = 1, keepdims = 1)/m
+
+        W, b = self.optimizer.update(A_prev, dW, db, W, b)
 
         self.W = W
         self.b = b
@@ -178,12 +181,11 @@ class GradientDescent():
         self.learning_rate = learning_rate
         self.L2 = L2
 
-    def update(self, A_prev, dZ, W, b):
+    def update(self, A_prev, dW, db, W, b):
 
         m = A_prev.shape[1]
         
-        dW = (np.dot(A_prev, dZ.T) + self.L2*W.T)/m
-        db = np.sum(dZ, axis = 1, keepdims = 1)/m
+        dW = dW + self.L2*W.T/m
 
         W = W - self.learning_rate*dW.T
         b = b - self.learning_rate*db
@@ -231,7 +233,7 @@ class Adam():
         self.SdW = 0
         self.Sdb = 0
 
-    def update(self, A_prev, dZ, W, b):
+    def update(self, A_prev, dW, db, W, b):
 
         m = A_prev.shape[1]
 
@@ -240,8 +242,7 @@ class Adam():
         SdW = self.SdW
         Sdb = self.Sdb
         
-        dW = (np.dot(A_prev, dZ.T) + self.L2*W.T)/m
-        db = np.sum(dZ, axis = 1, keepdims = 1)/m
+        dW = dW + self.L2*W.T/m
 
         VdW = self.beta1*VdW + (1 - self.beta1)*dW.T
         vdb = self.beta1*Vdb + (1 - self.beta1)*db
