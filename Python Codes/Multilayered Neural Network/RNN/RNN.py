@@ -38,7 +38,7 @@ class RNN_Cell():
 
         for t in range(T_x):
 
-            A[:,t] = Tanh(np.dot(self.U, X[:,:,t]) + np.dot(self.W, A[:,t-1]) + bw)
+            A[:,t] = Tanh(np.dot(self.U, X[:,t]) + np.dot(self.W, A[:,t-1]) + bw)
             Y_pred[:,t] = Softmax(np.dot(self.V, A[:,t]) + bv)
 
         self.A = A
@@ -71,8 +71,8 @@ class RNN_Cell():
 
             for bp_step in np.arange(max(0, t - self.bptt_truncate), t+1)[::-1]:
 
-                dW += np.dot(A[bp_step-1], dZ.T)
-                dU += np.dot(X[bp_step], dZ.T)
+                dW += np.dot(A[:,bp_step-1], dZ.T)
+                dU += np.dot(X[:,bp_step], dZ.T)
                 dbw += np.sum(dZ, axis = 1, keepdims = 1)
 
                 dZ = np.dot(self.W.T, dZ) * (1 - np.square(A[bp_step-1]))
