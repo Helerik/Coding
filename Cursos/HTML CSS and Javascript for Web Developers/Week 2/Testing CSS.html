@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Testing CSS</title>
+	<style>
+		
+		/* We can create a class, which can be passed as an attribute to 
+		the specific element that we want in the html file. */
+		.span_class {
+			color: blue;
+			font-size: 20px; 
+		}
+		/* we can assign formatting to multiple html elements at once. */
+		h1, div {
+			font-size: 40;
+			color: red;
+			background: grey;
+			text-align: center;
+		}
+		/* We can assign formatting attributes to an id by putting a # prior to
+		the id name. */
+		#p1 {
+			color: orange;
+		}
+
+		#div1 {
+			font-weight: bold;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>Testing CSS</h1>
+	<p>
+		We will use CSS rules to define formating to our html file.
+	</p>
+	<div id="div1">
+		This is a div with an id.
+	</div>
+	<div>
+		This div does not have an id.<span class="span_class">This span has a class attribute.</span>
+	</div>
+	<p id="p1">
+		This paragraph has an id.
+	</p>
+</body>
+</html>
