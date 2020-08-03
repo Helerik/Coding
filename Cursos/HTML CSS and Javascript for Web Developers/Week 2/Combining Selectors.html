@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Combining Selectors</title>
+	<style>
+		
+		.header {
+			text-decoration: underline;
+			text-align: center;
+			font-size: 50px;
+		}
+
+		p > span {
+			color: red;
+		}
+
+		div p {
+			background-color: yellow;
+			color: red;
+		}
+
+		p.highlight {
+			font-style: italic;
+		}
+
+		.highlight.mainpoint {
+			color: red;
+			font-weight: bolder;
+		}
+
+	</style>
+</head>
+<body>
+
+	<h1 class="header">Combining Selectors</h1>
+	<p>
+		We are able to combine selectors. For example, doing p.big {...}
+		would apply the style to all paragraphs with the big class.
+	</p>
+	<p>
+		Another way of combining selectors is applying the styling to a direct child
+		of a certain tag, by doing something like &quot;p &gt; span&quot;. For example this <span>span piece of text, which is inside a paragraph.</span>
+	</p>
+	<span>This span piece of text is not affected by the styling.</span>
+	<div>
+		We can have descendant selector. The rule applies whenever the element is an inside 
+		another element no matter how many levels inside it is.
+		<div>
+			This next piece of text, for example:
+			<p>
+				Hello there!
+			</p>
+		</div>
+	</div>
+	<p class="highlight">
+		This paragraph has highlight class.
+	</p>
+	<div class="highlight">
+		This div has highlight class.
+	</div>
+	<p class="highlight mainpoint">
+		This paragraph has two classes assigned to it.
+	</p>
+
+
+</body>
+</html>
