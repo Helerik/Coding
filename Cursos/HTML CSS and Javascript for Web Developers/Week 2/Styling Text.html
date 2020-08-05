@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Styling Text</title>
+	<style>
+		
+		.style {
+			font-family: Impact, Charcoal, sans-serif; /* Basically the font style */
+			color: #0000ff; /* Expressing color with hexadecimal */
+			font-style: italic; /* Different from font-family */
+			font-size: 24px; /* Self explanatory */
+			font-weight: normal; /* bold and bolder can also be weights */
+			text-transform: uppercase; /* Could be all lowercase */
+			text-align: center; /* Alignment of the text */
+		}
+
+	</style>
+</head>
+<body>
+	<h1>
+		Styling Text
+	</h1>
+	<p>
+		This is an example on how to give styling to the text.
+	</p>
+	<p class="style">
+		For example, we can have different fonts for different paragraphs. These font family combinations can be found at <a href="http://www.w3schools.com/cssref/css_websafe_fonts.asp" target="_blank">http://www.w3schools.com/cssref/css_websafe_fonts.asp</a>.
+	</p>
+	<h2 style="text-align: center;">
+		Relative font sizes:
+	</h2>
+	<div>
+		Regular font size
+		<div style="font-size: 2em;">
+			2em text is twice as large as the default
+			<div style="font-size: 2em">
+				This text is in a div with 2em in style aswell, but the effect of em is relative, so it is actually 4 times the default value.
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
