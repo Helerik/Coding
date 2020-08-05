@@ -135,6 +135,8 @@ class Layer():
         Y : numpy.array
             the ground truth labels
         '''
+
+        m = A_prev.shape[1]
         
         Z = self.Z
 
