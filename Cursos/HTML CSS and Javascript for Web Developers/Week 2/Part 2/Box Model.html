@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Box Model</title>
+</head>
+<style>
+
+	/* We can reset browser defaults with the star (*) selector */
+	* {
+		box-sizing: border-box; /* Supported by all browsers */
+	}
+
+	body {
+		margin: 0;
+		padding: 0; /* resets browser default settings */
+		background-color: lightblue;
+	}
+
+	h1 {
+		margin-bottom: 30px;
+	}
+
+	#box {
+		background-color: blue;
+		padding: 10px 5px 10px 5px; /* top right bottom left  :  Alternatvely, if they are all
+										the same just give one value */
+		border: 5px solid black; /* instead of solid could be dotted */
+		margin: 20px 20px 20px 20px;
+		width: 200px;
+		height: 100px; /* setting he height so low causes overflow */
+		overflow: auto; /* auto or scroll options adds scroll bars to the content. We could have hidden to 
+						clip the overflow */
+		/* box-sizing: border-box; makes all sizes relative to the width and height to the box. It is
+								   inheritable */
+		margin-top: 20px; /* The biggest margin is the dominating margin, in this case the one from h1 
+						     This does not happen for the left and right margins */
+	}
+
+	#content {
+		background-color: lime;
+	}
+
+</style>
+<body>
+
+	<h1>Box Model</h1>
+	<div id="box">
+		<div id="content">
+			Some dummy text for an example.
+			Some dummy text for an example.
+			Some dummy text for an example.
+		</div>
+	</div>
+
+</body>
+</html>
