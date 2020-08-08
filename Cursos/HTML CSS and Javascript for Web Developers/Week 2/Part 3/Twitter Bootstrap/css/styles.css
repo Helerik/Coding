@@ -1,0 +1,9 @@
+h1 {
+	text-align: center;
+	margin: 10px;
+}
+
+.row > div{
+	border: 2px solid red;
+	margin-bottom: 10px;
+}
