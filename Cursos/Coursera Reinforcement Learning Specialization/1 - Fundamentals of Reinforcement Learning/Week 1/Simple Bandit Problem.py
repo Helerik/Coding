@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def main():
 
     k = 4
-    eps = 0.1
+    eps = 0.5
 
     Q = np.zeros(k)
     N = np.zeros(k)
@@ -17,9 +17,10 @@ def main():
 
     while True:
 
-        plot_cache.append(np.linalg.norm(Q - ground_truth))
+        plot_cache.append(np.mean(Q))
 
         plt.clf()
+        plt.hlines(np.mean(ground_truth), 0, len(plot_cache))
         plt.plot(plot_cache)
         plt.pause(0.01)
         
