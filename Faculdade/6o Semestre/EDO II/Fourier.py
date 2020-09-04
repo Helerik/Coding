@@ -8,7 +8,7 @@ def integral(f, a, b, n):
     return ((b-a)/n) * (f(a)/2 + np.sum(f(np.array([a + k*((b-a)/n) for k in range(1, n)]))) + f(b)/2)
 
 def f(x):
-    return x*x
+    return (x**2)*(x >= -1)*(x <= 1)
 
 def ao(int_prec, f, L, a, b):
     return (1/L) * integral(f, a, b, int_prec)
@@ -38,12 +38,12 @@ def fourier_approx(x, func, L, a, b, n, numerical_integral = True, int_prec = 10
     
     return f_sum
 
-c = -1
-d = 1
-L = 2
+L = 2 # scaler of distance
+c = -1 # 100% plot on the negative direction 
+d = 1 # 100% plot to the positive direction
 
-t = np.arange(-1, 1, .01)
-plt.plot(fourier_approx(t, f, L, c*L, d*L, 100))
+t = np.arange(c*L, d*L, .01)
+plt.plot(t, fourier_approx(t, f, L, c*L, d*L, 100))
 plt.show()
 
 
