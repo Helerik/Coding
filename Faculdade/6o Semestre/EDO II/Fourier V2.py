@@ -5,16 +5,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def f(x):
-    return x*(0 < x)*(x < np.pi)
+    return x*(0 < x)*(x < np.pi) + np.pi*(np.pi <= x)*(x < 2*np.pi)
 
 def ao():
-    return np.pi/2
+    return L/4 + L/2
 
 def an(n):
-    return (-1+(-1)**n)/(np.pi * n**2)
+    return 2 * ( (L/((n*np.pi)**2)) * ( (n*np.pi/2)*np.sin(n*np.pi/2) + np.cos(n*np.pi/2) - 1) - (L/(n*np.pi))*np.sin(n*np.pi/2)/2 )
 
 def bn(n):
-    return (-(-1)**n)/(n)
+    return 0
 
     
 def fourier_approx(L, ao, an, bn, n, x):
@@ -25,10 +25,10 @@ def fourier_approx(L, ao, an, bn, n, x):
     
     return f_sum
 
-L = np.pi
-n = 10
+L = 2*np.pi
+n = 100
 
-t = np.arange(-2*np.pi, 2*np.pi, 0.05)
+t = np.arange(-L, L, 0.05)
 plt.plot(t, fourier_approx(L, ao, an, bn, n, t))
 plt.plot(t, f(t))
 plt.show()
