@@ -52,6 +52,27 @@ class Sparse():
         ret_val.sparse = mtx1
         return ret_val
 
+    def multiply(self, other):
+        mtx1 = self.sparse.copy()
+        mtx2 = other.sparse.copy()
+        dims = mtx1.pop(-1)
+        mtx2.pop(-1)
+
+        for i in range(len(mtx1)):
+            key = 0
+            for j in range(len(mtx2)):
+                if mtx1[i][1] == mtx2[j][1] and mtx1[i][2] == mtx2[j][2]:
+                    mtx1[i] = (mtx1[i][0] * mtx2[j][0], mtx1[i][1], mtx1[i][2])
+                    mtx2.pop(j)
+                    break
+        for j in range(len(mtx2)):
+            mtx1.append(mtx2[j])
+
+        mtx1.append(dims)
+        ret_val = Sparse()
+        ret_val.sparse = mtx1
+        return ret_val
+
 mat1 = [[1,0,0,0,0],[4,0,0,0,8],[7,0,0,0,11],[0,0,0,0,0],[13,0,15,0,17],[13,0,0,0,17],[13,0,0,0,17],
         [0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],
         [0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],
