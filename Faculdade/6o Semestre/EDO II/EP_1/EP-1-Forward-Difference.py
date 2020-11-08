@@ -49,7 +49,7 @@ def forward_difference(L, m, T, k, alpha, do_plot = 1, plot_step = 1):
 
     # Discretizacao do espaco
     x = np.array([i*h for i in range(m+1)])
-    # Condicao inicial constante igual a 1
+    # Condicao inicial
     w = [f(x).tolist()]
 
     for j in range(jmax):
