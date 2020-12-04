@@ -1,0 +1,155 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[nottoc, notlot, notlof]{tocbibind}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape \MakeUppercase{MAP 2321 - Lista 1}}
+\fancyhead[R]{\slshape Name}
+\fancyfoot[C]{\thepage}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+\renewcommand{\baselinestretch}{1}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace{1cm}
+\Large{\textbf{IME - USP}}\\
+\vfill
+\line(1,0){400}\\[1mm]
+\huge{\textbf{MAP 2321 - Técnicas em Teoria de Controle}}\\[3mm]
+\Large{\textbf{Lista 1}}\\[1mm]
+\line(1,0){400}\\
+\vfill
+By:\\
+Erik Davino Vincent\\
+Henrique Reis Berquo\\
+Guilherme Byon Cheol Kang\\
+\today\\
+
+\end{center}
+\end{titlepage}
+
+\setcounter{page}{1}
+
+\section*{Exercício 1}
+
+Uma \textbf{partícula} de massa unitária está sob ação de um campo de aceleração \textbf{central} newtoniano. Além disso temos dois controles independentes, um na direção \textbf{radial} e outro na direção \textbf{tangencial} $u_re_r$ e $u_{\theta}e_{\theta}$ respectivamente.\\
+
+\begin{small}
+$e_r,\ e_{\theta}\subset\mathbb{R}^2$ formam um referencial móvel unitário.
+\end{small}\\
+
+a) Use a Lei de Newton para justificar a equação abaixo como um modelo para a dinâmica do problema acima descrito:
+
+$$\ddot{r} = (-\frac{k}{r^2} + u_r)e_r + u_{\theta}e_{\theta}$$
+
+b) Use coordenadas polares para re-escrever o modelo na maneira a seguir:
+
+$$\ddot{r} = r\dot{\theta}^2-\frac{k}{r^2} + u_r$$
+$$r\ddot{\theta} = -2\dot{r}\dot{\theta} + u_{\theta}$$
+
+c) Suponha $u_r = u_{\theta} = 0$. Determine os valores de $k$ para os quais as órbitas circulares $r(t) = \sigma$ e $\theta(t) = \omega t$ sejam soluções do sistema acima.\\
+
+d) Defina as seguintes variáveis de estado:\\
+
+$x_1 = r - \sigma$, $x_2 = \dot{r}$, $x_3 = \sigma(\theta - \omega t)$ e $x_4 = \sigma(\dot{\theta} - \omega)$
+
+Verifique que a equação linearizada do sistema anterior, tomando $\sigma = 1$, sobre as órbitas circulares é:
+
+$$
+\begin{pmatrix}
+\dot{x_1}\\ 
+\dot{x_2}\\ 
+\dot{x_3}\\ 
+\dot{x_4}
+\end{pmatrix} = \begin{pmatrix}
+0 & 1 & 0 & 0\\ 
+3\omega^2 & 0 & 0 & 2\omega\\ 
+0 & 0 & 0 & 1\\ 
+0 & -2\omega & 0 & 0
+\end{pmatrix}
+\begin{pmatrix}
+x_1\\ 
+x_2\\ 
+x_3\\ 
+x_4
+\end{pmatrix} + 
+\begin{pmatrix}
+0 & 0\\ 
+1 & 0\\ 
+0 & 0\\ 
+0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+u_1\\ 
+u_2
+\end{pmatrix}
+$$
+
+e) Calcule:
+
+$$e^{\begin{pmatrix}
+0 & 1 & 0 & 0\\ 
+3\omega^2 & 0 & 0 & 2\omega\\ 
+0 & 0 & 0 & 1\\ 
+0 & -2\omega & 0 & 0
+\end{pmatrix}(t-t_0)}$$
+
+\section*{Exercício 2}
+
+Sejam $k$ e $b > 0$. Considere o oscilador harmônico dado pela seguinte equação:
+
+$$\ddot{x}+b\dot{x}+kx = \cos t$$
+
+a) Escreva a equação de estado deste sistema e encontre sua solução para qualquer condição inicial dada.\\
+
+b) Seja $\Phi(t,\ t_0)$ a matriz de transição deste sistema. Mostre que:
+
+$$\lim_{t\to +\infty} \Phi(t,\ t_0) = 0$$
+
+c) Prove que existe uma única solução $2\pi$-periódica $\varphi_{2\pi}(t)$ para este sistema.\\
+
+d) Mostre que a solução $2\pi$-periódica do item c) é atratora, i.e., se $x(t)$ é solução,
+então $\Vert x(t) - \varphi_{2\pi}(t)\Vert \to 0$ quando $t\to +\infty$.
+
+\section*{Exercício 3}
+
+Seja $x(t)$ a posição de um corpo num instante $t$ sujeito a uma força $f$ dada por:
+
+$$f(t) = \begin{cases} f_0,\ \ t\in[0,t_1]\\
+0,\ \ t > t_1 \end{cases}$$
+
+para alguma constante $f_0 > 0$. Se o corpo possui massa $m$ e sofre resistência, temos;
+
+$$m\ddot{x}(t) + b\dot{x}(t) = f(t)$$
+
+para algum $b>0$.\\
+
+a) Calcule a matriz de transição deste sistema.\\
+
+b) Encontre a saída $x(t)$ com condições iniciais $x(0) = 0$ e $\dot{x}(0) = 1$.\\
+
+c) Analise $\lim_{t\to +\infty} x(t)$ assumindo $x(t_0) = x_0$ e  $\dot{x}(t_0) = \dot{x}_0$.
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
