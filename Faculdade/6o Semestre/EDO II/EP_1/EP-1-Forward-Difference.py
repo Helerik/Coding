@@ -62,7 +62,7 @@ def forward_difference(L, m, T, k, alpha, do_plot = 1, plot_step = 1):
         #Condicao de contorno de Neumann
         w[j+1].append((2*h*ux(L,t) + 4*w[j+1][m-1] - w[j+1][m-2])/3)
 
-        if do_plot == 1 and j % plot_step == 0:
+        if do_plot and j % plot_step == 0:
             plt.clf()
             plt.ylim(0,np.max(w[-1])*1.1)
             plt.plot(x, w[j])
@@ -114,90 +114,6 @@ def forward_difference_fast(L, m, T, k, alpha):
     return (w[-1], np.linalg.norm(np.array(w[-1]) - np.array(u(x,T))))
 
 def main():
-
-##    L = 1
-##    N = 50
-##
-##    err_plot = []
-##    time_plot = []
-##
-##    # Avaliacao de tempo de computacao e erro com T variando, m dependente e k dependente
-##    T_list = [0.5, 1, 1.5, 2, 2.5, 3]
-##    
-##    for T in T_list:
-##        print(f"Avaliando {N} rodadas; variando T = {T}, fixo lambda ~ 0.49 e 1000 iteracoes")
-##
-##        k = T/1000
-##        m = int(np.sqrt(0.49/k))
-##        print("m =", m)
-##        print("k =", k)
-##
-##        timer = time.time()
-##        for _ in range(N):
-##            err = forward_difference_fast(
-##                L = L,
-##                m = m,
-##                T = T,
-##                k = k,
-##                alpha = 1
-##                )[1]
-##        time_plot.append((time.time()-timer)/(N*m))
-##        err_plot.append(err)
-##        print(f"Tempo medio/m: {time_plot[-1]:.5} s\nErro: {err_plot[-1]:.5}\n"+
-##              "================================================================================\n")
-##
-##    plt.clf()
-##    
-##    plt.plot(T_list, time_plot)
-##    plt.xlabel("T (instante final)")
-##    plt.ylabel(f"tempo/({N}*m)")
-##    plt.show()
-##    
-##    plt.plot(T_list, err_plot)
-##    plt.xlabel("T (instante final)")
-##    plt.ylabel("Erro (||.||2)")
-##    plt.show()
-##
-##    err_plot = []
-##    time_plot = []
-##
-##    # Avaliacao de tempo de computacao e erro com m variando, iter dependente e k dependente
-##    m_list = [10, 20, 30, 40, 50]
-##    T = 1
-##    
-##    for m in m_list:
-##        print(f"Avaliando {N} rodadas; variando m = {m}, fixo T = {T} e lambda ~ 0.49")
-##
-##        k = 0.49/(m*m)
-##        J = int(T/k)
-##        print("iter =", J)
-##        print("k =", k)    
-##
-##        timer = time.time()
-##        for _ in range(N):
-##            err = forward_difference_fast(
-##                L = L,
-##                m = m,
-##                T = T,
-##                k = k,
-##                alpha = 1
-##                )[1]
-##        time_plot.append((time.time()-timer)/(N*J))
-##        err_plot.append(err)
-##        print(f"Tempo medio/iter: {time_plot[-1]:.5} s\nErro: {err_plot[-1]:.5}\n"+
-##              "================================================================================\n")
-##        
-##    plt.clf()
-##    
-##    plt.plot(m_list, time_plot)
-##    plt.xlabel("m (divisao espacial)")
-##    plt.ylabel(f"tempo/({N}*iter)")
-##    plt.show()
-##    
-##    plt.plot(m_list, err_plot)
-##    plt.xlabel("m (divisao espacial)")
-##    plt.ylabel("Erro (||.||2)")
-##    plt.show()
 
     # Visualizacao do forward difference
     forward_difference(
