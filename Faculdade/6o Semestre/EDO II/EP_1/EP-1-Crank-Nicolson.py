@@ -125,7 +125,7 @@ def main():
     crank_nicolson(
                 L = 1,
                 m = 25,
-                T = 1.4,
+                T = 0.7,
                 k = 0.0007,
                 alpha = 1,
                 do_plot = 1,
