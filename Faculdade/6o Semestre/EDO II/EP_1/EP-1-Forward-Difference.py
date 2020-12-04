@@ -70,13 +70,6 @@ def forward_difference(L, m, T, k, alpha, do_plot = 1, plot_step = 1):
             plt.title(f"Tempo elapsado: {j*k:.2}\nPasso atual: {j+1}\nErro: {np.linalg.norm(np.array(w[-1]) - np.array(u(x,j*k))):.2}")
             plt.pause(0.0001)
 
-    plt.clf()
-    plt.ylim(0,np.max(w[-1])*1.1)
-    plt.plot(x, w[-1])
-    plt.plot(x, u(x,0.7))
-    plt.title(f"Tempo: {T:.2}\nPasso atual: {int(T/k)}\nErro: {np.linalg.norm(np.array(w[-1]) - np.array(u(x,T))):.2}")
-    plt.show()
-
 # Metodo de forward difference para obter solucao numerica do problema com
 # condicoes de contorno.
 '''
