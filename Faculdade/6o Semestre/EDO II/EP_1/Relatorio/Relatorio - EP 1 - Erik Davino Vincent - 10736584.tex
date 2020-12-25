@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage[nottoc, notlot, notlof]{tocbibind}
+\usepackage{hyperref}
 
 \pagestyle{fancy}
 \fancyhead{}
@@ -14,7 +15,7 @@
 \fancyhead[R]{\slshape Name}
 \fancyfoot[C]{\thepage}
 
-\setlength{\parindent}{4em}
+\setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 \renewcommand{\baselinestretch}{1}
 
@@ -26,14 +27,12 @@
 \Large{\textbf{IME - USP}}\\
 \vfill
 \line(1,0){400}\\[1mm]
-\huge{\textbf{MAP 2321 - Técnicas em Teoria de Controle}}\\[3mm]
-\Large{\textbf{Lista 1}}\\[1mm]
+\huge{\textbf{MAP 2320 - Métodos Numéricos em Equações Diferenciais II}}\\[3mm]
+\Large{\textbf{Trabalho Computacional 1}}\\[1mm]
 \line(1,0){400}\\
 \vfill
-By:\\
 Erik Davino Vincent\\
-Henrique Reis Berquo\\
-Guilherme Byon Cheol Kang\\
+10736584\\
 \today\\
 
 \end{center}
@@ -41,107 +40,236 @@ Guilherme Byon Cheol Kang\\
 
 \setcounter{page}{1}
 
-\section*{Exercício 1}
+\section*{Problema}
 
-Uma \textbf{partícula} de massa unitária está sob ação de um campo de aceleração \textbf{central} newtoniano. Além disso temos dois controles independentes, um na direção \textbf{radial} e outro na direção \textbf{tangencial} $u_re_r$ e $u_{\theta}e_{\theta}$ respectivamente.\\
+"Considere a EDP parabólica,
+	$$u_t = u_{xx} + g(x),\ \ \ \ \ \ \ \ \ x\in[0,1]$$
+Vamos definir a solução manufaturada:
+	$$u(x,t) = e^{-t}.\cos(x)+x.\sin(x)$$
+e deduzir g(x)."\\
 
-\begin{small}
-$e_r,\ e_{\theta}\subset\mathbb{R}^2$ formam um referencial móvel unitário.
-\end{small}\\
+Temos:
+	$$u_t = -e^t.\cos(x)$$
+	$$u_{xx} = -e^{-t}.\cos(x) + 2.\cos(x) - x.\sin(x)$$
+Portanto:
+	$$g(x) = u_t - u_{xx} = -2.\cos(x) + x.\sin(x)$$
 
-a) Use a Lei de Newton para justificar a equação abaixo como um modelo para a dinâmica do problema acima descrito:
+\section*{A.}
 
-$$\ddot{r} = (-\frac{k}{r^2} + u_r)e_r + u_{\theta}e_{\theta}$$
+"Aplique 1000 passos do método Forward Difference com $k = \Delta t$
+ligeiramente abaixo do limite de estabilidade. Avalie o erro em relação
+a solução manufatura (norma 2 da diferença entre os valores para os
+pontos da discretização)."\\
 
-b) Use coordenadas polares para re-escrever o modelo na maneira a seguir:
+Considere para a discretização espacial $m = 25$. Para a discretização no tempo, considere $t\in[0,0.79]$ e $k = 0.00079$. Como $\alpha = 1$, encontramos $\lambda = k(\frac{\alpha}{h})^2 = 0.49375$, que está logo abaixo do limite de estabilidade de $\lambda = 0.5$. Como $T = 0.79$, temos exatamente 1000 passos usando $k = 0.00079$.\\
 
-$$\ddot{r} = r\dot{\theta}^2-\frac{k}{r^2} + u_r$$
-$$r\ddot{\theta} = -2\dot{r}\dot{\theta} + u_{\theta}$$
+Inicialmente temos a configuração na figura \ref{fig_1}. Após 1000 passos, obtemos a configuração da figura \ref{fig_2}, com um erro em norma 2 de 0.0042. Na figura \ref{fig_3}, podemos ver a evolução do erro em cada instante do tempo.
 
-c) Suponha $u_r = u_{\theta} = 0$. Determine os valores de $k$ para os quais as órbitas circulares $r(t) = \sigma$ e $\theta(t) = \omega t$ sejam soluções do sistema acima.\\
+\begin{figure}[H]
+	\centering
+	\begin{minipage}[B]{0.49\textwidth}	
+		\includegraphics[width=\textwidth]{Figure_1.png}
+		\caption{
+Instante inicial.
+		}
+		\label{fig_1}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[B]{0.49\textwidth}	
+		\includegraphics[width=\textwidth]{Figure_2.png}
+		\caption{
+Instante final.
+		}
+		\label{fig_2}
+	\end{minipage}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Figure_3.png}
+	\caption{
+Evolução do erro a cada passo do método; no instante inicial o erro é sempre nulo.
+	}
+	\label{fig_3}
+\end{figure}
 
-d) Defina as seguintes variáveis de estado:\\
+\section*{B.}
 
-$x_1 = r - \sigma$, $x_2 = \dot{r}$, $x_3 = \sigma(\theta - \omega t)$ e $x_4 = \sigma(\dot{\theta} - \omega)$
+"Aplique o método de Crank-Nicolson até alcançar o mesmo instante $T$
+correspondente aos 1000 passos do item A, buscando o maior $k$ de
+forma a conseguir o mesmo nível de erro."\\
 
-Verifique que a equação linearizada do sistema anterior, tomando $\sigma = 1$, sobre as órbitas circulares é:
+Vamos considerar inicialmente a mesma configuração do esquema anterior: $m=25$, $T=0.79$ e $k = 0.00079$. Dessa forma executamos os mesmos 1000 passos do problema anterior, mas obtemos um erro no instante T de 0.0049. Esse erro está na mesma ordem de grandeza do outro método, porém é maior (ao contrario do que esperávamos).
 
-$$
-\begin{pmatrix}
-\dot{x_1}\\ 
-\dot{x_2}\\ 
-\dot{x_3}\\ 
-\dot{x_4}
-\end{pmatrix} = \begin{pmatrix}
-0 & 1 & 0 & 0\\ 
-3\omega^2 & 0 & 0 & 2\omega\\ 
-0 & 0 & 0 & 1\\ 
-0 & -2\omega & 0 & 0
-\end{pmatrix}
-\begin{pmatrix}
-x_1\\ 
-x_2\\ 
-x_3\\ 
-x_4
-\end{pmatrix} + 
-\begin{pmatrix}
-0 & 0\\ 
-1 & 0\\ 
-0 & 0\\ 
-0 & 1
-\end{pmatrix}
-\begin{pmatrix}
-u_1\\ 
-u_2
-\end{pmatrix}
-$$
+\begin{figure}[H]
+	\centering
+	\begin{minipage}[B]{0.49\textwidth}	
+		\includegraphics[width=\textwidth]{Figure_4.png}
+		\caption{
+Instante final.
+		}
+		\label{fig_4}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[B]{0.49\textwidth}	
+		\includegraphics[width=\textwidth]{Figure_5.png}
+		\caption{
+Evolução do erro a cada passo do método; no instante inicial o erro é sempre nulo.
+		}
+		\label{fig_5}
+	\end{minipage}
+\end{figure}
 
-e) Calcule:
+\section*{C.}
 
-$$e^{\begin{pmatrix}
-0 & 1 & 0 & 0\\ 
-3\omega^2 & 0 & 0 & 2\omega\\ 
-0 & 0 & 0 & 1\\ 
-0 & -2\omega & 0 & 0
-\end{pmatrix}(t-t_0)}$$
+"Meça os tempos de cada método e compare os esforços computacionais."\\
 
-\section*{Exercício 2}
+Considerando T fixo, T = 0.79, vamos avaliar os tempos computacionais médios em 100 rodadas, para diferentes configurações. Os resultados obtidos para cada método se encontram na tabela \ref{tab_1}.
 
-Sejam $k$ e $b > 0$. Considere o oscilador harmônico dado pela seguinte equação:
+\begin{table}[H]
+\centering
+\begin{tabular}{l|c|c|}
+\cline{2-3}
+ & \textbf{Forward Difference} & \textbf{Crank Nicolson} \\ \hline
+\multicolumn{1}{|l|}{\textit{m = 10; k = 0.00079}}  & 0.05 s                       & 0.04 s                   \\ \hline
+\multicolumn{1}{|l|}{\textit{m = 10; k = 0.000079}} & 0.49 s                         & 0.68 s                   \\ \hline
+\multicolumn{1}{|l|}{\textit{m = 25; k = 0.00079}}  & 0.11 s                       & 0.05 s                   \\ \hline
+\multicolumn{1}{|l|}{\textit{m = 25; k = 0.000079}} & 1.15 s                       & 0.51 s                   \\ \hline
+\end{tabular}
+\caption{
+Comparação dos tempos computacionais médios em 100 rodadas para os métodos Forward Difference e Crank Nicolson
+}\label{tab_1}
+\end{table}
 
-$$\ddot{x}+b\dot{x}+kx = \cos t$$
+\section*{D.}
 
-a) Escreva a equação de estado deste sistema e encontre sua solução para qualquer condição inicial dada.\\
+Ambos os métodos foram capazes de aproximar a solução com erro da ordem de $10^-3$. Porém, vemos que o erro do método de Crank-Nicolson é um pouco pior. A figura \ref{fig_6} mostra melhor essa comparação.\\(Acreditamos que isso pode ter sido causado por algum erro de implementação do algorítimo que ainda não pudemos identificar).
 
-b) Seja $\Phi(t,\ t_0)$ a matriz de transição deste sistema. Mostre que:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Figure_6.png}
+	\caption{
+Evolução do erro a cada passo de ambos os métodos.
+	}
+	\label{fig_6}
+\end{figure}
 
-$$\lim_{t\to +\infty} \Phi(t,\ t_0) = 0$$
+O tempo computacional do método de Crank Nicolson foi inferior em quase todos os casos. A implementação das operações matriciais foi econômica, o que possibilitou mais eficiência. Podemos concluir desses resultados que o tempo do método é menos afetado pelo afinamento da malha de discretização.\\
 
-c) Prove que existe uma única solução $2\pi$-periódica $\varphi_{2\pi}(t)$ para este sistema.\\
+\section*{Extra}
 
-d) Mostre que a solução $2\pi$-periódica do item c) é atratora, i.e., se $x(t)$ é solução,
-então $\Vert x(t) - \varphi_{2\pi}(t)\Vert \to 0$ quando $t\to +\infty$.
+\subsection*{Implementação}
 
-\section*{Exercício 3}
 
-Seja $x(t)$ a posição de um corpo num instante $t$ sujeito a uma força $f$ dada por:
+Os algorítimos foram escritos em \textbf{Python 3.8}, com nomes \textit{EP-1-Crank\_Nicolson.py} e \textit{EP-1-Forward\_Difference.py}. Para obter os resultados obtidos acima basta executa-los sem altera-los. Para modificar algum parâmetro (e.g. T, m, L, etc.), basta editar o código dentro da função \textit{main()}. Ambos os algorítimos possuem uma versão "fast", que não possui opção de plotagem e nem de gravar o erro; serve principalmente para analisar o tempo de execução.
 
-$$f(t) = \begin{cases} f_0,\ \ t\in[0,t_1]\\
-0,\ \ t > t_1 \end{cases}$$
+\subsection*{Incorporação das condições de contorno}
 
-para alguma constante $f_0 > 0$. Se o corpo possui massa $m$ e sofre resistência, temos;
+O método de Crank-Nicolson consiste em resolver o problema
 
-$$m\ddot{x}(t) + b\dot{x}(t) = f(t)$$
+	$$\frac{w_{ij+1} - w_{ij}}{k} - \alpha^2[\frac{w_{i+1j} - 2w_{ij} + w_{i-1j}}{h^2} + \frac{w_{i+1j+1} - 2w_{ij+1} + w_{i-1j+1}}{h^2}]$$
+	
+para $m-2$ pontos (de discretização espacial) de forma simultânea. Assim, obtém-se a forma matricial do problema, definida para cada j = 1,2,...  por:
 
-para algum $b>0$.\\
+	\begin{equation}
+	\begin{bmatrix}
+	2+2\lambda & -\lambda & \cdots & 0 \\
+	-\lambda & 2+2\lambda & \ddots & \vdots\\
+	\vdots & \ddots & \ddots & -\lambda\\
+	0 & \cdots & -\lambda & 2+2\lambda\\
+	\end{bmatrix}w^{(j+1)} = 
+	\begin{bmatrix}
+	2-2\lambda & \lambda & \cdots & 0 \\
+	\lambda & 2-2\lambda & \ddots & \vdots\\
+	\vdots & \ddots & \ddots & \lambda\\
+	0 & \cdots & \lambda & 2-2\lambda\\
+	\end{bmatrix}w^{(j)}
+	\end{equation}
 
-a) Calcule a matriz de transição deste sistema.\\
+O lado direito possui informações conhecidas em cada instante de tempo, então podemos simplifica-lo para:
 
-b) Encontre a saída $x(t)$ com condições iniciais $x(0) = 0$ e $\dot{x}(0) = 1$.\\
+	\begin{equation}
+	\begin{bmatrix}
+	2-2\lambda & \lambda & \cdots & 0 \\
+	\lambda & 2-2\lambda & \ddots & \vdots\\
+	\vdots & \ddots & \ddots & \lambda\\
+	0 & \cdots & \lambda & 2-2\lambda\\
+	\end{bmatrix}w^{(j)} = 
+	\begin{bmatrix}
+	(2-2\lambda)w_1^{(j)} + \lambda(w_{0}^{(j)} + w_2^{(j)})\\
+	(2-2\lambda)w_2^{(j)} + \lambda(w_{1}^{(j)} + w_3^{(j)})\\
+	\vdots\\
+	(2-2\lambda)w_{m-1}^{(j)} + \lambda(w_{m-2}^{(j)} + w_m^{(j)})
+	\end{bmatrix}
+	\end{equation}
 
-c) Analise $\lim_{t\to +\infty} x(t)$ assumindo $x(t_0) = x_0$ e  $\dot{x}(t_0) = \dot{x}_0$.
+Para adicionar as condição de contorno de Dirichlet para $x = 0$, basta adicionar o termo:
+
+	\begin{equation}
+	\begin{bmatrix}
+	2-2\lambda & \lambda & \cdots & 0 \\
+	\lambda & 2-2\lambda & \ddots & \vdots\\
+	\vdots & \ddots & \ddots & \lambda\\
+	0 & \cdots & \lambda & 2-2\lambda\\
+	\end{bmatrix}w^{(j)} = 
+	\begin{bmatrix}
+	(2-2\lambda)w_1^{(j)} + \lambda(w_{0}^{(j)} + w_2^{(j)})\\
+	(2-2\lambda)w_2^{(j)} + \lambda(w_{1}^{(j)} + w_3^{(j)})\\
+	\vdots\\
+	(2-2\lambda)w_{m-1}^{(j)} + \lambda(w_{m-2}^{(j)} + w_m^{(j)})
+	\end{bmatrix} + 
+	\begin{bmatrix}
+	\lambda.a\\
+	0\\
+	\vdots\\
+	0
+	\end{bmatrix}
+	\end{equation}
+
+Para a condição de Neumann, considere a aproximação que leva em conta a $2_a$ derivada:\\$\displaystyle{w_{mj+1} = \frac{2hb + 4w_{m-1j+1} - w_{m-2j+1}}{3}}$.\\Substituindo em:
+
+	$$-\lambda w_{m-2j+1} + (2+2\lambda)w_{m-1j+1} - \lambda w_{mj+1} = RHS^{(j)} $$
+	
+obtemos:
+
+	$$ -\frac{2}{3}w_{m-2j+1} + (2+\frac{2\lambda}{3})w_{m-1j+1} - \frac{\lambda2hb}{3} = RHS^{(j)}$$
+	$$ -\frac{2}{3}w_{m-2j+1} + (2+\frac{2\lambda}{3})w_{m-1j+1} = RHS^{(j)} + \frac{\lambda2hb}{3} $$
+	
+Assim, a nova forma para o problema se torna:
+
+	\begin{equation}
+	\begin{bmatrix}
+	2+2\lambda & -\lambda & \cdots & 0 \\
+	-\lambda & 2+2\lambda & \ddots & \vdots\\
+	\vdots & \ddots & \ddots & -\lambda\\
+	0 & \cdots & -\lambda\frac{2}{3} & 2+\frac{2}{3}\lambda\\
+	\end{bmatrix}w^{(j+1)} = 
+	\begin{bmatrix}
+	(2-2\lambda)w_1^{(j)} + \lambda(w_{0}^{(j)} + w_2^{(j)})\\
+	(2-2\lambda)w_2^{(j)} + \lambda(w_{1}^{(j)} + w_3^{(j)})\\
+	\vdots\\
+	(2-2\lambda)w_{m-1}^{(j)} + \lambda(w_{m-2}^{(j)} + w_m^{(j)})
+	\end{bmatrix} + 
+	\begin{bmatrix}
+	\lambda.a\\
+	0\\
+	\vdots\\
+	0\\
+	\lambda\frac{2hb}{3}
+	\end{bmatrix}
+	\end{equation}
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
+
 
 
 
