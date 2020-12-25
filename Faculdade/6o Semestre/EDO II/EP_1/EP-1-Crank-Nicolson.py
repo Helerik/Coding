@@ -6,15 +6,17 @@
 
 import numpy as np
 from numpy import cos, sin, pi, exp
+from numpy.linalg import inv
 import matplotlib.pyplot as plt
+from scipy.sparse import diags
 import time
 
 # Solucao manufaturada para ut = uxx + g(x)
-def U(x,t):
+def u(x,t):
     return exp(-t)*cos(x) + x*sin(x)
 
 # Derivada de u(x,t) em relacao a x
-def Ux(x,t):
+def ux(x,t):
     return -exp(-t)*sin(x) + sin(x) + x*cos(x)
 
 # Termo forcante
@@ -23,7 +25,7 @@ def g(x):
 
 # Condicao inicial
 def f(x):
-    return U(x,0)
+    return u(x,0)
 
 # Metodo de Crank-Nicolson para obter solucao numerica do problema com
 # condicoes de contorno.
@@ -35,8 +37,9 @@ k: numero de pontos de discretizacao temporal
 alpha: constante da equacao diferencial
 do_plot: auxiliar; plota o grafico da solucao em cada instante de tempo se for igual a True
 plot_step: a cada quantas iteracoes plota o grafico
+err: analisa o erro
 '''
-def crank_nicolson(L, m, T, k, alpha, do_plot = 1, plot_step = 1):
+def crank_nicolson(L, m, T, k, alpha, do_plot = 1, plot_step = 1, err = 1):
     
     # h = dx and k = dt
     h = L/m 
@@ -44,44 +47,75 @@ def crank_nicolson(L, m, T, k, alpha, do_plot = 1, plot_step = 1):
     jmax = int(T/k)
 
     # Discretizacao do espaco
-    x = np.array([i*h for i in range(m)])
-    # Condicao inicial constante igual a 1
+    x = np.array([i*h for i in range(m+1)])
+    # Condicao inicial
     w = f(x).tolist()
-    w.append(0)
 
-    l = [1 + lamb]
-    u = [-0.5*lamb/l[0]]
+    # Matriz do lado esquerdo
+    M = diags([-lamb, 2*(1+lamb), -lamb], [-1, 0, 1], shape=(m-1, m-1)).toarray()
+    
+    # C.C Neumann
+    M[-1, -2] = -2*lamb/3
+    M[-1, -1] = 2 + 2*lamb/3
+    
+    N = inv(M)
 
-    for i in range(1, m-1):
-        l.append(1 + lamb + lamb*u[i-1]*0.5)
-        u.append(-0.5*lamb/l[i])
-    l.append(1 + lamb + lamb*u[m-2]*0.5)
+    if do_plot:
+            plt.clf()
+            plt.ylim(0,np.max(w)*1.1)
+            plt.xlabel("x")
+            plt.ylabel(f"u(x,0)")
+            plt.plot(x, w)
+            plt.title(f"Tempo elapsado: 0\nPasso atual: 0\nErro: {np.linalg.norm(np.array(w) - np.array(u(x,0))):.2}")
+            plt.show()
+
+    if err:
+        E = [0]
 
     for j in range(jmax):
 
         t = j*k
-        # Condicao de contorno de Dirichlet
-        w[0] = U(0,t)
-        # Condicao de contorno de Neumann
-        w[m-1] = (2*h*Ux(L,t) + 4*w[m-2] - w[m-3])/3
-        
-        z = [(w[0] + 0.5*lamb*w[1])/l[0]]
-        for i in range(1,m):
-            z.append(( (1-lamb)*w[i] + 0.5*lamb*(w[i+1] + w[i-1] + z[i-1]) + k*g(x[i]))/l[i])
-        
-        for i in range(m-2,-1,-1):
-            w[i] = z[i] - u[i]*w[i+1]
-        
+        b = np.array([2*(1-lamb)*w[i] + lamb*(w[i-1] + w[i+1]) for i in range(1, m)])
+
+        # C.C Dirichlet
+        b[0] += lamb*u(0,t)
+        # C.C Neumann
+        b[-1] += (2*lamb*h*ux(L,t+k))/3
+
+        w[0] = u(0,t+k)
+        w[1:-1] = np.dot(N,b) + k*g(x[1:-1])
+        w[m] = (2*h*ux(L,t+k) + 4*w[m-1] - w[m-2])/3
 
         if do_plot and j % plot_step == 0:
             plt.clf()
             plt.ylim(0,np.max(w)*1.1)
-            plt.plot(x, w[:m])
-            plt.plot(x, U(x,t))
-            plt.title(f"Tempo elapsado: {j*k:.2}\nPasso atual: {j+1}\nErro: {np.linalg.norm(np.array(w[:m]) - np.array(U(x,t))):.2}")
+            plt.xlabel("x")
+            plt.ylabel(f"u(x,{t:.2})")
+            plt.plot(x, w)
+            plt.title(f"Tempo elapsado: {j*k:.2}\nPasso atual: {j+1}\nErro: {np.linalg.norm(np.array(w) - np.array(u(x,t+k))):.2}")
             plt.pause(0.0001)
 
-def crank_nicolson_fast(L, m, T, k, alpha, do_plot = 1, plot_step = 1):
+        if err:
+            E.append(np.linalg.norm(np.array(w) - np.array(u(x,t+k))))
+            
+    if do_plot:
+        plt.clf()
+        plt.ylim(0,np.max(w)*1.1)
+        plt.xlabel("x")
+        plt.ylabel(f"u(x,{t:.2})")
+        plt.plot(x, w)
+        plt.title(f"Tempo elapsado: {j*k:.2}\nPasso atual: {j+1}\nErro: {np.linalg.norm(np.array(w) - np.array(u(x,t+k))):.2}")
+        plt.show()
+
+    if err:
+        plt.clf()
+        plt.xlabel("passo")
+        plt.ylabel("erro")
+        plt.title("Erro para cada passo")
+        plt.plot(E)
+        plt.show()
+
+def crank_nicolson_fast(L, m, T, k, alpha):
     
     # h = dx and k = dt
     h = L/m 
@@ -89,35 +123,32 @@ def crank_nicolson_fast(L, m, T, k, alpha, do_plot = 1, plot_step = 1):
     jmax = int(T/k)
 
     # Discretizacao do espaco
-    x = np.array([i*h for i in range(m)])
+    x = np.array([i*h for i in range(m+1)])
     # Condicao inicial
     w = f(x).tolist()
-    w.append(0)
 
-    l = [1 + lamb]
-    u = [-0.5*lamb/l[0]]
+    # Matriz do lado esquerdo
+    M = diags([-lamb, 2*(1+lamb), -lamb], [-1, 0, 1], shape=(m-1, m-1)).toarray()
+    
+    # C.C Neumann
+    M[-1, -2] = -2*lamb/3
+    M[-1, -1] = 2 + 2*lamb/3
 
-    for i in range(1, m-1):
-        l.append(1 + lamb + lamb*u[i-1]*0.5)
-        u.append(-0.5*lamb/l[i])
-    l.append(1 + lamb + lamb*u[m-2]*0.5)
+    N = inv(M)
 
     for j in range(jmax):
 
         t = j*k
+        b = np.array([2*(1-lamb)*w[i] + lamb*(w[i-1] + w[i+1]) for i in range(1, m)])
 
-        w[0] = U(0,t)
-        w[m-1] = (2*h*Ux(L,t) + 4*w[m-2] - w[m-3])/3
-        z = [(w[0] + 0.5*lamb*w[1])/l[0]]
-        for i in range(1,m):
-            z.append(( (1-lamb)*w[i] + 0.5*lamb*(w[i+1] + w[i-1] + z[i-1]) + k*g(x[i]))/l[i])
-        
-        for i in range(m-2,-1,-1):
-            w[i] = z[i] - u[i]*w[i+1]
+        # C.C Dirichlet
+        b[0] += lamb*u(0,t)
+        # C.C Neumann
+        b[-1] += (2*lamb*h*ux(L,t+k))/3
 
-    return (w[:m], np.linalg.norm(np.array(w[:m]) - np.array(U(x,t))))
-        
-
+        w[0] = u(0,t+k)
+        w[1:-1] = np.dot(N,b) + k*g(x[1:-1])
+        w[m] = (2*h*ux(L,t+k) + 4*w[m-1] - w[m-2])/3
 
 def main():
 
@@ -125,12 +156,74 @@ def main():
     crank_nicolson(
                 L = 1,
                 m = 25,
-                T = 0.7,
-                k = 0.0007,
+                T = 0.79,
+                k = 0.00079,
                 alpha = 1,
                 do_plot = 1,
-                plot_step = 5
+                plot_step = 10,
+                err = 1
                 )
+
+    # Analise do tempo computacional
+    m = 10
+    k = 0.00079
+    timer = time.time()
+    for _ in range(100):
+        crank_nicolson_fast(
+            L = 1,
+            m = m,
+            T = 0.79,
+            k = k,
+            alpha = 1
+            )
+    t = time.time() - timer
+    print()
+    print(f"m={m}, k={k}\nTempo medio em 100 rodadas: {t/100:.5}")
+
+    m = 10
+    k = 0.000079
+    timer = time.time()
+    for _ in range(100):
+        crank_nicolson_fast(
+            L = 1,
+            m = m,
+            T = 0.79,
+            k = k,
+            alpha = 1
+            )
+    t = time.time() - timer
+    print()
+    print(f"m={m}, k={k}\nTempo medio em 100 rodadas: {t/100:.5}")
+
+    m = 25
+    k = 0.00079
+    timer = time.time()
+    for _ in range(100):
+        crank_nicolson_fast(
+            L = 1,
+            m = m,
+            T = 0.79,
+            k = k,
+            alpha = 1
+            )
+    t = time.time() - timer
+    print()
+    print(f"m={m}, k={k}\nTempo medio em 100 rodadas: {t/100:.5}")
+
+    m = 25
+    k = 0.000079
+    timer = time.time()
+    for _ in range(100):
+        crank_nicolson_fast(
+            L = 1,
+            m = m,
+            T = 0.79,
+            k = k,
+            alpha = 1
+            )
+    t = time.time() - timer
+    print()
+    print(f"m={m}, k={k}\nTempo medio em 100 rodadas: {t/100:.5}")
 
 main()
 
